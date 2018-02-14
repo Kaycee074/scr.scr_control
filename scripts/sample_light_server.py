@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+#The server recieves the address and the color from the client
+#and uses that to create the command string which is sent to
+#the correct socket using the address. The LightState service
+# is used to communicate between the server and the client.
 from light.srv import *
 import rospy
 import socket

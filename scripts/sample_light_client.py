@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+#The light client allows the user to select a light using the last 3 digits
+#of its address. The user can also specify a color to change the light to.
+#The LightState service handles communication between the client and the
+#server.
 import sys
 import rospy
 import socket
@@ -29,22 +33,6 @@ if(__name__ == "__main__"):
         sys.exit(1)
 
     address = "192.168.0."+name
-    #port = 57007
-
-    #blue = green = amber = red = white  = "0000"
-
-    #if (state == "blue"):
-    #    blue = "FFFF"
-    #elif (state == "green"):
-    #    green = "FFFF"
-    #elif (state == "amber"):
-    #    amber = "FFFF"
-    #elif (state == "red"):
-    #    red = "FFFF"
-    #elif (state == "white"):
-    #    white = "FFFF"
-
-    #cmdstr = "PS"+blue+green+amber+red+white
 
     print("Changing light %s to %s"%(address,state))
 
