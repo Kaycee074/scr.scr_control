@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 
 ## Uncomment if the package has a setup.py
-#catkin_python_setup()
+catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -42,12 +42,14 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   AddressColors.msg
+  LightChange.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
   LightState.srv
+  TestLightChange.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -61,7 +63,7 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
-  light
+#  light
 )
 
 catkin_package(
