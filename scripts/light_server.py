@@ -25,7 +25,7 @@ import socket
 import time
 
 def gen_cmdstr(state):
-    #generates command string based on color recieved by client
+    """enerates command string based on color recieved by client"""
     blue = green = amber = red = white  = "0000"
 
     if (state == "blue"):
