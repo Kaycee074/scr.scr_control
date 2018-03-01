@@ -1,3 +1,3 @@
-int intensity
-int x
-int y
+int16 intensity
+int16 x
+int16 y

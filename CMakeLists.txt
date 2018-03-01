@@ -27,8 +27,8 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  #LightState.srv
-  #TestLightChange.srv
+  LightState.srv
+  TestLightChange.srv
   PentaLight_CCT.srv
   PentaLight_int.srv
   PentaLight_ragbw.srv

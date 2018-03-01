@@ -1,7 +1,7 @@
-int red
-int amber
-int green
-int blue
-int white
-int x
-int y
+int16 red
+int16 amber
+int16 green
+int16 blue
+int16 white
+int16 x
+int16 y

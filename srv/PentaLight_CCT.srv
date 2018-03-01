@@ -1,6 +1,6 @@
-int CCT
-int intensity
-int x
-int y
+int16 CCT
+int16 intensity
+int16 x
+int16 y
 ---
 string cmdstr

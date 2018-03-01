@@ -7,7 +7,7 @@ import time
 import sys
 
 def initialize():
-	config = open('SCR_PentaLight_conf.txt','r')
+	config = open("SCR_PentaLight_conf.txt",'r')
 	lights = []
 	addresses = []
 	position_array = []
@@ -43,7 +43,7 @@ def initialize():
 		for j in range(len(position_array[i])):
 			if position_array[i][j] == 1:
 				light_coords.append((i,j))
-	print light_coords
+	#print light_coords
 
 	if len(light_coords) != len(addresses):
 		print ("Error: There are %s addresses and %s lights in the array"%(len(addresses),len(light_coords)))
@@ -99,7 +99,7 @@ def initialize_int():
 	#bgarw
 	return ints
 
-def gen_cmdstr_CCT(state,intensity,CCT_dict,int_list)
+def gen_cmdstr_CCT(state,intensity,CCT_dict,int_list):
 	#blue = green = amber = red = white  = "0000"
 
 	send_blue = CCT_dict[state][3]
@@ -224,6 +224,9 @@ def PentaLight_server(lights,CCT_dict,int_list):
 		"ragbw", 
 		PentaLight_ragbw, 
 		lambda msg: handle_ragbw(msg,lights))
+
+	print("PentaLight server ready")
+	rospy.spin()
 
 if (__name__ == "__main__"):
 	lights = initialize()
