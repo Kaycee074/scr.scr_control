@@ -7,7 +7,7 @@ import time
 import sys
 
 def initialize():
-	config = open("SCR_PentaLight_conf.txt",'r')
+	config = open(r"SCR_PentaLight_conf.txt",'r')
 	lights = []
 	addresses = []
 	position_array = []
@@ -93,9 +93,11 @@ def initialize_int():
 	for line in vals:
 		line = line.rstrip()
 		split = line.split("\t")
+		for i  in range(len(split)):
+			split[i] = float(split[i])
 		ints.append(split)
 	vals.close()
-
+	print(ints)
 	#bgarw
 	return ints
 
@@ -116,11 +118,25 @@ def gen_cmdstr_CCT(state,intensity,CCT_dict,int_list):
 	intens_r = int_list[3][0]*intensity*intensity+int_list[3][1]*intensity
 	intens_w = int_list[4][0]*intensity*intensity+int_list[4][1]*intensity
 
-	blue = str(int(65535*send_blue*intens_b))
-	green = str(int(65535*send_green*intens_g))
-	amber = str(int(65535*send_amber*intens_a))
-	red = str(int(65535*send_red*intens_r))
-	white = str(int(65535*send_white*intens_w))
+	blue = int(65535*send_blue*intens_b)
+	green = int(65535*send_green*intens_g)
+	amber = int(65535*send_amber*intens_a)
+	red = int(65535*send_red*intens_r)
+	white = int(65535*send_white*intens_w)
+
+	blue = format(blue,'x')
+	green = format(green,'x')
+	amber = format(amber,'x')
+	red = format(red,'x')
+	white = format(white,'x')
+
+	blue = blue.rjust(4,'0')
+	green = green.rjust(4,'0')
+	amber = amber.rjust(4,'0')
+	red = red.rjust(4,'0')
+	white = white.rjust(4,'0')
+
+	print(blue,green,amber,red,white)
 
 	return "PS"+blue+green+amber+red+white
 
@@ -155,7 +171,8 @@ def handle_CCT(req,lights,CCT_dict,int_list):
 
 	cmdstr = gen_cmdstr_CCT(CCT,intensity,CCT_dict,int_list)
 
-	if not (req.x,req.y) in CCT_dict:
+#	print(lights)
+	if not (req.x,req.y) in lights:
 		return "Error: No light at specified coordinates"
 
 	address = lights[(req.x,req.y)]

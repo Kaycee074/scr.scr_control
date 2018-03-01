@@ -38,7 +38,7 @@ if(__name__ == "__main__"):
 		x = int(sys.argv[3])
 		y = int(sys.argv[4])
 
-		print("Changing light (%s,%s) to CCT %s and intensity%s"%(x,y,CCT_val,intensity_val))
+		print("Changing light (%s,%s) to CCT %s and intensity %s"%(x,y,CCT_val,intensity_val))
 
 		state = CCT_client(CCT_val,intensity_val,x,y)
 
@@ -66,7 +66,7 @@ if(__name__ == "__main__"):
 		if (arg == "help"):
 			print("how to use the function")
 		else:
-		usage()
+			usage()
 
 	else:
 		usage()
