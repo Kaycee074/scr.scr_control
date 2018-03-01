@@ -1,0 +1,7 @@
+int red
+int amber
+int green
+int blue
+int white
+int x
+int y

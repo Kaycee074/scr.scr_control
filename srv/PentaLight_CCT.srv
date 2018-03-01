@@ -1,4 +1,5 @@
 int CCT
+int intensity
 int x
 int y
 ---
