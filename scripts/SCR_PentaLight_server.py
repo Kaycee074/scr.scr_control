@@ -149,7 +149,7 @@ def gen_cmdstr_ragbw(req):
 
 	return "PS"+blue+green+amber+red+white
 
-def handle_CCT(req,lights,CCT_dict,int_list):
+def handle_CCT(req,lights,CCT_dict,int_list,CCT_int_memory):
 	port = 57007
 
 	CCT = 1800
@@ -191,6 +191,10 @@ def handle_CCT(req,lights,CCT_dict,int_list):
 
 	s.shutdown(socket.SHUT_RDWR)
 	s.close()
+
+	CCT_int_memory[(req.x,req.y)][0] = CCT
+	CCT_int_memory[(req.x,req.y)][1] = intensity
+
 	
 	return PentaLight_CCTResponse(cmdstr)
 
@@ -224,13 +228,21 @@ def handle_ragbw(req,lights):
 
 	return PentaLight_ragbwResponse(cmdstr)
 
+def handle_getCCT(req,CCT_int_memory):
+	out = string(CCT_int_memory[(req.x,req.y)][0])
+	return GetCCTResponse(out);
+
+def handle_getInt(req,CCT_int_memory):
+	out = CCT_int_memory[(req.x,req.y)][1]
+	return GetIntResponse(out)
+
 def PentaLight_server(lights,CCT_dict,int_list):
 	rospy.init_node("PentaLight_server")
 
 	CCT_service = rospy.Service(
 		"CCT", 
 		PentaLight_CCT, 
-		lambda msg: handle_CCT(msg,lights,CCT_dict,int_list))
+		lambda msg: handle_CCT(msg,lights,CCT_dict,int_list,CCT_int_memory))
 
 	# intensity_service = rospy.Service(
 	# 	"intensity", 
@@ -242,13 +254,31 @@ def PentaLight_server(lights,CCT_dict,int_list):
 		PentaLight_ragbw, 
 		lambda msg: handle_ragbw(msg,lights))
 
+	get_CCT_service = rospy.Service(
+		"getCCT",
+		GetCCT,
+		lambda msg: handle_getCCT(msg,CCT_int_memory))
+
+	get_int_service = rospy.Service(
+		"getInt",
+		GetInt,
+		lambda msg: handle_getInt(msg,CCT_int_memory))
+
 	print("PentaLight server ready")
 	rospy.spin()
 
 if (__name__ == "__main__"):
 	lights = initialize()
+
+	CCT_int_memory = {}
+	l = []
+	l.append(0)
+	l.append(0)
+	for key in lights:
+		CCT_int_memory[key] = l
+
 	CCT_dict = initialize_CCT()
 	int_list = initialize_int()
-	PentaLight_server(lights,CCT_dict,int_list)
+	PentaLight_server(lights,CCT_dict,int_list,CCT_int_memory)
 
 

@@ -16,15 +16,33 @@ def CCT_client(CCT_val,intensity_val,x,y):
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
 
-def ragbw_client():
+def ragbw_client(red_val,amber_val,green_val,blue_val,white_val,x,y):
 	rospy.wait_for_service('ragbw')
 	try:
 		#					service name  .srv file name
-		CCT = rospy.ServiceProxy('ragbw',PentaLight_ragbw)
-		state = CCT(CCT_val,intensity_val,x,y)
+		ragbw = rospy.ServiceProxy('ragbw',PentaLight_ragbw)
+		state = ragbw(red_val,amber_val,green_val,blue_val,white_val,x,y)
 		return state
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
+
+def get_CCT_client(x,y):
+	rospy.wait_for_service('getCCT')
+	try:
+		get_CCT = rospy.ServiceProxy('getCCT',GetCCT)
+		state = get_CCT(x,y)
+		return state
+	except rospy.ServiceException, e:
+		print("Service call failed: %s"%e)
+
+def get_int_client(x,y):
+	rospy.wait_for_service('getInt')
+	try:
+		get_int = rospy.ServiceProxy('getInt',GetInt)
+		state = get_int(x,y)
+		return state
+	except rospy.ServiceException, e:
+				print("Service call failed: %s"%e)
 
 def usage():
 	print("%s CCT intensity x_coord y_coord"%sys.argv[0])
@@ -58,6 +76,22 @@ if(__name__ == "__main__"):
 		state = ragbw_client(red_val,amber_val,green_val,blue_val,white_val,x,y)
 
 		print("Light (%s,%s) is now in state %s"%(x,y,state))
+
+	elif (len(sys.argv) == 4):
+		arg = str(sys.argv[1])
+		arg = arg.lower()
+
+		x = int(sys.argv[2])
+		y = int(sys.argv[3])
+
+		if arg == "cct":
+			state = get_CCT_client(x,y)
+			print("The CCT of Light (%s,%s) is %s"%(x,y,state))
+
+		if arg == "int":
+			state = get_int_client(x,y)
+			print("The intensity of Light (%s,%s) is %s"%(x,y,state))
+
 
 	elif (len(sys.argv) == 2):
 		arg = str(sys.argv[1])

@@ -32,6 +32,8 @@ add_service_files(
   PentaLight_CCT.srv
   PentaLight_int.srv
   PentaLight_ragbw.srv
+  GetCCT.srv
+  GetInt.srv
 )
 
 ## Generate actions in the 'action' folder
