@@ -5,9 +5,12 @@ import rospy
 import socket
 import time
 import sys
+import os
 
 def initialize():
-	config = open(r"SCR_PentaLight_conf.txt",'r')
+	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+	config = open(os.path.join(__location__,"SCR_PentaLight_conf.txt"),'r')
 	lights = []
 	addresses = []
 	position_array = []
@@ -57,7 +60,9 @@ def initialize():
 	return lights
 
 def initialize_CCT():
-	vals = open("SCR_PentaLight_CCT.txt",'r')
+	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+	vals = open(os.path.join(__location__,"SCR_PentaLight_CCT.txt"),'r')
 	CCT_vals = []
 	light_vals = []
 
@@ -88,7 +93,9 @@ def initialize_CCT():
 	return CCT_dict
 
 def initialize_int():
-	vals = open("SCR_PentaLight_int.txt","r")
+	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+	vals = open(os.path.join(__location__,"SCR_PentaLight_int.txt"),"r")
 	ints = []
 	for line in vals:
 		line = line.rstrip()
@@ -141,11 +148,23 @@ def gen_cmdstr_CCT(state,intensity,CCT_dict,int_list):
 	return "PS"+blue+green+amber+red+white
 
 def gen_cmdstr_ragbw(req):
-	blue = str(int(65535*(req.blue/100)))
-	green = str(int(65535*(req.green/100)))
-	amber = str(int(65535*(req.amber/100)))
-	red = str(int(65535*(req.red/100)))
-	white = str(int(65535*(req.white/100)))
+	blue = int(65535*(req.blue/100))
+	green = int(65535*(req.green/100))
+	amber = int(65535*(req.amber/100))
+	red = int(65535*(req.red/100))
+	white = int(65535*(req.white/100))
+
+	blue = format(blue,'x')
+	green = format(green,'x')
+	amber = format(amber,'x')
+	red = format(red,'x')
+	white = format(white,'x')
+
+	blue = blue.rjust(4,'0')
+	green = green.rjust(4,'0')
+	amber = amber.rjust(4,'0')
+	red = red.rjust(4,'0')
+	white = white.rjust(4,'0')
 
 	return "PS"+blue+green+amber+red+white
 
@@ -200,13 +219,13 @@ def handle_CCT(req,lights,CCT_dict,int_list,CCT_int_memory):
 
 # def handle_int(req,lights):
 # 	return
-
+#values other than 100 dont work
 def handle_ragbw(req,lights):
 	port = 57007
 
 	cmdstr = gen_cmdstr_ragbw(req)
 
-	if not (req.x,req.y) in CCT_dict:
+	if not (req.x,req.y) in lights:
 		return "Error: No light at specified coordinates"
 
 	address = lights[(req.x,req.y)]
@@ -236,7 +255,7 @@ def handle_getInt(req,CCT_int_memory):
 	out = CCT_int_memory[(req.x,req.y)][1]
 	return GetIntResponse(out)
 
-def PentaLight_server(lights,CCT_dict,int_list):
+def PentaLight_server(lights,CCT_dict,int_list,CCT_int_memory):
 	rospy.init_node("PentaLight_server")
 
 	CCT_service = rospy.Service(
