@@ -118,6 +118,11 @@ def COS_server():
 		COSReadOne,
 		handle_readOne)
 
+	inteTime_service = rospy.Service(
+		"inteTime",
+		COSInteTime,
+		handle_inteTime)
+
 	rospy.spin()
 
 if (__name__ == "__main__"):

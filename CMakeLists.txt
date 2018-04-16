@@ -37,6 +37,8 @@ add_service_files(
   BlindLift.srv
   BlindTilt.srv
   COSReadAll.srv
+  COSReadOne.srv
+  COSInteTime.srv
 )
 
 ## Generate actions in the 'action' folder
