@@ -36,6 +36,7 @@ add_service_files(
   GetInt.srv
   BlindLift.srv
   BlindTilt.srv
+  COSReadAll.srv
 )
 
 ## Generate actions in the 'action' folder
