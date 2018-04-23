@@ -104,7 +104,7 @@ def initialize_int():
 			split[i] = float(split[i])
 		ints.append(split)
 	vals.close()
-	print(ints)
+	# print(ints)
 	#bgarw
 	return ints
 

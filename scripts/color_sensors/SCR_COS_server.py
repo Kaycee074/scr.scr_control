@@ -96,7 +96,10 @@ def handle_readOne(req):
 
 def handle_inteTime(req):
 	num = req.num
-
+	if num < 1:
+		num = 1
+	if num > 250:
+		num = 250
 	s = establish_connection(address)
 	
 	s.send('CS_Inte'+num)
