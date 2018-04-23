@@ -89,7 +89,7 @@
  	\verb|roscore| launches the backbone of any ROS-based-system which is required for ROS nodes to communicate. \verb|roscore| can be closed at any time by pressing \keystroke{Ctrl}+ \keystroke{C}.\\
  	Now you can run any command in the light\_control package by opening a new shell and using:
  	\begin{verbatim}
- 	    $ rosrun SCR_control [script_name] <commands>
+ 	    $ rosrun scr_control [script_name] <commands>
  	\end{verbatim}
  	In general, you will need to run the server for any component of the Smart Conference Room before running any of the clients.
 	\section{Lights}
@@ -144,7 +144,7 @@
 	\subsubsection{Running the Server}
 	To run the server:
 	\begin{verbatim}
-		rosrun SCR_control SCR_PentaLight_server.py
+		rosrun scr_control SCR_PentaLight_server.py
 	\end{verbatim}
 	If the server prints:
 	\begin{verbatim}
@@ -162,7 +162,7 @@
 	For the light client to run any commands, the light server must be running first.\\
 	To run the client:
 	\begin{verbatim}
-	    $ rosrun SCR_control SCR_PentaLight_client.py [command] [arguments]
+	    $ rosrun scr_control SCR_PentaLight_client.py [command] [arguments]
 	\end{verbatim}
 	\subsubsection{Commands}
 	\begin{enumerate}
@@ -235,7 +235,7 @@
 	\subsubsection{Running the Server}
 	To run the server:
 	\begin{verbatim}
-	    rosrun SCR_control SCR_blind_server.py
+	    rosrun scr_control SCR_blind_server.py
 	\end{verbatim}
 	If the server prints:
 	\begin{verbatim}
@@ -253,7 +253,7 @@
 	For the blind client to run any commands, the blind server must be running first.\\
 	To run the client:
 	\begin{verbatim}
-	$ rosrun SCR_control SCR_blind_client.py [command] [arguments]
+	$ rosrun scr_control SCR_blind_client.py [command] [arguments]
 	\end{verbatim}
 	\subsubsection{Commands}
 	\begin{enumerate}
@@ -297,7 +297,7 @@
 	\subsubsection{Running the Server}
 	To run the server:
 	\begin{verbatim}
-	rosrun SCR_control SCR_COS_server.py
+	rosrun scr_control SCR_COS_server.py
 	\end{verbatim}
 	If the server prints:
 	\begin{verbatim}
@@ -315,7 +315,7 @@
 		For the blind client to run any commands, the blind server must be running first.\\
 	To run the client:
 	\begin{verbatim}
-	$ rosrun SCR_control SCR_COS_client.py [command] [arguments]
+	$ rosrun scr_control SCR_COS_client.py [command] [arguments]
 	\end{verbatim}
 	\subsubsection{Commands}
 	\begin{enumerate}
