@@ -19,7 +19,7 @@
 #The LightState and the TestLightChange services are used to
 #communicate between the server and the client.
 
-from light.srv import *
+from scr_control.srv import *
 import rospy
 import socket
 import time

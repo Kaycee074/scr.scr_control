@@ -3,8 +3,8 @@
 import sys
 import rospy
 import socket
-from light.srv import *
-from light.msg import *
+from scr_control.srv import *
+from scr_control.msg import *
 
 def CCT_client(CCT_val,intensity_val,x,y):
 	rospy.wait_for_service('CCT')

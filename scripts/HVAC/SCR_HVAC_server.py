@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from light.srv import *
+from scr_control.srv import *
 import rospy
 import socket
 import time
@@ -8,6 +8,7 @@ import sys
 import os
 import re
 import atexit
+# from HVAC_SetTemp.srv import HVAC_SetTemp, HVAC_SetTempResponse
 
 global address
 global s
@@ -16,7 +17,7 @@ def initialize():
 	global address
 	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-	config = open(os.path.join(__location__,"COS_conf.txt"),'r')
+	config = open(os.path.join(__location__,"SCR_HVAC_conf.txt"),'r')
 
 	line = config.readline()
 	line = line.rstrip()
@@ -26,7 +27,7 @@ def initialize():
 	config.close()
 
 def establish_connection(address):
-	global s
+	# global s
 	port = 60606
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,37 +41,55 @@ def establish_connection(address):
 
 
 def send_message(message):
+	global s
 	s.send(message.encode())	#send the message (thermostat value)
 	data = s.recv(1024).decode()
 	print ('Received from server: ' + data)
 	return data
 
 def close():
+	global s
+	send_message("bms")
 	send_message("quit")
 	s.shutdown(socket.SHUT_RDWR)
 	s.close()
 
 def handle_setTemp(req):
 	message = "set temp " + str(req.temp)
+	# print(req.temp)
 	send_message(message)
+
+	resp = HVAC_SetTempResponse()
+	return resp
 
 def handle_setFanSp(req):
 	message = "set fan " + str(req.speed)
+	# print(message)
 	send_message(message)
+
+	resp = HVAC_SetFanSpResponse()
+	return resp
 
 def handle_setEp(req):
 	voltage = (5.0)*req.val/100
 	message = "set ep" + str(req.ep) + " " + str(voltage)
+	# print(message)
 	send_message(message)
+
+	resp = HVAC_SetEpResponse()
+	return resp
 
 def handle_setBms(req):
 	send_message("bms")
 
+	resp = HVAC_SetBmsResponse()
+	return resp
+
 def handle_getTemp(req):
 	temp_list = []
-	for i in range(5):
+	for i in range(1,6):
 		data = send_message("read t"+str(i))
-		temp = [float(s) for s in re.findall("\d+\.\d+", data)]
+		temp = [float(a) for a in re.findall("\d+\.\d+", data)]
 		temp_list.append(temp[0])
 
 	resp = HVAC_GetTempResponse()
@@ -82,7 +101,7 @@ def handle_getEp(req):
 	ep_list = []
 	for i in range(1,5):
 		data = send_message("read ep"+str(i))
-		ep = [float(s) for s in re.findall("\d+\.\d+", data)]
+		ep = [float(a) for a in re.findall("\d+\.\d+", data)]
 		if i != 4:
 			level = 100 - ep[0]
 		else:
@@ -96,7 +115,7 @@ def handle_getEp(req):
 
 def handle_getCO2(req):
 	data = send_message("read co2")
-	co2 = [float(s) for s in re.findall("\d+\.\d+", data)]
+	co2 = [float(a) for a in re.findall("\d+\.\d+", data)]
 
 	resp = HVAC_GetCO2Response()
 	resp.data = co2[0]
@@ -104,10 +123,13 @@ def handle_getCO2(req):
 	return resp
 
 def handle_getRH(req):
-	data = send_message("read co2")
-	hum = [float(s) for s in re.findall("\d+\.\d+", data)]
-
-	resp = HVAC_GetCO2Response()
+	data = send_message("read rh")
+	# print("poop")
+	print(data)
+	# data = data.rstrip()
+	hum = [float(a) for a in re.findall("\d+\.\d+", data)]
+	print(hum[0])
+	resp = HVAC_GetRHResponse()
 	resp.data = hum[0]
 
 	return resp
@@ -159,6 +181,8 @@ def HVAC_server():
 
 if (__name__ == "__main__"):
 	atexit.register(close)
+	# atexit.register(handle_setBms)
+	global s
 	initialize();
-	establish_connection();
+	s = establish_connection(address);
 	HVAC_server();

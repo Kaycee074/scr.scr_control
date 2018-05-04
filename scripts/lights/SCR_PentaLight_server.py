@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from light.srv import *
+from scr_control.srv import *
 import rospy
 import socket
 import time

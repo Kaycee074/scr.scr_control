@@ -3,8 +3,8 @@
 import sys
 import rospy
 import socket
-from light.srv import *
-from light.msg import *
+from scr_control.srv import *
+from scr_control.msg import *
 
 def lift_client(b,val):
 	rospy.wait_for_service('lift')

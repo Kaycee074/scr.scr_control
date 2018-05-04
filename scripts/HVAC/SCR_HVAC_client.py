@@ -5,32 +5,32 @@ from __future__ import print_function
 import sys
 import rospy
 import socket
-from light.srv import *
-from light.msg import *
+from scr_control.srv import *
+from scr_control.msg import *
 
-def setTemp_client():
+def setTemp_client(temp):
 	rospy.wait_for_service("setTemp")
 	try:
 		setTemp = rospy.ServiceProxy("setTemp",HVAC_SetTemp)
-		response = setTemp()
+		response = setTemp(temp)
 		return response
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
 
-def setFanSp_client():
+def setFanSp_client(speed):
 	rospy.wait_for_service("setTemp")
 	try:
 		setFanSp = rospy.ServiceProxy("setFanSp",HVAC_SetFanSp)
-		response = setFanSp()
+		response = setFanSp(speed)
 		return response
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
 
-def setEp_client():
+def setEp_client(ep,val):
 	rospy.wait_for_service("setTemp")
 	try:
 		setEp = rospy.ServiceProxy("setEp",HVAC_SetEp)
-		response = setEp()
+		response = setEp(ep,val)
 		return response
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
@@ -80,7 +80,8 @@ def getRH_client():
 	except rospy.ServiceException, e:
 		print("Service call failed: %s"%e)
 
-def usage()
+def usage():
+	print("usage:")
 	print("%s set_Temp [Temp]"%sys.argv[0])
 	print("%s set_FanSp [FanSp]"%sys.argv[0])
 	print("%s set_Ep [ep] [value]"%sys.argv[0])
@@ -93,33 +94,33 @@ def usage()
 
 if __name__ == '__main__':
 	arg1 = str(sys.argv[1]).lower()
-	if (arg1 == "set_temp" and len(sys.argv == 3)):
-		setTemp_client(sys.argv[2])
-	elif (arg1 == "set_fansp" and len(sys.argv == 3)):
-		setFanSp_client(sys.argv[2])
-	elif (arg1 == "set_ep" and len(sys.argv == 4)):
-		setEp_client(sys.argv[2],sys.argv[3])
-	elif (arg1 == "set_fansp" and len(sys.argv == 2)):
+	if (arg1 == "set_temp" and len(sys.argv) == 3):
+		setTemp_client(float(sys.argv[2]))
+	elif (arg1 == "set_fansp" and len(sys.argv) == 3):
+		setFanSp_client(str(sys.argv[2]))
+	elif (arg1 == "set_ep" and len(sys.argv) == 4):
+		setEp_client(int(sys.argv[2]),int(sys.argv[3]))
+	elif (arg1 == "set_bms" and len(sys.argv) == 2):
 		setBms_client()
-	elif (arg1 == "get_temp" and len(sys.argv == 2)):
+	elif (arg1 == "get_temp" and len(sys.argv) == 2):
 		temp_data = getTemp_client()
 		print(temp_data)
-	elif (arg1 == "get_ep" and len(sys.argv == 2)):
+	elif (arg1 == "get_ep" and len(sys.argv) == 2):
 		ep_data = getEp_client()
 		print(ep_data)
-	elif (arg1 == "get_co2" and len(sys.argv == 2)):
+	elif (arg1 == "get_co2" and len(sys.argv) == 2):
 		co2_data = getCO2_client()
 		print(co2_data)
-	elif (arg1 == "get_rh" and len(sys.argv == 2)):
+	elif (arg1 == "get_rh" and len(sys.argv) == 2):
 		rh_data = getRH_client()
 		print(rh_data)
-	elif (arg1 == "help" and len(sys.argv == 2)):
+	elif (arg1 == "help" and len(sys.argv) == 2):
 		print()
 		print("set_Temp: sets the temperature of the system in degrees celsius")
 		print("          first argument is a temperature in celsius as a float")
 		print()
 		print("set_FanSp: sets the fanspeed for the system")
-		print("           first argument is the fan speed, integer from 0-3")
+		print("           first argument is the fan speed, string = off|low|medium|high")
 		print()
 		print("set_Ep: sets EP for the system")
 		print("        first argument is ep value to set")

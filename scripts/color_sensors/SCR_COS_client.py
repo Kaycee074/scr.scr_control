@@ -5,8 +5,8 @@ from __future__ import print_function
 import sys
 import rospy
 import socket
-from light.srv import *
-from light.msg import *
+from scr_control.srv import *
+from scr_control.msg import *
 
 def readAll_client():
 	rospy.wait_for_service("readAll")
