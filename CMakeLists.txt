@@ -39,6 +39,14 @@ add_service_files(
   COSReadAll.srv
   COSReadOne.srv
   COSInteTime.srv
+  HVAC_SetTemp.srv
+  HVAC_SetFanSp.srv
+  HVAC_SetEp.srv
+  HVAC_SetBms.srv
+  HVAC_GetTemp.srv
+  HVAC_GetEp.srv
+  HVAC_GetCO2.srv
+  HVAC_GetRH.srv
 )
 
 ## Generate actions in the 'action' folder

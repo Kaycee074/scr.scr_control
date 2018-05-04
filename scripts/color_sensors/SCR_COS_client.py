@@ -69,7 +69,7 @@ if __name__ == '__main__':
 		print("      first argument is the number of the sensor to read, ex. 1 or 23")
 		print()
 		print("inte_time: sets the integration time for the sensors")
-		print("                  first argument is the time in milliseconds to set integration time to")
+		print("           first argument is the time in milliseconds to set integration time to")
 		print()
 		print("help: prints a list of all commands, what they do, and what arguments they take")
 		print()
