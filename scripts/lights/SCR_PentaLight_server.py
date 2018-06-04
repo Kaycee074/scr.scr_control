@@ -248,7 +248,7 @@ def handle_ragbw(req,lights):
 	return PentaLight_ragbwResponse(cmdstr)
 
 def handle_getCCT(req,CCT_int_memory):
-	out = string(CCT_int_memory[(req.x,req.y)][0])
+	out = str(CCT_int_memory[(req.x,req.y)][0])
 	return GetCCTResponse(out);
 
 def handle_getInt(req,CCT_int_memory):

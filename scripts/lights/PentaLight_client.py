@@ -52,9 +52,9 @@ def usage():
 	print("%s help"%sys.argv[0])
 
 if(__name__ == "__main__"):
-	arg1 = str(sy.argv[1])
+	arg1 = str(sys.argv[1])
 	arg1 = arg1.lower()
-	if (arg1 == "CCT" and len(sys.argv) == 6):
+	if (arg1 == "cct" and len(sys.argv) == 6):
 		CCT_val = int(sys.argv[4])
 		intensity_val = int(sys.argv[5])
 		x = int(sys.argv[2])
