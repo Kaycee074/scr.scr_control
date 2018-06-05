@@ -8,6 +8,7 @@ import os
 sys.path.append('../utils')
 from utils import *
 
+# Get all values of color sensors
 def readAll_client(debug=False):
 	state = service_call('readAll', COSReadAll, [])
 	if state and debug:
@@ -17,14 +18,16 @@ def readAll_client(debug=False):
 			print(state.data[i], end = " ")
 	return state
 
+# Read one color sensor
 def readOne_client(num, debug=False):
 	state = service_call('readOne', COSReadOne, [num])
 	if state and debug:
 		print(state)
 	return state
 
+#
 def inteTime_client(num, debug=False):
-	state = service_call('readOne', COSReadOne, [num])
+	state = service_call('inteTime', COSInteTime, [num])
 	if state and debug:
 		print(state)
 	return state
@@ -36,10 +39,10 @@ def help(debug=False):
 
 if __name__ == '__main__':
 
-					#command     	#function        	#argument types    #help
-	serviceCalls = {'read_all': 	[readAll_client,    [],		 		   "read_all"],
-					'read': 	 	[readOne_client,    [int], 		 	   "read [sensor_num]"],
-					'inte_time':	[inteTime_client,   [int],			   "inte_time [time]"],
-					'help':			[help,				[],				   "help"]}
+					#command        #function           #argument types    #help
+	serviceCalls = {'read_all':     [readAll_client,    [],                "read_all"],
+					'read':         [readOne_client,    [int],             "read [sensor_num]"],
+					'inte_time':    [inteTime_client,   [int],             "inte_time [time]"],
+					'help':         [help,              [],                "help"]}
 	
 	state = commandToFunction(sys.argv, serviceCalls, debug=True)
