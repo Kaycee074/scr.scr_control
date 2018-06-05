@@ -18,9 +18,15 @@ def service_call(serviceName, service, arguments):
 def commandToFunction(sysargs, validCommands, debug=False):
 	command = str(sysargs[1]).lower()
 	state = None
+
+	# is a valid command
 	if command in validCommands:
 		function, argumentTypes, helpStr = validCommands[command][0], validCommands[command][1], validCommands[command][2]
+
+		# correct number of arguments
 		if len(sysargs) == len(argumentTypes) + 2:
+
+			# convert arguments to correct types
 			arguments = []
 			for i in range(len(argumentTypes)):
 				try:
@@ -28,13 +34,19 @@ def commandToFunction(sysargs, validCommands, debug=False):
 				except:
 					print("Invalid Arguments! Use: " + helpStr)
 					break
+
+			# if all converted correctly, call the function with new arguments
 			if len(arguments) == len(argumentTypes):
 				state = function(*arguments, debug=debug)
 
 		else:
 			print("Invalid Arguments! Use: " + helpStr)
+
+	# invalid command -> print help for all valid commands
 	else:
 		print("Valid Commands:")
 		for c in validCommands:
 			print(validCommands[c][2])
+
+	# return state of called function
 	return state

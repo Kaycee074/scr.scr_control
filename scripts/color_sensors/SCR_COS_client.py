@@ -25,13 +25,14 @@ def readOne_client(num, debug=False):
 		print(state)
 	return state
 
-#
+# Integration time
 def inteTime_client(num, debug=False):
 	state = service_call('inteTime', COSInteTime, [num])
 	if state and debug:
 		print(state)
 	return state
 
+# Show help regarding color sensor commands
 def help(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_COS_help.txt'))
 	print(helpFile.read())

@@ -47,7 +47,7 @@ if(__name__ == "__main__"):
 
 					#command     #function        #argument types                      #help
 	serviceCalls = {'cct':       [CCT_client,     [int, int, int, int],                "CCT [x_coord] [y_coord] [CCT] [intensity]"],
-					'ragbw':     [ragbw_client,   [int, int, int, int, int, int, int], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]]"],
+					'ragbw':     [ragbw_client,   [int, int, int, int, int, int, int], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
 					'get_cct':   [get_CCT_client, [int, int],                          "get_CCT [x_coord] [y_coord]"],
 					'get_int':   [get_int_client, [int, int],                          "get_int [x_coord] [y_coord]"],
 					'help':      [help,           [],                                  "help"]}
