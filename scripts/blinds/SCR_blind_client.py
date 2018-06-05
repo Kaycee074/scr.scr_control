@@ -1,62 +1,31 @@
 #!/usr/bin/env python
 
 import sys
-import rospy
-import socket
-from scr_control.srv import *
-from scr_control.msg import *
+import os
 
-def lift_client(b,val):
-	rospy.wait_for_service('lift')
-	try:
-		lift = rospy.ServiceProxy('lift',BlindLift)
-		state = lift(b,val)
-		return state
-	except rospy.ServiceException, e:
-		print("Service call failed: %s"%e)
+sys.path.append('../utils')
+from utils import *
 
-def tilt_client(b,val):
-	rospy.wait_for_service('tilt')
-	try:
-		tilt = rospy.ServiceProxy('tilt',BlindTilt)
-		state = tilt(b,val)
-		return state
-	except rospy.ServiceException, e:
-		print("Service call failed: %s"%e)
+def lift_client(b, val, debug=False):
+	state = service_call('lift', BlindLift, [b, val])
+	if state and debug:
+		print("Blind %s is now lifted to %s%%" % (b, val))
 
-def usage():
-	print("%s lift [blind] [percent]"%sys.argv[0])
-	print("%s tilt [blind] [percent]"%sys.argv[0])
-	print("%s help"%sys.argv[0])
+def tilt_client(b, val, debug=False):
+	state = service_call('tilt', BlindTilt, [b, val])
+	if state and debug:
+		print("Blind %s is now tilted to %s%%" % (b, val))
+
+def help(debug=False):
+	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_blind_help.txt'))
+	print(helpFile.read())
+	helpFile.close()
 
 if(__name__ == "__main__"):
-	arg1 = str(sys.argv[1])
-	arg1 = arg1.lower()
-	if (arg1 == "lift" and len(sys.argv) == 4):
-		blind = sys.argv[2]
-		val = int(sys.argv[3])
-	
-		state = lift_client(blind,val)
-		print("Blind %s is now lifted to %s%%"%(blind,state))
 
-	elif (arg1 == 'tilt' and len(sys.argv) == 4):
-		blind = sys.argv[2]
-		val = int(sys.argv[3])
-		state = tilt_client(blind,val)
-		print("Blind %s is now tilted to %s%%"%(blind,state))
+					#command     #function        #argument types    #help
+	serviceCalls = {'tilt': 	 [tilt_client,     [str, int],		 "lift [blind] [percent]"],
+					'lift': 	 [lift_client,     [str, int], 		 "tilt [blind] [percent]"],
+					'help':		 [help,            [],				 "help"]}
 
-	elif (arg1 == 'help'):
-		print()
-		print("lift: lifts the specified blind to the input percent")
-		print("      first argument is a blind orientation+number, ex. N3 or S1")
-		print("      second argument is a percent to raise the blind to")
-		print()
-		print("tilt: tilts the slats of a specified blinf to the input percent")
-		print("      first argument is a blind orientation+number, ex. N3 or S1")
-		print("      second argument is a percent to tilt the slats to")
-		print()
-		print("help: prints a list of all commands, what they do, and what arguments they take")
-		print()
-
-	else:
-		usage()
+	state = commandToFunction(sys.argv, serviceCalls, debug=True) 

@@ -1,0 +1,13 @@
+read_all:
+	reads data from all sensors and prints values read
+
+read:
+	reads data from one sensor and prints values read
+	first argument is the number of the sensor to read, ex. 1 or 23
+
+inte_time:
+	sets the integration time for the sensors
+	first argument is the time in milliseconds to set integration time to
+
+help:
+	prints a list of all commands, what they do, and what arguments they take

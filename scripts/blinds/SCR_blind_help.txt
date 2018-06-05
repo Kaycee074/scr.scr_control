@@ -1,0 +1,12 @@
+lift:
+	lifts the specified blind to the input percent
+	first argument is a blind orientation+number, ex. N3 or S1
+	second argument is a percent to raise the blind to
+
+tilt:
+	tilts the slats of a specified blinf to the input percent
+	first argument is a blind orientation+number, ex. N3 or S1
+	second argument is a percent to tilt the slats to
+
+help:
+	prints a list of all commands, what they do, and what arguments they take

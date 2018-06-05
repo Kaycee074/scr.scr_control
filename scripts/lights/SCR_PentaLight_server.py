@@ -299,5 +299,3 @@ if (__name__ == "__main__"):
 	CCT_dict = initialize_CCT()
 	int_list = initialize_int()
 	PentaLight_server(lights,CCT_dict,int_list,CCT_int_memory)
-
-
