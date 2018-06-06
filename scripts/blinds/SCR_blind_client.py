@@ -2,19 +2,18 @@
 
 import sys
 import os
-
-sys.path.append('../utils')
-from utils import *
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
+import utils
 
 # Lift or lower a given blind
 def lift_client(b, val, debug=False):
-	state = service_call('lift', BlindLift, [b, val])
+	state = utils.service_call('lift', BlindLift, [b, val])
 	if state and debug:
 		print("Blind %s is now lifted to %s%%" % (b, val))
 
 # Tilt a given blind
 def tilt_client(b, val, debug=False):
-	state = service_call('tilt', BlindTilt, [b, val])
+	state = utils.service_call('tilt', BlindTilt, [b, val])
 	if state and debug:
 		print("Blind %s is now tilted to %s%%" % (b, val))
 
@@ -27,8 +26,9 @@ def help(debug=False):
 if(__name__ == "__main__"):
 
 					#command     #function        #argument types    #help
-	serviceCalls = {'tilt':      [tilt_client,     [str, int],       "lift [blind] [percent]"],
+	serviceCalls = {
+					'tilt':      [tilt_client,     [str, int],       "lift [blind] [percent]"],
 					'lift':      [lift_client,     [str, int],       "tilt [blind] [percent]"],
 					'help':      [help,            [],               "help"]}
 
-	state = commandToFunction(sys.argv, serviceCalls, debug=True) 
+	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 

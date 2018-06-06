@@ -14,10 +14,22 @@ def service_call(serviceName, service, arguments):
 		print("Service call failed: %s" % e)
 		return None
 
+def useage(validCommands):
+	print("Valid Commands:")
+	for c in validCommands:
+		print(validCommands[c][2])
+
 # Runs an API function using sys arguments from command line. See any client file for format of validCommands
 def commandToFunction(sysargs, validCommands, debug=False):
-	command = str(sysargs[1]).lower()
+
 	state = None
+
+	# if no command is given, print out valid commands and return none
+	if len(sysargs) < 2:
+		useage(validCommands)
+		return state
+
+	command = str(sysargs[1]).lower()
 
 	# is a valid command
 	if command in validCommands:
@@ -44,9 +56,7 @@ def commandToFunction(sysargs, validCommands, debug=False):
 
 	# invalid command -> print help for all valid commands
 	else:
-		print("Valid Commands:")
-		for c in validCommands:
-			print(validCommands[c][2])
+		useage(validCommands)		
 
 	# return state of called function
 	return state
