@@ -29,13 +29,14 @@ def commandToFunction(sysargs, validCommands, debug=False):
 		useage(validCommands)
 		return state
 
+	# first argument is command
 	command = str(sysargs[1]).lower()
 
 	# is a valid command
 	if command in validCommands:
 		function, argumentTypes, helpStr = validCommands[command][0], validCommands[command][1], validCommands[command][2]
 
-		# correct number of arguments
+		# correct number of arguments         + 2 for file name and command name
 		if len(sysargs) == len(argumentTypes) + 2:
 
 			# convert arguments to correct types

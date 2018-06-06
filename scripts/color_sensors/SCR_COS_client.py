@@ -45,4 +45,4 @@ if __name__ == '__main__':
 					'inte_time':    [inteTime_client,   [int],             "inte_time [time]"],
 					'help':         [help,              [],                "help"]}
 	
-	state = commandToFunction(sys.argv, serviceCalls, debug=True)
+	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

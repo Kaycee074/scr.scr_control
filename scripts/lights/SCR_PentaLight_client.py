@@ -4,6 +4,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
 import utils
+from scr_control.srv import *
+from scr_control.msg import *
 
 # Change color of light using CCT value and intensity
 def CCT_client(x, y, CCT_val, intensity_val, debug=False):
