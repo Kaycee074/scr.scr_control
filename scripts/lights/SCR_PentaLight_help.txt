@@ -14,7 +14,12 @@ ragbw:
 		fifth argument is a green color value as a % between 0 and 100
 		sixth argument is a blue color value as a % between 0 and 100
 		seventh argument is a white color value as a % between 0 and 100
-
+		
+cct_all:
+		changes the color temperature and intensity of all lights
+		first argument is a CCT value between 1800 and 10000
+		second argument is an intensity value as a % betweem 0 and 100
+		
 ragbw_all:
 		changes the color of all lights
 		first argument is a red color value as a % between 0 and 100
@@ -32,6 +37,9 @@ get_int:
 		returns the intensity value of the light at the specified position if it has been changed
 		first argument is the x coordinate of the light to change
 		second argument is the y coordinate of the light to change
+
+get_lights:
+		returns all available light coordinates
 
 help:
 		prints a list of all commands, what they do, and what arguments they take

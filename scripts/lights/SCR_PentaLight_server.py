@@ -243,7 +243,7 @@ class PentaLightServer():
 			GetInt,
 			lambda msg: self.handle_getInt(msg))
 
-		get_int_service = rospy.Service(
+		get_lights_service = rospy.Service(
 			"getLights",
 			GetLights,
 			lambda msg: self.handle_getLights(msg))
