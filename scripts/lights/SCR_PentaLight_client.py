@@ -70,7 +70,7 @@ def get_int_client(x, y, debug=False):
 
 # Show help regarding light commands
 def help(debug=False):
-	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_help.txt'))
+	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_help.txt'), 'r')
 	print(helpFile.read())
 	helpFile.close()
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
 import utils
-from __future__ import print_function
 from scr_control.srv import *
 from scr_control.msg import *
 

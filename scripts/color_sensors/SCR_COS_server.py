@@ -7,129 +7,129 @@ import time
 import sys
 import os
 
-global address
+class ColorSensorServer():
+
+	def __init__(self):
+		self.address = self.initialize_sensors()
+		self.COS_server_init()
+
+	def initialize_sensors(self):
+		__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+		config = open(os.path.join(__location__,"COS_conf.txt"),'r')
+
+		line = config.readline()
+		line = line.rstrip()
+
+		config.close()
+
+		return line
+
+	def establish_connection(self):
+		port = 5005
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect((self.address,port))
+		except:
+			rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			rs.connect((self.address,57011))
+			print("Connection refused on " + self.address)
+		return s
 
 
-def initialize():
-	global address
-	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+	def handle_readAll(self, req):
+		s = self.establish_connection()
 
-	config = open(os.path.join(__location__,"COS_conf.txt"),'r')
+		s.send("CS_Rall")
+		data = s.recv(3000)
 
-	line = config.readline()
-	line = line.rstrip()
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
 
-	address = line
+		data = str(data.decode())
+		data = data.translate(None,"[]'")
+		data = data.split(', ')
+		data = filter(None, data)
 
-	config.close()
+		data_list = []
+		step = 0
 
-def establish_connection(address):
-	port = 5005
-	try:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect((address,port))
-	except ConnectionRefusedError:
-		rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		rs.connect((address,57011))
-		print("Connection refused on " + address)
-	return s
+		for line in data:
+			line = line.split(' ')
+			step = len(line)
+			for item in line:
+				item = int(item)
+				data_list.append(item)
+		
+		resp = COSReadAllResponse()
+		resp.step = step
+		resp.data = data_list
 
+		return resp
 
-def handle_readAll(req):
-	s = establish_connection(address)
+	def handle_readOne(self, req):
+		num = req.num.zfill(3)
 
-	s.send("CS_Rall")
-	data = s.recv(3000)
+		s = self.establish_connection()
+		
+		s.send('CS_Read'+num)
+		data = s.recv(23)
 
-	s.shutdown(socket.SHUT_RDWR)
-	s.close()
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
 
-	data = str(data.decode())
-	data = data.translate(None,"[]'")
-	data = data.split(', ')
-	data = filter(None, data)
+		data = str(data.decode())
+		data = data.translate(None,"[]'")
+		# data = data.split(', ')
+		data = filter(None, data)
 
-	data_list = []
-	step = 0
+		data_list = []
 
-	for line in data:
-		line = line.split(' ')
-		step = len(line)
-		for item in line:
-			item = int(item)
-			data_list.append(item)
-	
-	resp = COSReadAllResponse()
-	resp.step = step
-	resp.data = data_list
+		for line in data:
+			line = line.split(' ')
+			for item in line:
+				item = int(item)
+				data_list.append(item)
 
-	return resp
+		resp = COSReadOneResponse()
+		resp.data = data_list
 
-def handle_readOne(req):
-	num = req.num.zfill(3)
+		return resp
 
-	s = establish_connection(address)
-	
-	s.send('CS_Read'+num)
-	data = s.recv(23)
+	def handle_inteTime(self, req):
+		num = req.num
+		if num < 1:
+			num = 1
+		if num > 250:
+			num = 250
+		s = self.establish_connection()
+		
+		s.send('CS_Inte'+num)
+		a = s.recv(1024)
 
-	s.shutdown(socket.SHUT_RDWR)
-	s.close()
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
 
-	data = str(data.decode())
-	data = data.translate(None,"[]'")
-	# data = data.split(', ')
-	data = filter(None, data)
+	def COS_server_init(self):
+		rospy.init_node("COS_server")
 
-	data_list = []
+		readAll_service = rospy.Service(
+			"readAll",
+			COSReadAll,
+			self.handle_readAll)
 
-	for line in data:
-		line = line.split(' ')
-		for item in line:
-			item = int(item)
-			data_list.append(item)
+		readOne_service = rospy.Service(
+			"readOne",
+			COSReadOne,
+			self.handle_readOne)
 
-	resp = COSReadOneResponse()
-	resp.data = data_list
+		inteTime_service = rospy.Service(
+			"inteTime",
+			COSInteTime,
+			self.handle_inteTime)
 
-	return resp
-
-def handle_inteTime(req):
-	num = req.num
-	if num < 1:
-		num = 1
-	if num > 250:
-		num = 250
-	s = establish_connection(address)
-	
-	s.send('CS_Inte'+num)
-	a = s.recv(1024)
-
-	s.shutdown(socket.SHUT_RDWR)
-	s.close()
-
-def COS_server():
-	rospy.init_node("COS_server")
-
-	readAll_service = rospy.Service(
-		"readAll",
-		COSReadAll,
-		handle_readAll)
-
-	readOne_service = rospy.Service(
-		"readOne",
-		COSReadOne,
-		handle_readOne)
-
-	inteTime_service = rospy.Service(
-		"inteTime",
-		COSInteTime,
-		handle_inteTime)
-
-	rospy.spin()
+		print("Color sensor server ready")
+		rospy.spin()
 
 if (__name__ == "__main__"):
-	
-	initialize()
-	
-	COS_server()
+	ColorSensorServer()
