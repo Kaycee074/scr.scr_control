@@ -32,9 +32,12 @@ add_service_files(
   PentaLight_CCT.srv
   PentaLight_int.srv
   PentaLight_ragbw.srv
+  PentaLight_ragbwAll.srv
+  PentaLight_CCTAll.srv
   GetBlinds.srv
   GetCCT.srv
   GetInt.srv
+  GetLights.srv
   BlindLift.srv
   BlindLiftAll.srv
   BlindTilt.srv

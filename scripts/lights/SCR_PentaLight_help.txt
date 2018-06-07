@@ -14,6 +14,14 @@ ragbw:
 		fifth argument is a green color value as a % between 0 and 100
 		sixth argument is a blue color value as a % between 0 and 100
 		seventh argument is a white color value as a % between 0 and 100
+
+ragbw_all:
+		changes the color of all lights
+		first argument is a red color value as a % between 0 and 100
+		second argument is a amber color value as a % between 0 and 100
+		third argument is a green color value as a % between 0 and 100
+		fourth argument is a blue color value as a % between 0 and 100
+		fifth argument is a white color value as a % between 0 and 100
 		
 get_cct:
 		returns the cct value of the light at the specified position if it has been changed

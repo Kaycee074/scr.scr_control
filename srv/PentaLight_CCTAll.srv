@@ -1,0 +1,4 @@
+int16 CCT
+int16 intensity
+---
+string cmdstr

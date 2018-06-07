@@ -24,6 +24,36 @@ def ragbw_client(x, y, red_val, amber_val, green_val, blue_val, white_val, debug
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
 	return state
 
+# Change color of a light using Red/Amber/Green/Blue/White values
+def ragbw_all_client(red_val, amber_val, green_val, blue_val, white_val, debug=False):
+	if debug:
+		print("Changing all lights to red:%s%% amber:%s%% green:%s%% blue:%s%% white:%s%%" % (red_val, amber_val, green_val, blue_val, white_val))
+	state = utils.service_call('ragbw_all', PentaLight_ragbwAll, [red_val, amber_val, green_val, blue_val, white_val])
+	if state and debug:	
+		print("Lights are now in state %s" % (state))
+	return state
+
+# Change color of light using CCT value and intensity
+def CCT_all_client(CCT_val, intensity_val, debug=False):
+	if debug:
+		print("Changing all lights to CCT %s and intensity %s" % (CCT_val, intensity_val))
+	state = utils.service_call('CCT_all', PentaLight_CCTAll, [CCT_val, intensity_val])
+	if state and debug:
+		print("Lights are now in state %s" % (state))
+
+
+# Get CCT value of a given light (returns based on server memory)
+def get_lights_client(debug=False):
+	state = utils.service_call('getLights', GetLights, [])
+	if state:
+		lights = []
+		for i in range(0, len(state.lights), 2):
+			lights.append((state.lights[i], state.lights[i+1]))
+		if debug:
+			print("The avialable lights are %s" % lights)
+		return lights
+	return state
+
 # Get CCT value of a given light (returns based on server memory)
 def get_CCT_client(x, y, debug=False):
 	state = utils.service_call('getCCT', GetCCT, [x, y])
@@ -46,12 +76,15 @@ def help(debug=False):
 
 if(__name__ == "__main__"):
 
-					#command     #function        #argument types                      #help
+					#command     #function            #argument types                      #help
 	serviceCalls = {
-					'cct':       [CCT_client,     [int, int, int, int],                "CCT [x_coord] [y_coord] [CCT] [intensity]"],
-					'ragbw':     [ragbw_client,   [int, int, int, int, int, int, int], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
-					'get_cct':   [get_CCT_client, [int, int],                          "get_CCT [x_coord] [y_coord]"],
-					'get_int':   [get_int_client, [int, int],                          "get_int [x_coord] [y_coord]"],
-					'help':      [help,           [],                                  "help"]}
+					'cct':       [CCT_client,         [int, int, int, int],                "CCT [x_coord] [y_coord] [CCT] [intensity]"],
+					'ragbw':     [ragbw_client,       [int, int, int, int, int, int, int], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
+					'cct_all':   [CCT_all_client,     [int, int],                          "cct_all [CCT] [intensity]"],
+					'ragbw_all': [ragbw_all_client,   [int, int, int, int, int],           "ragbw_all [red] [amber] [green] [blue] [white]"],
+					'get_cct':   [get_CCT_client,     [int, int],                          "get_CCT [x_coord] [y_coord]"],
+					'get_int':   [get_int_client,     [int, int],                          "get_int [x_coord] [y_coord]"],
+					'get_lights':[get_lights_client,  [],                                  "get_lights"],
+					'help':      [help,               [],                                  "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)
