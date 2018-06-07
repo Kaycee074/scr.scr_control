@@ -23,12 +23,10 @@ class PentaLightServer():
 		self.serverInit()
 
 	def initialize_lights(self):
-		__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-		config = open(os.path.join(__location__,"SCR_PentaLight_conf.txt"),'r')
-		lights = []
+		config = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_conf.txt'), 'r')
+		lights = {}
 		addresses = []
-		position_array = []
 
 		# read addresses
 		for line in config:
@@ -37,47 +35,26 @@ class PentaLightServer():
 			addresses.append(line)
 
 		# read position array
-		first = True
+		y = 0
 		for line in config:
 			line = line.rstrip()
-			# read the first line seperately to create initial lists
-			if first:
-				for char in line:
-						col = []
-						col.append(int(char))
-						position_array.append(col)
-				first = False
-			else:
-				i = 0
-				for char in line:
-					position_array[i].append(int(char))
-					i += 1
-		
-		config.close()
+			x = 0
+			for char in line:
+				if char == '1':
+					if len(lights) > len(addresses):
+						print ("Error: There are %s addresses and %s lights in the array" % (len(addresses), len(light_coords)))
+						sys.exit(1)
+					lights[(x, y)] = addresses[len(lights)]
+				x += 1
+			y += 1
 
-		# get light coordinates from array
-		light_coords = []
-		for i in range(len(position_array)):
-			for j in range(len(position_array[i])):
-				if position_array[i][j] == 1:
-					light_coords.append((i,j))
-		
-		# print light_coords
-		if len(light_coords) != len(addresses):
-			print ("Error: There are %s addresses and %s lights in the array"%(len(addresses),len(light_coords)))
-			sys.exit(1)
-		
-		# create dictionary with coord as key and address as value
-		lights = {}
-		for i in range(len(light_coords)):
-			lights[light_coords[i]] = addresses[i]
+		config.close()
 
 		return lights
 
 	def initialize_CCT(self):
-		__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-		vals = open(os.path.join(__location__,"SCR_PentaLight_CCT.txt"),'r')
+		vals = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_CCT.txt'), 'r')
 		CCT_vals = []
 		light_vals = []
 
@@ -104,13 +81,11 @@ class PentaLightServer():
 		for i in range(len(CCT_vals)):
 			CCT_dict[CCT_vals[i]] = light_vals[i]
 
-		# ragbw
 		return CCT_dict
 
 	def initialize_int(self):
-		__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-		vals = open(os.path.join(__location__,"SCR_PentaLight_int.txt"),"r")
+		vals = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_int.txt'), 'r')
 		ints = []
 		for line in vals:
 			line = line.rstrip()
@@ -119,59 +94,34 @@ class PentaLightServer():
 				split[i] = float(split[i])
 			ints.append(split)
 		vals.close()
-		# print(ints)
-		# bgarw
+
 		return ints
 
-	def gen_cmdstr_CCT(self, state, intensity):
-		# blue = green = amber = red = white  = "0000"
+	def gen_cmdstr_CCT(self, CCT, intensity):
 
-		send_blue = self.CCT_dict[state][3]
-		send_green = self.CCT_dict[state][2]
-		send_amber = self.CCT_dict[state][1]
-		send_red = self.CCT_dict[state][0]
-		send_white = self.CCT_dict[state][4]
+		colors = []
+		for i in range(5):
+			colors.append(self.CCT_dict[CCT][i])
 
 		intensity = float(intensity)/100
+		intensity_colors = []
+		for i in range(5):
+			intensity_colors.append(self.int_list[i][0]*intensity*intensity+self.int_list[i][1]*intensity)
+		
+		for i in range(5):
+			colors[i] = int(65535*colors[i]*intensity_colors[i])
 
-		intens_b = int_list[0][0]*intensity*intensity+self.int_list[0][1]*intensity
-		intens_g = int_list[1][0]*intensity*intensity+self.int_list[1][1]*intensity
-		intens_a = int_list[2][0]*intensity*intensity+self.int_list[2][1]*intensity
-		intens_r = int_list[3][0]*intensity*intensity+self.int_list[3][1]*intensity
-		intens_w = int_list[4][0]*intensity*intensity+self.int_list[4][1]*intensity
-
-		blue = int(65535*send_blue*intens_b)
-		green = int(65535*send_green*intens_g)
-		amber = int(65535*send_amber*intens_a)
-		red = int(65535*send_red*intens_r)
-		white = int(65535*send_white*intens_w)
-
-		return self.gen_cmdstr_modified_ragbw(blue, green, amber, red, white)
+		return self.gen_cmdstr_modified_ragbw(colors)
 
 	def gen_cmdstr_ragbw(self, req):
-		blue = int(65535*(req.blue/100))
-		green = int(65535*(req.green/100))
-		amber = int(65535*(req.amber/100))
-		red = int(65535*(req.red/100))
-		white = int(65535*(req.white/100))
+		colors = [req.blue, req.green, req.amber, req.red, req.white]
+		colors = [int(65535*(x/100)) for x in colors]
+		return self.gen_cmdstr_modified_ragbw(colors)
 
-		return self.gen_cmdstr_modified_ragbw(blue, green, amber, red, white)
-
-	def gen_cmdstr_modified_ragbw(self, blue, green, amber, red, white):
-		
-		blue = format(blue,'x')
-		green = format(green,'x')
-		amber = format(amber,'x')
-		red = format(red,'x')
-		white = format(white,'x')
-
-		blue = blue.rjust(4,'0')
-		green = green.rjust(4,'0')
-		amber = amber.rjust(4,'0')
-		red = red.rjust(4,'0')
-		white = white.rjust(4,'0')
-
-		return "PS"+blue+green+amber+red+white
+	def gen_cmdstr_modified_ragbw(self, colors):
+		colors = [format(x, 'x') for x in colors]
+		colors = [x.rjust(4, '0') for x in colors]
+		return "PS"+''.join(colors)
 
 	def handle_CCT(self, req):
 
@@ -191,26 +141,24 @@ class PentaLightServer():
 	# def handle_int(req,lights):
 	# return
 	# values other than 100 dont work
+
 	def handle_ragbw(self, req):
-
 		cmdstr = self.gen_cmdstr_ragbw(req)
-		self.change_light(req.x, req.y, cmdstr)
-
-		return PentaLight_ragbwResponse(cmdstr)
+		return self.change_light(req.x, req.y, cmdstr) or PentaLight_ragbwResponse(cmdstr)
 
 	def change_light(self, x, y, cmdstr):
 		
-		port = 57007
-
 		if not (x, y) in self.lights:
 			return "Error: No light at specified coordinates"
 
+		port = 57007
 		address = self.lights[(x, y)]
 
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((address,port))
-		except ConnectionRefusedError:
+
+		except:
 			rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			rs.connect((address,57011))
 			print("Connection refused")
@@ -221,6 +169,8 @@ class PentaLightServer():
 
 		s.shutdown(socket.SHUT_RDWR)
 		s.close()
+
+		return None
 
 	def handle_getCCT(self, req):
 		out = str(self.CCT_int_memory[(req.x,req.y)][0])
@@ -257,5 +207,4 @@ class PentaLightServer():
 		rospy.spin()
 
 if (__name__ == "__main__"):
-	
 	PentaLightServer()

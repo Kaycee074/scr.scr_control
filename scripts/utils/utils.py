@@ -1,7 +1,5 @@
 import rospy
 import socket
-from scr_control.srv import *
-from scr_control.msg import *
 
 # Makes a service call to the server
 def service_call(serviceName, service, arguments):
