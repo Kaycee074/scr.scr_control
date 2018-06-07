@@ -20,7 +20,7 @@ class PentaLightServer():
 		self.CCT_dict = self.initialize_CCT()
 		self.int_list = self.initialize_int()
 
-		self.serverInit()
+		self.server_init()
 
 	def initialize_lights(self):
 
@@ -180,7 +180,7 @@ class PentaLightServer():
 		out = CCT_int_memory[(req.x,req.y)][1]
 		return GetIntResponse(out)
 
-	def serverInit(self):
+	def server_init(self):
 		rospy.init_node("PentaLight_server")
 
 		CCT_service = rospy.Service(

@@ -4,6 +4,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
 import utils
+from scr_control.srv import *
+from scr_control.msg import *
 
 # Lift or lower a given blind
 def lift_client(b, val, debug=False):

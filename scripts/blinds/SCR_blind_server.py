@@ -7,109 +7,72 @@ import time
 import sys
 import os
 
-global blinds
-global address
-global s
-
-blinds = {}
-address = ""
 #s = ''
 
-def initialize():
-	global blinds
-	global address
+class BlindServer():
 
-	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+	def __init__(self):
+		self.blinds, self.address = self.initialize_blinds()
+		self.s = socket.socket()
+		self.handshake()
+		self.server_init()
 
-	config = open(os.path.join(__location__,"SCR_blind_conf.txt"),'r')
-	first = True
 
-	i = 1
-	for line in config:
-		line = line.rstrip()
-		if first:
-			address = line
-			first = False
-		elif line == '-':
-			pass
-		else:
-			blinds[line] = i
-			i += 1
+	def initialize_blinds(self):
 
-def handshake(s):
-	global address
-	s.connect((address, 23))
-	s.send(b"nwk\r\n")
-	print("Response: " + s.recv(1024).decode())
+		config = open(os.path.join(os.path.dirname(__file__), 'SCR_blind_conf.txt'), 'r')
+		address = config.readline()
+		config.readline()
+		
+		blinds = {}
+		for line in config:
+			line = line.rstrip()
+			blinds[line] = len(blinds) + 1
 
-def handle_lift(req):
-	global s
-	global blinds
+		return blinds, address
 
-	b = req.blind
-	val = req.val
+	def handshake(self):
+		self.s.connect((self.address, 23))
+		self.s.send(b"nwk\r\n")
+		print("Response: " + self.s.recv(1024).decode())
 
-	if val < 0:
-		val = 0
-	if val > 100:
-		val = 100
+	def handle_lift(self, req):
+		val = self.handle_blinds(req.blind, req.val, ",24,")
+		return BlindLiftResponse(val)
+		
+	def handle_tilt(self, req):
+		val = self.handle_blinds(req.blind, req.val, ",25,")
+		return BlindLiftResponse(val)
 
-	if b not in blinds:
-		print("Blind %s is not a valid blind."%b)
-		sys.exit(1)
+	def handle_blinds(self, blind, val, action):
 
-	cmdstr = "#DEVICE,QS," + str(blinds[b]) + ",24," + str(val) + "\r\n"
-	#cmdstr = bytes(cmdstr, "UTF-8")
+		val = min(max(0, val), 100)
 
-	s.send(cmdstr)
-	a = s.recv(2048)
+		if blind not in self.blinds:
+			print("Blind %s is not a valid blind." % b)
+			sys.exit(1)
 
-	return BlindLiftResponse(val)
+		cmdstr = "#DEVICE,QS," + str(self.blinds[blind]) + action + str(val) + "\r\n"
 
-def handle_tilt(req):
-	global s
-	global blinds
+		self.s.send(cmdstr)
+		a = self.s.recv(2048)
 
-	b = req.blind
-	val = req.val
+		return val
 
-	if val < 0:
-		val = 0
-	if val > 100:
-		val = 100
+	def server_init(self):
+		rospy.init_node("blind_server")
 
-	if b not in blinds:
-		print("Blind %s is not a valid blind."%b)
-		sys.exit(1)
+		lift_service = rospy.Service(
+			"lift",
+			BlindLift,
+			self.handle_lift)
 
-	cmdstr = "#DEVICE,QS," + str(blinds[b]) + ",25," + str(val) + "\r\n"
-	#cmdstr = bytes(cmdstr, "UTF-8")
-
-	s.send(cmdstr)
-	a = s.recv(2048)
-	return 
-
-def blind_server():
-	rospy.init_node("blind_server")
-
-	lift_service = rospy.Service(
-		"lift",
-		BlindLift,
-		handle_lift)
-
-	tilt_service = rospy.Service(
-		"tilt",
-		BlindTilt,
-		handle_tilt)
-	rospy.spin()
+		tilt_service = rospy.Service(
+			"tilt",
+			BlindTilt,
+			self.handle_tilt)
+		rospy.spin()
 
 
 if (__name__ == "__main__"):
-	global s
-
-	initialize()
-
-	s = socket.socket()
-	handshake(s)
-
-	blind_server()
+	BlindServer()
