@@ -4,9 +4,20 @@ lift:
 	second argument is a percent to raise the blind to
 
 tilt:
-	tilts the slats of a specified blinf to the input percent
+	tilts the slats of a specified blind to the input percent
 	first argument is a blind orientation+number, ex. N3 or S1
 	second argument is a percent to tilt the slats to
+
+lift_all:
+	lifts all blinds to the input percent
+	first argument is a percent to raise the blind to
+
+tilt_all:
+	tilts the slats of all blinds to the input percent
+	first argument is the percent to tilt the slats to
+
+get_blinds:
+	returns the names of all blinds
 
 help:
 	prints a list of all commands, what they do, and what arguments they take

@@ -32,10 +32,13 @@ add_service_files(
   PentaLight_CCT.srv
   PentaLight_int.srv
   PentaLight_ragbw.srv
+  GetBlinds.srv
   GetCCT.srv
   GetInt.srv
   BlindLift.srv
+  BlindLiftAll.srv
   BlindTilt.srv
+  BlindTiltAll.srv
   COSReadAll.srv
   COSReadOne.srv
   COSInteTime.srv
