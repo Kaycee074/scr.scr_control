@@ -33,7 +33,7 @@ def inteTime_client(num, debug=False):
 	return state
 
 # Show help regarding color sensor commands
-def help(debug=False):
+def help_client(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_COS_help.txt'))
 	print(helpFile.read())
 	helpFile.close()
@@ -45,6 +45,6 @@ if __name__ == '__main__':
 					'read_all':     [readAll_client,    [],                "read_all"],
 					'read':         [readOne_client,    [str],             "read [sensor_num]"],
 					'inte_time':    [inteTime_client,   [int],             "inte_time [time]"],
-					'help':         [help,              [],                "help"]}
+					'help':         [help_client,       [],                "help"]}
 	
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

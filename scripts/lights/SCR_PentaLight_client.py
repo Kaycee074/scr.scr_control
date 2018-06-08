@@ -70,7 +70,7 @@ def get_int_client(x, y, debug=False):
 	return state
 
 # Show help regarding light commands
-def help(debug=False):
+def help_client(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_help.txt'), 'r')
 	print(helpFile.read())
 	helpFile.close()
@@ -86,6 +86,6 @@ if(__name__ == "__main__"):
 					'get_cct':   [get_CCT_client,     [int, int],                          "get_CCT [x_coord] [y_coord]"],
 					'get_int':   [get_int_client,     [int, int],                          "get_int [x_coord] [y_coord]"],
 					'get_lights':[get_lights_client,  [],                                  "get_lights"],
-					'help':      [help,               [],                                  "help"]}
+					'help':      [help_client,        [],                                  "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

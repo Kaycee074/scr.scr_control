@@ -43,7 +43,7 @@ def getBlinds_client(debug=False):
 	return state
 
 # Show help regarding blind commands
-def help(debug=False):
+def help_client(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_blind_help.txt'))
 	print(helpFile.read())
 	helpFile.close()
@@ -57,6 +57,6 @@ if(__name__ == "__main__"):
 					'lift_all':  [liftAll_client,   [int],            "lift_all [percent]"],
 					'tilt_all':  [tiltAll_client,   [int],            "tilt_all [percent]"],
 					'get_blinds':[getBlinds_client, [],               "get_blinds"],
-					'help':      [help,             [],               "help"]}
+					'help':      [help_client,      [],               "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 

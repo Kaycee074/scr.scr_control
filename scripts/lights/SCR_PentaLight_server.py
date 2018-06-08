@@ -124,15 +124,9 @@ class PentaLightServer():
 		return "PS"+''.join(colors)
 
 	def handle_CCT(self, req):
-
-		intensity = max(min(req.intensity, 100), 0)
-		CCT = max(min(req.CCT, 10000), 1800)
-		if CCT != 10000 and CCT != 1800:
-			CCT = req.CCT - req.CCT%100
-
+		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
 		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
 		self.change_light(req.x, req.y, cmdstr)
-
 		self.CCT_int_memory[(req.x,req.y)][0] = CCT
 		self.CCT_int_memory[(req.x,req.y)][1] = intensity
 
@@ -147,17 +141,13 @@ class PentaLightServer():
 		return self.change_light(req.x, req.y, cmdstr) or PentaLight_ragbwResponse(cmdstr)
 
 	def handle_CCTAll(self, req):
-		intensity = max(min(req.intensity, 100), 0)
-		CCT = max(min(req.CCT, 10000), 1800)
-		if CCT != 10000 and CCT != 1800:
-			CCT = req.CCT - req.CCT%100
-
+		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
 		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
 
 		for light in self.lights.keys():
-			x = light[0]
-			y = light[1]
-			self.change_light(x, y, cmdstr)
+			self.CCT_int_memory[(light[0], light[1])][0] = CCT
+			self.CCT_int_memory[(light[0], light[1])][1] = intensity
+			self.change_light(light[0], light[1], cmdstr)
 
 		return PentaLight_CCTAllResponse(cmdstr)
 
@@ -168,6 +158,13 @@ class PentaLightServer():
 			y = light[1]
 			self.change_light(x, y, cmdstr)
 		return PentaLight_ragbwAllResponse(cmdstr)
+
+	def getIntensityCCT(self, i, c):
+		intensity = max(min(i, 100), 0)
+		CCT = max(min(c, 10000), 1800)
+		if CCT != 10000 and CCT != 1800:
+			CCT = c - c%100
+		return intensity, CCT
 
 	def change_light(self, x, y, cmdstr):
 		
