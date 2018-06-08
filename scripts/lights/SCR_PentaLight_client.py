@@ -14,6 +14,7 @@ def CCT_client(x, y, CCT_val, intensity_val, debug=False):
 	state = utils.service_call('CCT', PentaLight_CCT, [CCT_val, intensity_val, x, y])
 	if state and debug:
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
+	return state
 
 # Change color of a light using Red/Amber/Green/Blue/White values
 def ragbw_client(x, y, red_val, amber_val, green_val, blue_val, white_val, debug=False):
@@ -40,7 +41,7 @@ def CCT_all_client(CCT_val, intensity_val, debug=False):
 	state = utils.service_call('CCT_all', PentaLight_CCTAll, [CCT_val, intensity_val])
 	if state and debug:
 		print("Lights are now in state %s" % (state))
-
+	return state
 
 # Get CCT value of a given light (returns based on server memory)
 def get_lights_client(debug=False):

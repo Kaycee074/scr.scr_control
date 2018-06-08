@@ -14,13 +14,10 @@ class ColorSensorServer():
 		self.COS_server_init()
 
 	def initialize_sensors(self):
-		__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-		config = open(os.path.join(__location__,"COS_conf.txt"),'r')
-
+		config = open(os.path.join(os.path.dirname(__file__), 'COS_conf.txt'))
 		line = config.readline()
 		line = line.rstrip()
-
 		config.close()
 
 		return line
@@ -35,7 +32,6 @@ class ColorSensorServer():
 			rs.connect((self.address,57011))
 			print("Connection refused on " + self.address)
 		return s
-
 
 	def handle_readAll(self, req):
 		s = self.establish_connection()
@@ -97,11 +93,8 @@ class ColorSensorServer():
 		return resp
 
 	def handle_inteTime(self, req):
-		num = req.num
-		if num < 1:
-			num = 1
-		if num > 250:
-			num = 250
+		num = min(max(req.num, 1), 250)
+
 		s = self.establish_connection()
 		
 		s.send('CS_Inte'+num)

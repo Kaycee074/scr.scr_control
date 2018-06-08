@@ -12,24 +12,28 @@ def lift_client(b, val, debug=False):
 	state = utils.service_call('lift', BlindLift, [b, val])
 	if state and debug:
 		print("Blind %s is now lifted to %s%%" % (b, state.lift))
+	return state
 
 # Lift or lower all blinds
 def liftAll_client(val, debug=False):
 	state = utils.service_call('lift_all', BlindLiftAll, [val])
 	if state and debug:
 		print("All blinds now lifted to %s%%" % (state.lift))
+	return state
 
 # Tilt a given blind
 def tilt_client(b, val, debug=False):
 	state = utils.service_call('tilt', BlindTilt, [b, val])
 	if state and debug:
 		print("Blind %s is now tilted to %s%%" % (b, state.tilt))
+	return state
 
 # Tilt all blinds
 def tiltAll_client(val, debug=False):
 	state = utils.service_call('tilt_all', BlindTiltAll, [val])
 	if state and debug:
 		print("All blinds now tilted to %s%%" % (state.tilt))
+	return state
 
 # Get a list of all blinds
 def getBlinds_client(debug=False):
