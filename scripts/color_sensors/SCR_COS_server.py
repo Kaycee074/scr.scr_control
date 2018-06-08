@@ -84,9 +84,12 @@ class ColorSensorServer():
 		for line in data:
 			line = line.split(' ')
 			for item in line:
-				item = int(item)
-				data_list.append(item)
-
+				try:
+					item = int(item)
+					data_list.append(item)
+				except:
+					pass
+					
 		resp = COSReadOneResponse()
 		resp.data = data_list
 

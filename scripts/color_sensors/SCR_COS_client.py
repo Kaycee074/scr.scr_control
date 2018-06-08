@@ -43,7 +43,7 @@ if __name__ == '__main__':
 					#command        #function           #argument types    #help
 	serviceCalls = {
 					'read_all':     [readAll_client,    [],                "read_all"],
-					'read':         [readOne_client,    [int],             "read [sensor_num]"],
+					'read':         [readOne_client,    [str],             "read [sensor_num]"],
 					'inte_time':    [inteTime_client,   [int],             "inte_time [time]"],
 					'help':         [help,              [],                "help"]}
 	

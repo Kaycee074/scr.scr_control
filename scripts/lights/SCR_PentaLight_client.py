@@ -51,7 +51,7 @@ def get_lights_client(debug=False):
 		for i in range(0, len(state.lights), 2):
 			lights.append((state.lights[i], state.lights[i+1]))
 		if debug:
-			print("The avialable lights are %s" % lights)
+			print("The available lights are %s" % lights)
 		return lights
 	return state
 

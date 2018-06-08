@@ -223,12 +223,12 @@ class PentaLightServer():
 			PentaLight_ragbw, 
 			lambda msg: self.handle_ragbw(msg))
 
-		ragbw_service = rospy.Service(
+		CCTAll_service = rospy.Service(
 			"CCT_all", 
 			PentaLight_CCTAll, 
 			lambda msg: self.handle_CCTAll(msg))
 
-		ragbw_service = rospy.Service(
+		ragbwAll_service = rospy.Service(
 			"ragbw_all", 
 			PentaLight_ragbwAll, 
 			lambda msg: self.handle_ragbwAll(msg))

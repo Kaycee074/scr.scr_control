@@ -12,6 +12,7 @@ def service_call(serviceName, service, arguments):
 		print("Service call failed: %s" % e)
 		return None
 
+# Print out the help text for all valid commands
 def useage(validCommands):
 	print("Valid Commands:")
 	for c in validCommands:
