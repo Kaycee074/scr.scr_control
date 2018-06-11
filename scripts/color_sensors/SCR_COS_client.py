@@ -16,14 +16,14 @@ def readAll_client(debug=False):
 			if(i%state.step == 0 and i > 1):
 				print()
 			print(state.data[i], end = " ")
-	return state
+	return state.data
 
 # Read one color sensor
 def readOne_client(num, debug=False):
 	state = utils.service_call('readOne', COSReadOne, [num])
 	if state and debug:
 		print(state)
-	return state
+	return state.data
 
 # Integration time
 def inteTime_client(num, debug=False):

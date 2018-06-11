@@ -14,7 +14,7 @@ def CCT_client(x, y, CCT_val, intensity_val, debug=False):
 	state = utils.service_call('CCT', PentaLight_CCT, [CCT_val, intensity_val, x, y])
 	if state and debug:
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
-	return state
+	return state.cmdstr
 
 # Change color of a light using Red/Amber/Green/Blue/White values
 def ragbw_client(x, y, red_val, amber_val, green_val, blue_val, white_val, debug=False):
@@ -23,7 +23,7 @@ def ragbw_client(x, y, red_val, amber_val, green_val, blue_val, white_val, debug
 	state = utils.service_call('ragbw', PentaLight_ragbw, [red_val, amber_val, green_val, blue_val, white_val, x, y])
 	if state and debug:	
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
-	return state
+	return state.cmdstr
 
 # Change color of a light using Red/Amber/Green/Blue/White values
 def ragbw_all_client(red_val, amber_val, green_val, blue_val, white_val, debug=False):
@@ -32,7 +32,7 @@ def ragbw_all_client(red_val, amber_val, green_val, blue_val, white_val, debug=F
 	state = utils.service_call('ragbw_all', PentaLight_ragbwAll, [red_val, amber_val, green_val, blue_val, white_val])
 	if state and debug:	
 		print("Lights are now in state %s" % (state))
-	return state
+	return state.cmdstr
 
 # Change color of light using CCT value and intensity
 def CCT_all_client(CCT_val, intensity_val, debug=False):
@@ -41,7 +41,7 @@ def CCT_all_client(CCT_val, intensity_val, debug=False):
 	state = utils.service_call('CCT_all', PentaLight_CCTAll, [CCT_val, intensity_val])
 	if state and debug:
 		print("Lights are now in state %s" % (state))
-	return state
+	return state.cmdstr
 
 # Get CCT value of a given light (returns based on server memory)
 def get_lights_client(debug=False):
@@ -53,21 +53,21 @@ def get_lights_client(debug=False):
 		if debug:
 			print("The available lights are %s" % lights)
 		return lights
-	return state
+	return None
 
 # Get CCT value of a given light (returns based on server memory)
 def get_CCT_client(x, y, debug=False):
 	state = utils.service_call('getCCT', GetCCT, [x, y])
 	if state and debug:
 		print("The CCT of Light (%s,%s) is %s" % (x, y, state))
-	return state
+	return state.CCT
 
 # Get INT value of a given light (returns based on server memory)
 def get_int_client(x, y, debug=False):
 	state = utils.service_call('getInt', GetInt, [x, y])
 	if state and debug:
 		print("The intensity of Light (%s,%s) is %s" % (x, y, state))
-	return state
+	return state.intensity
 
 # Show help regarding light commands
 def help_client(debug=False):

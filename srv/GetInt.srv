@@ -1,4 +1,4 @@
 int16 x
 int16 y
 ---
-string intensity
+int16 intensity
