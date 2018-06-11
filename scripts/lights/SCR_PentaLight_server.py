@@ -9,6 +9,10 @@ import os
 
 class PentaLightServer():
 
+	'''
+	INIT FUNCTIONS
+	'''
+
 	def __init__(self):
 
 		self.lights = self.initialize_lights()
@@ -97,6 +101,61 @@ class PentaLightServer():
 
 		return ints
 
+	'''
+	COMMAND HANDLERS
+	'''
+
+	def handle_CCT(self, req):
+		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
+		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
+		self.change_light(req.x, req.y, cmdstr)
+		self.CCT_int_memory[(req.x,req.y)][0] = CCT
+		self.CCT_int_memory[(req.x,req.y)][1] = intensity
+
+		return PentaLight_CCTResponse(cmdstr)
+
+	def handle_ragbw(self, req):
+		cmdstr = self.gen_cmdstr_ragbw(req)
+		return self.change_light(req.x, req.y, cmdstr) or PentaLight_ragbwResponse(cmdstr)
+
+	def handle_CCTAll(self, req):
+		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
+		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
+
+		for light in self.lights.keys():
+			self.CCT_int_memory[(light[0], light[1])][0] = CCT
+			self.CCT_int_memory[(light[0], light[1])][1] = intensity
+			self.change_light(light[0], light[1], cmdstr)
+
+		return PentaLight_CCTAllResponse(cmdstr)
+
+	def handle_ragbwAll(self, req):
+		cmdstr = self.gen_cmdstr_ragbw(req)
+		for light in self.lights.keys():
+			x = light[0]
+			y = light[1]
+			self.change_light(x, y, cmdstr)
+		return PentaLight_ragbwAllResponse(cmdstr)
+
+	def handle_getCCT(self, req):
+		out = str(self.CCT_int_memory[(req.x,req.y)][0])
+		return GetCCTResponse(out);
+
+	def handle_getInt(self, req):
+		out = self.CCT_int_memory[(req.x,req.y)][1]
+		return GetIntResponse(out)
+
+	def handle_getLights(self, req):
+		out = []
+		for light in self.lights.keys():
+			out.append(light[0])
+			out.append(light[1])
+		return GetLightsResponse(out)
+		
+	'''
+	HELPER FUNCTIONS
+	'''
+
 	def gen_cmdstr_CCT(self, CCT, intensity):
 
 		colors = []
@@ -122,42 +181,6 @@ class PentaLightServer():
 		colors = [format(x, 'x') for x in colors]
 		colors = [x.rjust(4, '0') for x in colors]
 		return "PS"+''.join(colors)
-
-	def handle_CCT(self, req):
-		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
-		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
-		self.change_light(req.x, req.y, cmdstr)
-		self.CCT_int_memory[(req.x,req.y)][0] = CCT
-		self.CCT_int_memory[(req.x,req.y)][1] = intensity
-
-		return PentaLight_CCTResponse(cmdstr)
-
-	# def handle_int(req,lights):
-	# return
-	# values other than 100 dont work
-
-	def handle_ragbw(self, req):
-		cmdstr = self.gen_cmdstr_ragbw(req)
-		return self.change_light(req.x, req.y, cmdstr) or PentaLight_ragbwResponse(cmdstr)
-
-	def handle_CCTAll(self, req):
-		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
-		cmdstr = self.gen_cmdstr_CCT(CCT, intensity)
-
-		for light in self.lights.keys():
-			self.CCT_int_memory[(light[0], light[1])][0] = CCT
-			self.CCT_int_memory[(light[0], light[1])][1] = intensity
-			self.change_light(light[0], light[1], cmdstr)
-
-		return PentaLight_CCTAllResponse(cmdstr)
-
-	def handle_ragbwAll(self, req):
-		cmdstr = self.gen_cmdstr_ragbw(req)
-		for light in self.lights.keys():
-			x = light[0]
-			y = light[1]
-			self.change_light(x, y, cmdstr)
-		return PentaLight_ragbwAllResponse(cmdstr)
 
 	def getIntensityCCT(self, i, c):
 		intensity = max(min(i, 100), 0)
@@ -191,21 +214,6 @@ class PentaLightServer():
 		s.close()
 
 		return None
-
-	def handle_getCCT(self, req):
-		out = str(self.CCT_int_memory[(req.x,req.y)][0])
-		return GetCCTResponse(out);
-
-	def handle_getInt(self, req):
-		out = self.CCT_int_memory[(req.x,req.y)][1]
-		return GetIntResponse(out)
-
-	def handle_getLights(self, req):
-		out = []
-		for light in self.lights.keys():
-			out.append(light[0])
-			out.append(light[1])
-		return GetLightsResponse(out)
 
 	def server_init(self):
 		rospy.init_node("PentaLight_server")

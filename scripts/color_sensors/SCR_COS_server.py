@@ -9,6 +9,10 @@ import os
 
 class ColorSensorServer():
 
+	'''
+	INIT FUNCTIONS
+	'''
+
 	def __init__(self):
 		self.address = self.initialize_sensors()
 		self.COS_server_init()
@@ -32,6 +36,10 @@ class ColorSensorServer():
 			rs.connect((self.address,57011))
 			print("Connection refused on " + self.address)
 		return s
+
+	'''
+	COMMAND HANDLERS
+	'''
 
 	def handle_readAll(self, req):
 		s = self.establish_connection()
@@ -105,7 +113,11 @@ class ColorSensorServer():
 
 		s.shutdown(socket.SHUT_RDWR)
 		s.close()
-
+		
+	'''
+	HELPER FUNCTIONS
+	'''
+	
 	def COS_server_init(self):
 		rospy.init_node("COS_server")
 

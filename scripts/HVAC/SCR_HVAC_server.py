@@ -27,7 +27,7 @@ def initialize():
 	config.close()
 
 def establish_connection(address):
-	# global s
+	global s
 	port = 60606
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

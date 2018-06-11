@@ -9,6 +9,10 @@ import os
 
 class BlindServer():
 
+	'''
+	INIT FUNCTIONS
+	'''
+
 	def __init__(self):
 		self.blinds, self.address = self.initialize_blinds()
 		self.s = socket.socket()
@@ -33,25 +37,37 @@ class BlindServer():
 		self.s.send(b"nwk\r\n")
 		print("Response: " + self.s.recv(1024).decode())
 
+	'''
+	COMMAND HANDLERS
+	'''
+
 	def handle_lift(self, req):
-		val = self.handle_blinds(req.blind, req.val, ",24,")
+		val = self.change_blinds(req.blind, req.val, ",24,")
 		return BlindLiftResponse(val)
 		
 	def handle_liftAll(self, req):
 		for blind in self.blinds.keys():
-			val = self.handle_blinds(blind, req.val, ",24,")
+			val = self.change_blinds(blind, req.val, ",24,")
 		return BlindLiftAllResponse(val)
 
 	def handle_tilt(self, req):
-		val = self.handle_blinds(req.blind, req.val, ",25,")
+		val = self.change_blinds(req.blind, req.val, ",25,")
 		return BlindLiftResponse(val)
 
 	def handle_tiltAll(self, req):
 		for blind in self.blinds.keys():
-			val = self.handle_blinds(blind, req.val, ",25,")
+			val = self.change_blinds(blind, req.val, ",25,")
 		return BlindTiltAllResponse(val)
 
-	def handle_blinds(self, blind, val, action):
+	def handle_getBlinds(self, req):
+		val = self.blinds.keys()
+		return GetBlindsResponse(val)
+		
+	'''
+	HELPER FUNCTIONS
+	'''
+	
+	def change_blinds(self, blind, val, action):
 
 		val = min(max(0, val), 100)
 
@@ -65,11 +81,6 @@ class BlindServer():
 		a = self.s.recv(2048)
 
 		return val
-
-	def handle_getBlinds(self, req):
-
-		val = self.blinds.keys()
-		return GetBlindsResponse(val)
 
 	def server_init(self):
 		rospy.init_node("blind_server")
