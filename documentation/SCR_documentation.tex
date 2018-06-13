@@ -52,27 +52,36 @@
 	
 	\section{Introduction}
 	This project is a ROS package containing scripts to control the lights, blinds and HVAC, and read data from sensors in the Smart Conference Room. In order to run any of the scripts, ROS must be installed and \verb|roscore| must be active. Information on ROS can be found at \url{http://wiki.ros.org/}.
+	
 	\section{Setup}
 	Robot Operating System (ROS) must be installed in order to run these scripts.
+	
 	\subsection{Installing ROS}
 	To install ROS Lunar, follow the tutorial on the ROS website (\url{http://wiki.ros.org/ROS/Installation}).\\
 	After installing ROS, you need to source its setup.*sh files. To do this, run:
+	
 	\begin{verbatim}
 	    $ source /opt/ros/<distro>/setup.bash
+	    
 	\end{verbatim}
 	This command needs to be run on every new shell in order to access ROS commands, unless you add it to your .bashrc.\\
-	See the tutorial at \url{http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment} for more information.
+	See the tutorial at \url{http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment} for more information. \\  \\
+	To use ROS on windows, you can install Ubuntu using Windows Subsystem for Linux (WSL). For more information, use the following microsoft tutorial: \url{https://docs.microsoft.com/en-us/windows/wsl/install-win10}
 	
 	\subsection{Creating a Workspace}
 	Making the ROS package requires a catkin workspace. To create a new workspace, create a new directory and run \verb|catkin_make| in it. For example:
+	
 	\begin{verbatim}
 	    $ mkdir -p ~/catkin_ws/src
 	    $ cd ~/catkin_ws/
 	    $ catkin_make
+	    
 	\end{verbatim}
 	Now you have a workspace, which also needs to be sourced. To source your workspace:
+	
 	\begin{verbatim}
 	    $ source devel/setup.bash
+	    
 	\end{verbatim}
 	As the workspace also needs to be sourced in every new shell, adding a command to source the workspace to your .bashrc is very convenient.\\
 	See the tutorial at \url{http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment} for more information.
@@ -82,25 +91,67 @@
 	
 	\subsection{Running Scripts}
 	Before you start running any scripts from the package two things need to be done.
+	
 	\begin{enumerate}
 		\item Run \verb|catkin_make| in the top level of your catkin workspace
 		\item Run \verb|roscore|
+		
 	\end{enumerate} 
  	\verb|roscore| launches the backbone of any ROS-based-system which is required for ROS nodes to communicate. \verb|roscore| can be closed at any time by pressing \keystroke{Ctrl}+ \keystroke{C}.\\
  	Now you can run any command in the light\_control package by opening a new shell and using:
+ 	
  	\begin{verbatim}
- 	    $ rosrun scr_control [script_name] <commands>
+ 	    $ rosrun scr_control [script_name] <commands> 
  	\end{verbatim}
  	In general, you will need to run the server for any component of the Smart Conference Room before running any of the clients.
+ 	
+ 	\subsection{Running ROS from multiple machines}
+ 	In order to run the client and server on separate machines, first install ROS on both devices. Follow instructions in sections 2.1 - 2.4 to install ROS on both machines.
+ 	
+ 	\subsubsection{Test communication between devices}
+ 	First, it is important to test whether the machines can communicate with eachother. \\
+ 	To test communication between multiple devices use:
+ 	
+ 	\begin{verbatim}
+ 	$ ping [ip or hostname of other device]
+ 	\end{verbatim}
+ 	To check the ip address of the current device, run \verb|ifconfig| \\ \\
+ 	If one or more devices are running windows, it may be necessary to edit firewall settings.
+ 	To do so, open \verb|Windows Defender Firewall| and navigate to \verb|Advanced Settings > Inbound Rules|. Enable rules titled \verb|File and Printer Sharing (Echo Request - ICMPv4-In)|
+ 	
+ 	\subsubsection{Set environment variables}
+ 	On the master device (that will be running \verb|roscore|) run \verb|roscore| \\
+ 	Part of the output should read: ROS\_MASTER\_URI=http://[device]:[port]/ \\ \\
+ 	On all machines, run the following command using the device and port shown on the master device.
+ 	
+ 	\begin{verbatim}
+ 	$ export ROS_MASTER_URI=http://[device]:[port]
+ 	\end{verbatim}
+ 	Additionally, on each machine, run the following using the device ip or name of that individual machine
+ 	
+ 	\begin{verbatim}
+ 	$ export ROS_IP=[device]
+ 	\end{verbatim}
+ 	To avoid setting these variables in each terminal, these commands can be added to your .bashrc (See the bottom of 2.2)
+ 	
+ 	\subsubsection{Run the server and client}
+ 	You should now be able to run the server and client scripts on separate machines. \\
+ 	If you are still having troubles, see the relevant ROS tutorial: \url{http://wiki.ros.org/ROS/Tutorials/MultipleMachines}
+ 	
+ 	
 	\section{Lights}
 	The lights in the Smart Conference Room have many parameters controlling their color. Each light has five color options, red, blue, green, amber and white. Each color can be set from 0\% to 100\% intensity to produce different combinations of colors. Each light can also be set to specific CCT's and overall intensities.
+	
 	\subsection{Light Server}
 	The Light Server listens for commands from the client and takes action and responds based on those commands.
+	
 	\subsubsection{Configuration}
 	Three text files are required to correctly configure the light server.
+	
 	\begin{enumerate}
 		\item \verb|SCR_PentaLight_conf.txt|\\
 		This file contains a list of the IP addresses of the lights in the system, as well as a position array of the lights. The format of the file is as follows:
+		
 		\begin{verbatim}
 		    192.168.0.111
 		    192.168.0.112
@@ -113,10 +164,12 @@
 		    00100100
 		    10011001
 		\end{verbatim}
+		
 		The first part of the configuration file is a list of IP addresses for every light in the system. The second part is an array representing the position of lights in the room. The number of 1's in the array must equal the number of IP addresses. A 1 represents a light and a 0 represents empty space. The IP addresses are assigned to positions in order. In the above example, light 1 would have IP address 192.168.0.111 and coordinates (0,0). Light 2 would have IP address 192.168.0.111 and coordinates (0,2). Light n would have IP address 192.168.0.120 and coordinates (4,2). The two parts are separated by a dash (-). 
 		
 		\item \verb|SCR_PentaLight_CCT.txt|\\
 		This file contains the color values needed to produce different correlated color temperatures (CCT's). The CCT's available range from 1800 K to 10000 K in increments of 100. The format of the file is as follows:
+		
 		\begin{verbatim}
 		    #cct    red amber green blue white
 		    1800	0.840241787	0.909269192	1	0.011311029	0.194062057
@@ -126,10 +179,13 @@
 			                           .
 		    10000	0.087561979	0	0.005743162	1	0.481888995
 		\end{verbatim}
-		The first column is a CCT value, followed by the values for red, amber, green, blue, and white in each following column. Each column is seperated by a single tab. The values for each color are percentages of intensity for that individual color with 1 being maximum intensity.
+		
+		The first column is a CCT value, followed by the values for red, amber, green, blue, and 
+		white in each following column. Each column is seperated by a single tab. The values for each color are percentages of intensity for that individual color with 1 being maximum intensity.
 		
 		\item \verb|SCR_PentaLight_int.txt|\\
 		This file contains coefficients for each color of light to achieve a linear curve for light levels ranging from 0\% to 100\% intensity. The format of the file is as follows:
+		
 		\begin{verbatim}
 			-0.0826	1.0943
 			-0.1120	1.1145
@@ -137,16 +193,19 @@
 			-0.1718	1.1782
 			-0.0476	1.0513
 		\end{verbatim}
+		
 		The first value on each line corresponds to the squared term when determining the intensity of a particular color. The second value on each line corresponds to the first power term. The coefficients on the first, second, third, fourth and fifth line correspond to blue, green, amber, red and white respectively. For example, given a value for the intensity of blue $i_b$ between 0\% and 100\%, the final intensity for blue $I_b$ would be calculated as follows:
 		\[I_b = -.0826i_b^2+1.0943i_b\]
 	\end{enumerate}
 
 	\subsubsection{Running the Server}
 	To run the server:
+	
 	\begin{verbatim}
 		rosrun scr_control SCR_PentaLight_server.py
 	\end{verbatim}
 	If the server prints:
+	
 	\begin{verbatim}
 		Unable to register with master node [http://localhost:11311]: master may not be running yet. 
 		Will keep trying.
@@ -158,17 +217,22 @@
 	
 	\subsection{Light Client}
 	The light client sends messages to the server to change the color of a light at a specified position or return the CCT or intensity value of a light at a specified position if it has been changed before.\\
+	
 	\subsubsection{Running the Client}
 	For the light client to run any commands, the light server must be running first.\\
 	To run the client:
+	
 	\begin{verbatim}
 	    $ rosrun scr_control SCR_PentaLight_client.py [command] [arguments]
 	\end{verbatim}
+	
 	\subsubsection{Commands}
+	
 	\begin{enumerate}
 		\item[\bf CCT] \verb|[x_coord] [y_coord] [CCT_value] [intensity_percent]|\\
 		Sets the CCT of the light at the input coordinates to the input CCT value at the input intensity.\\
 		Returns the new state of the specified light.
+		
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[{\it x\_coord}] the x coordinate of the light to be changed
 			\item[{\it y\_coord}] the y coordinate of the light to be changed
@@ -177,10 +241,12 @@
 			\item[{\it intensity\_percent}] the percent intensity to set the specified light to\\
 			a percentage between 0 and 100
 		\end{enumerate}
+		
 		\item[\bf ragbw] \verb|[x_coord] [y_coord] [red_percent] [amber_percent]|\\
 						 \verb|[green_percent] [blue_percent] [white_percent]|\\
 		Sets the color of the light at the input coordinates to the input values.\\
 		Returns the new state of the specified light.
+		
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[{\it x\_coord}] the x coordinate of the light to be changed
 			\item[{\it y\_coord}] the y coordinate of the light to be changed
@@ -195,33 +261,74 @@
 			\item[{\it white\_percent}] the percent white to set the specified light to\\
 			a percentage between 0 and 100
 		\end{enumerate}
+		
+		\item[\bf CCT\_all] \verb|[CCT_value] [intensity_percent]|\\
+		Sets the CCT of all lights to the input CCT value at the input intensity.\\
+		Returns the new state of the last light changed.
+		
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[{\it CCT\_value}] the light temperature to change all lights to\\
+			integer value between 1800 and 10000
+			\item[{\it intensity\_percent}] the percent intensity to set all lights to\\
+			a percentage between 0 and 100
+		\end{enumerate}
+	
+		\item[\bf ragbw\_all] \verb|[red_percent] [amber_percent] [green_percent] [blue_percent] |\\
+		\verb|[white_percent]|\\
+		Sets the color of all lights at the input coordinates to the input values.\\
+		Returns the new state of the last changed light.
+		
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[{\it red\_percent}] the percent red to set all lights to\\
+			integer value between 1800 and 10000
+			\item[{\it amber\_percent}] the percent amber to set all lights to\\
+			a percentage between 0 and 100
+			\item[{\it green\_percent}] the percent green to set all lights to\\
+			a percentage between 0 and 100
+			\item[{\it blue\_percent}] the percent blue to set all lights to\\
+			a percentage between 0 and 100
+			\item[{\it white\_percent}] the percent white to set all lights to\\
+			a percentage between 0 and 100
+		\end{enumerate}
+		
 		\item[\bf get\_cct] \verb|[x_coord] [y_coord]|\\
 		Returns the CCT value of the light at the input coordinates if the CCT value has been changed before.
 		If there is no light at the input coordinates, returns with error.
+		
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[{\it x\_coord}] the x coordinate of the light from which to get CCT value
 			\item[{\it y\_coord}] the y coordinate of the light from which to get CCT value
 		\end{enumerate}
+		
 		\item[\bf get\_int] \verb|[x_coord] [y_coord]|\\
 		Returns the intensity percent of the light at the input coordinates if the intensity percent has been changed before.
 		If there is no light at the input coordinates, returns with error.
+		
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[{\it x\_coord}] the x coordinate of the light from which to get intensity percent
 			\item[{\it y\_coord}] the y coordinate of the light from which to get intensity percent
 		\end{enumerate}
+	
+		\item[\bf get\_lights]
+		Returns a list of all lights as their coordinates [x, y]
+			
 		\item[\bf help] prints a list of commands and their arguments
 		
 	\end{enumerate}
 	
 	\section{Blinds}
 	The blinds can be raised or lowered to any position. The slats can also be tilted to any angle.
+	
 	\subsection{Blind Server}
 	The Blind Server listens for commands from the client and takes action and responds based on those commands.
+	
 	\subsubsection{Configuration}
 	One text file is required to correctly configure the blind server.
+	
 	\begin{enumerate}
 		\item \verb|SCR_blind_conf.txt|\\
 		This file contains the IP address of the blind controller and a list of each blind's orientation. The format of the file is as follows:
+		
 		\begin{verbatim}
 		    192.168.0.130
 		    -
@@ -231,13 +338,17 @@
 		    E2
 		\end{verbatim}
 		The first part is the IP address of the blind controller. The second part is a list of blinds. Each blind has an orientation (N,E,S,W) and a number (1,...,n). For each orientation, the numbering of blinds begins at 1 and increases. The two parts are separated by a dash (-).
+		
 	\end{enumerate}
+	
 	\subsubsection{Running the Server}
 	To run the server:
+	
 	\begin{verbatim}
 	    rosrun scr_control SCR_blind_server.py
 	\end{verbatim}
 	If the server prints:
+	
 	\begin{verbatim}
 	    Unable to register with master node [http://localhost:11311]: master may not be running yet. 
 	    Will keep trying.
@@ -245,38 +356,68 @@
 	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
 	
 	\subsubsection{Closing the Server}
+	
 	The blind server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
 		
 	\subsection{Blind Client}
+	
 	The blind client sends a messages to the blind server to tilt or twist the blinds.\\
+	
 	\subsubsection{Running the Client}
 	For the blind client to run any commands, the blind server must be running first.\\
 	To run the client:
+	
 	\begin{verbatim}
 	$ rosrun scr_control SCR_blind_client.py [command] [arguments]
 	\end{verbatim}
+	
 	\subsubsection{Commands}
+	
 	\begin{enumerate}
-		\item[\bf lift] [blind] [percent]\\
+		\item[\bf lift]\verb| [blind] [percent]|\\
 		Lifts the input blind to the input position\\
 		Returns the new position of the blind
+	
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[\it blind] the blind to lift\\
 			a string containing orientation + number, ex. N1 or S4 or E3
 			\item[\it percent] the position to lift the blind to\\
 			a percentage between 0 and 100
 		\end{enumerate}
-		\item[\bf tilt] [blind] [percent]\\
+	
+		\item[\bf tilt]\verb| [blind] [percent]|\\
 		Tilts the slats on the input blind to the input position\\
 		Returns the new position of the slats
+	
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[\it blind] the blind to tilt\\
 			a string containing orientation + number, ex. N1 or S4 or E3
 			\item[\it percent] the position to tilt the blind to\\
 			a percentage between 0 and 100
 		\end{enumerate}
+		
+		\item[\bf lift\_all]\verb| [percent]|\\
+		Lifts all blinds to the input position\\
+		Returns the new position of the blinds
+		
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it percent] the position to lift the blinds to\\
+			a percentage between 0 and 100
+		\end{enumerate}
+		
+		\item[\bf tilt\_all]\verb| [percent]|\\
+		Tilts the slats on all blinds to the input position\\
+		Returns the new position of the slats
+		
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it percent] the position to tilt the blinds to\\
+			a percentage between 0 and 100
+		\end{enumerate}
+		
+		\item[\bf get\_blinds] prints a list of all blind names ex. [N1, N2, E1]
+		
 		\item[\bf help] prints a list of commands and their arguments
-	\end{enumerate}
+		\end{enumerate}
 	
 	\section{Color Sensors}
 	The color sensors read the color data of the room.
@@ -286,23 +427,30 @@
 	
 	\subsubsection{Configuration}
 	One text file is required to correctly configure the blind server.
+	
 	\begin{enumerate}
 		\item \verb|SCR_blind_conf.txt|\\
 		This file contains the IP address of the sensor controller. The format of the file is as follows:
+		
 		\begin{verbatim}
 		192.168.0.41
 		\end{verbatim}
+	
 	\end{enumerate}
 
 	\subsubsection{Running the Server}
 	To run the server:
+	
 	\begin{verbatim}
 	rosrun scr_control SCR_COS_server.py
+	
 	\end{verbatim}
 	If the server prints:
+	
 	\begin{verbatim}
 	Unable to register with master node [http://localhost:11311]: master may not be running yet. 
 	Will keep trying.
+	
 	\end{verbatim}
 	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
 	
@@ -311,32 +459,41 @@
 	
 	\subsection{Color Sensor Client}
 	The color sensor client sends requests to the color sensor server to read data from the color sensors.
+	
 	\subsubsection{Running the Client}
 		For the blind client to run any commands, the blind server must be running first.\\
 	To run the client:
+	
 	\begin{verbatim}
 	$ rosrun scr_control SCR_COS_client.py [command] [arguments]
 	\end{verbatim}
+	
 	\subsubsection{Commands}
+	
 	\begin{enumerate}
 		\item[\bf read\_all] Reads data from every sensor in the system\\
 		Returns the data read from every sensor
 		\item[\bf read] [sensor]\\
 		Reads data from the input sensor
 		Returns data read from the sensor
+	
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[\it sensor] the sensor to read data from\\
 			an integer number, 1, 6, ..., n
 		\end{enumerate}
+	
 	\item[\bf inte\_time] [time]\\
 	Sets the integration time for the color sensors
+	
 	\begin{enumerate}[leftmargin=3\parindent]
 		\item[\it time] the time in milliseconds to set the integration time to\\
 		an integer number between 1 and 250
 	\end{enumerate}
+	
 		\item[\bf help] prints a list of commands and their arguments
 	\end{enumerate}
 	
 	\section{HVAC}
 	TODO
+	
 \end{document}
