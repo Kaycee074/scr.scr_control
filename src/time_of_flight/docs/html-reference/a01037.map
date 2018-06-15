@@ -1,4 +1,0 @@
-<map id="iris::uip::UipMessage" name="iris::uip::UipMessage">
-<area shape="rect" id="node2" href="$a00137.html" title="Base type for messages providing basic functionality which can be extended by protocol&#45;specific child..." alt="" coords="21,81,188,108"/>
-<area shape="rect" id="node3" href="$a00080.html" title="Encapsulates a binary read/write buffer that can grow dynamically. " alt="" coords="5,5,204,32"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="iris::uip::UipMessage" name="iris::uip::UipMessage">
-<area shape="rect" id="node4" href="$a00218.html" title="iris::dist500::UipGetDevice\lInformationRequestMessage" alt="" coords="663,5,847,47"/>
-<area shape="rect" id="node5" href="$a00219.html" title="iris::dist500::UipGetDevice\lInformationResponseMessage" alt="" coords="659,71,852,112"/>
-<area shape="rect" id="node2" href="$a00137.html" title="Base type for messages providing basic functionality which can be extended by protocol&#45;specific child..." alt="" coords="252,46,419,73"/>
-<area shape="rect" id="node3" href="$a00080.html" title="Encapsulates a binary read/write buffer that can grow dynamically. " alt="" coords="5,46,204,73"/>
-</map>

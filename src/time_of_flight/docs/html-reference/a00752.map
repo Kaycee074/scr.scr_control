@@ -1,8 +1,0 @@
-<map id="iris::dist500::PictureFilter" name="iris::dist500::PictureFilter">
-<area shape="rect" id="node2" href="$a00155.html" title="Sink for Picture objects. " alt="" coords="90,405,253,432"/>
-<area shape="rect" id="node3" href="$a00192.html" title="iris::dist500::Sink\l\&lt; Picture * \&gt;" alt="" coords="89,289,213,331"/>
-<area shape="rect" id="node4" href="$a00140.html" title="iris::synchronization\l::Mutex" alt="" coords="19,81,156,123"/>
-<area shape="rect" id="node6" href="$a00197.html" title="Template class defining a data source. " alt="" coords="64,193,239,219"/>
-<area shape="rect" id="node9" href="$a00197.html" title="iris::dist500::Source\l\&lt; Picture * \&gt;" alt="" coords="263,185,403,227"/>
-<area shape="rect" id="node8" href="$a00157.html" title="Source for Picture objects. " alt="" coords="210,355,389,381"/>
-</map>

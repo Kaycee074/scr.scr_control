@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$a00205.html" title="iris::threads::Thread" alt="" coords="5,177,148,203"/>
-<area shape="rect" id="node2" href="$a00177.html" title="iris::dist500::Installation\lModeController::RequestThread" alt="" coords="196,5,403,47"/>
-<area shape="rect" id="node3" href="$a00167.html" title="Implements a reception thread. " alt="" coords="208,71,391,112"/>
-<area shape="rect" id="node4" href="$a00134.html" title="iris::drivers::icef\l::MailboxThread" alt="" coords="240,136,359,177"/>
-<area shape="rect" id="node5" href="$a00169.html" title="Implements a reception thread. " alt="" coords="208,201,391,243"/>
-<area shape="rect" id="node6" href="$a00105.html" title="The HttpConnectionHandler class represents a thread handling one communication via a socket..." alt="" coords="200,267,399,308"/>
-<area shape="rect" id="node7" href="$a00118.html" title="iris::fileserver::IoService\lThread" alt="" coords="217,332,382,373"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="iris::dist500::HallSensorStateSink" name="iris::dist500::HallSensorStateSink">
-<area shape="rect" id="node3" href="$a00099.html" title="Acts as a HallSensorStateSink adapter class which delegates the processNewHallSensorState() event to ..." alt="" coords="5,184,173,225"/>
-<area shape="rect" id="node2" href="$a00192.html" title="iris::dist500::Sink\l\&lt; HallSensorState * \&gt;" alt="" coords="14,5,165,47"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="iris::dist500::CounterController" name="iris::dist500::CounterController">
-<area shape="rect" id="node5" href="$a00067.html" title="Represents a DIST500 sensor. " alt="" coords="115,259,257,285"/>
-<area shape="rect" id="node2" href="$a00068.html" title="Implements basic sensor functions like communication, configuration and UIP retry and timeout control..." alt="" coords="5,102,175,129"/>
-<area shape="rect" id="node3" href="$a00059.html" title="Source for CountResult objects. " alt="" coords="199,95,367,136"/>
-<area shape="rect" id="node4" href="$a00197.html" title="iris::dist500::Source\l\&lt; CountResult * \&gt;" alt="" coords="213,5,353,47"/>
-</map>
