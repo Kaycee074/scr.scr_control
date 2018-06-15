@@ -72,3 +72,39 @@ generate_messages(
 catkin_package(
  # CATKIN_DEPENDS message_runtime
 )
+
+########################################
+# Enable C++ Time of Flight sensor CPP #
+########################################
+
+SET(CMAKE_CXX_COMPILER, "g++")
+SET(CMAKE_CXX_FLAGS "-w -D_GLIBCXX_USE_CXX11_ABI=0")
+link_directories(
+    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/iris/sensor-api/static
+    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/3rd_party/boost-1_55_0/static
+)
+add_executable(TOF src/time_of_flight/SCR/test.cpp)
+
+target_include_directories(
+    TOF PUBLIC
+    src/time_of_flight/include/iris/sensor-api
+    src/time_of_flight/include/3rd_party/boost-1_55_0
+)
+include_directories(${catkin_INCLUDE_DIRS})
+
+target_link_libraries(
+    TOF PUBLIC
+    ${catkin_LIBRARIES}
+    IrmaMatrix
+    boost_system-mt
+    boost_filesystem-mt
+    boost_thread-mt
+    boost_regex-mt
+    boost_date_time-mt
+    boost_chrono-mt
+    boost_regex
+    dl
+    pthread
+)
+
+add_dependencies(TOF ${catkin_EXPORTED_TARGETS})

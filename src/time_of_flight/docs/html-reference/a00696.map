@@ -1,0 +1,5 @@
+<map id="iris::dist500::FirmwareController::ConfigurationInterceptor" name="iris::dist500::FirmwareController::ConfigurationInterceptor">
+<area shape="rect" id="node2" href="$a00049.html" title="Acts as a ConfigurationInterceptor adapter class which delegates the reviewConfiguration() event to a..." alt="" coords="283,5,460,47"/>
+<area shape="rect" id="node3" href="$a00123.html" title="iris::dist500::LegacyConfiguration\lInterceptor" alt="" coords="264,71,479,112"/>
+<area shape="rect" id="node4" href="$a00124.html" title="Acts as a ConfigurationInterceptor adapter class which delegates the reviewConfiguration() event to a..." alt="" coords="527,71,741,112"/>
+</map>

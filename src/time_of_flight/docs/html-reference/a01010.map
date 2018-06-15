@@ -1,0 +1,12 @@
+<map id="iris::uff::UffRecorder" name="iris::uff::UffRecorder">
+<area shape="rect" id="node2" href="$a00155.html" title="Sink for Picture objects. " alt="" coords="222,25,385,51"/>
+<area shape="rect" id="node3" href="$a00192.html" title="iris::dist500::Sink\l\&lt; Picture * \&gt;" alt="" coords="16,5,140,47"/>
+<area shape="rect" id="node4" href="$a00174.html" title="Sink for RegisterValues objects. " alt="" coords="199,86,408,113"/>
+<area shape="rect" id="node5" href="$a00192.html" title="iris::dist500::Sink\l\&lt; RegisterValues * \&gt;" alt="" coords="5,71,151,112"/>
+<area shape="rect" id="node6" href="$a00074.html" title="Sink for DoorState objects. " alt="" coords="213,143,394,170"/>
+<area shape="rect" id="node7" href="$a00192.html" title="iris::dist500::Sink\l\&lt; DoorState * \&gt;" alt="" coords="16,136,140,177"/>
+<area shape="rect" id="node8" href="$a00057.html" title="Sink for CountResult objects. " alt="" coords="207,201,399,227"/>
+<area shape="rect" id="node9" href="$a00192.html" title="iris::dist500::Sink\l\&lt; CountResult * \&gt;" alt="" coords="14,201,142,243"/>
+<area shape="rect" id="node10" href="$a00064.html" title="Sink for DebugData objects. " alt="" coords="210,266,397,293"/>
+<area shape="rect" id="node11" href="$a00192.html" title="iris::dist500::Sink\l\&lt; DebugData * \&gt;" alt="" coords="16,267,140,308"/>
+</map>

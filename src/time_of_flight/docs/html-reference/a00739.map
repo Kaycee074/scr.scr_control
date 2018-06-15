@@ -1,0 +1,4 @@
+<map id="iris::dist500::LoggerController" name="iris::dist500::LoggerController">
+<area shape="rect" id="node3" href="$a00067.html" title="Represents a DIST500 sensor. " alt="" coords="31,155,174,181"/>
+<area shape="rect" id="node2" href="$a00068.html" title="Implements basic sensor functions like communication, configuration and UIP retry and timeout control..." alt="" coords="18,5,187,32"/>
+</map>

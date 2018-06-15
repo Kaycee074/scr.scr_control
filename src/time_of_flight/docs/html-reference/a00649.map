@@ -1,0 +1,5 @@
+<map id="iris::dist500::DebugDataSink" name="iris::dist500::DebugDataSink">
+<area shape="rect" id="node3" href="$a00065.html" title="Acts as a DebugDataSink adapter class which delegates the processNewDebugData() event to an external ..." alt="" coords="5,169,168,211"/>
+<area shape="rect" id="node4" href="$a00214.html" title="Implements a DIST500 movie recorder. " alt="" coords="193,177,335,203"/>
+<area shape="rect" id="node2" href="$a00192.html" title="iris::dist500::Sink\l\&lt; DebugData * \&gt;" alt="" coords="113,5,237,47"/>
+</map>

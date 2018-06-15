@@ -1,0 +1,5 @@
+<map id="iris::dist500::CountResultSink" name="iris::dist500::CountResultSink">
+<area shape="rect" id="node3" href="$a00058.html" title="Acts as a CountResultSink adapter class which delegates the processNewCountResult() event to an exter..." alt="" coords="5,169,173,211"/>
+<area shape="rect" id="node4" href="$a00214.html" title="Implements a DIST500 movie recorder. " alt="" coords="198,177,341,203"/>
+<area shape="rect" id="node2" href="$a00192.html" title="iris::dist500::Sink\l\&lt; CountResult * \&gt;" alt="" coords="115,5,243,47"/>
+</map>

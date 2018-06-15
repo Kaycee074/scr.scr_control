@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00192.html" title="iris::dist500::Sink\l\&lt; WorkingModeStatus * \&gt;" alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node2" href="$a00223.html" title="Sink for WorkingModeStatus objects. " alt="" coords="228,5,407,47"/>
+<area shape="rect" id="node3" href="$a00224.html" title="Acts as a WorkingModeStatusSink adapter class which delegates the processNewWorkingModeStatus() event..." alt="" coords="455,5,633,47"/>
+</map>

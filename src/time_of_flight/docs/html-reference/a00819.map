@@ -1,0 +1,11 @@
+<map id="iris::drivers::Driver" name="iris::drivers::Driver">
+<area shape="rect" id="node3" href="$a00051.html" title="Represents a communication object capable of communicating with one sensor (or several sensors) using..." alt="" coords="970,211,1131,237"/>
+<area shape="rect" id="node5" href="$a00182.html" title="Represents a concrete sensor instance communicating via a Connection object. " alt="" coords="1259,149,1397,176"/>
+<area shape="rect" id="node6" href="$a00139.html" title="Bundles three mailboxes (for UIP levels 0..2) into one convenience class. " alt="" coords="967,99,1135,125"/>
+<area shape="rect" id="node7" href="$a00133.html" title="iris::utilities::MailBox" alt="" coords="715,83,857,109"/>
+<area shape="rect" id="node8" href="$a00181.html" title="iris::synchronization\l::Semaphore" alt="" coords="425,58,563,99"/>
+<area shape="rect" id="node9" href="$a00140.html" title="iris::synchronization\l::Mutex" alt="" coords="425,130,563,171"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="207,359,288,385"/>
+<area shape="rect" id="node12" title="STL class. " alt="" coords="5,351,132,393"/>
+<area shape="rect" id="node14" href="$a00143.html" title="iris::drivers::Driver\l::OptionValidator" alt="" coords="181,247,313,289"/>
+</map>

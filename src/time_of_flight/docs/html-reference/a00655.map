@@ -1,0 +1,7 @@
+<map id="iris::dist500::DebugDataSource" name="iris::dist500::DebugDataSource">
+<area shape="rect" id="node3" href="$a00116.html" title="Represents the DIST500&#39;s installation mode facility, which is used for live picture streaming from a ..." alt="" coords="5,184,168,225"/>
+<area shape="rect" id="node5" href="$a00211.html" title="iris::uff::UffDecoder" alt="" coords="193,191,330,218"/>
+<area shape="rect" id="node2" href="$a00197.html" title="iris::dist500::Source\l\&lt; DebugData * \&gt;" alt="" coords="103,5,243,47"/>
+<area shape="rect" id="node4" href="$a00067.html" title="Represents a DIST500 sensor. " alt="" coords="15,273,158,300"/>
+<area shape="rect" id="node6" href="$a00212.html" title="Implements a player class for DIST500 uff movies. " alt="" coords="199,273,324,300"/>
+</map>

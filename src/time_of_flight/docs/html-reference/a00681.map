@@ -1,0 +1,5 @@
+<map id="iris::dist500::DoorStateSink" name="iris::dist500::DoorStateSink">
+<area shape="rect" id="node3" href="$a00075.html" title="Acts as a DoorStateSink adapter class which delegates the processNewDoorState() event to an external ..." alt="" coords="5,169,163,211"/>
+<area shape="rect" id="node4" href="$a00214.html" title="Implements a DIST500 movie recorder. " alt="" coords="187,177,330,203"/>
+<area shape="rect" id="node2" href="$a00192.html" title="iris::dist500::Sink\l\&lt; DoorState * \&gt;" alt="" coords="109,5,233,47"/>
+</map>

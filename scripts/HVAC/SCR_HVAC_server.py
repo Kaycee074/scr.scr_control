@@ -38,8 +38,6 @@ def establish_connection(address):
 		print("Connection refused on " + address)
 	return s
 
-
-
 def send_message(message):
 	global s
 	s.send(message.encode())	#send the message (thermostat value)

@@ -1,0 +1,4 @@
+<map id="iris::uip::_sensorStatusNotification" name="iris::uip::_sensorStatusNotification">
+<area shape="rect" id="node2" href="$a00209.html" title="iris::uip::TypedEnum\l\&lt; __status_modification\l_indicator, uchar \&gt;" alt="" coords="17,5,175,61"/>
+<area shape="rect" id="node3" href="$a00209.html" title="iris::uip::TypedEnum\l\&lt; __sensor_status, uchar \&gt;" alt="" coords="5,86,187,127"/>
+</map>

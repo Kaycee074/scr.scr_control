@@ -1,0 +1,5 @@
+<map id="iris::dist500::SubPics" name="iris::dist500::SubPics">
+<area shape="rect" id="node2" href="$a00162.html" title="Typedef for a DIST500 subpicture (eg distance or amplitude) " alt="" coords="21,199,174,225"/>
+<area shape="rect" id="node3" href="$a00158.html" title="Typedef for a pixel, either as &quot;raw&quot; 16 bit number or in decoded (flags plus value) form..." alt="" coords="34,95,161,121"/>
+<area shape="rect" id="node4" href="$a00088.html" title="Typedef for a decoded (into flags and value) pixel. " alt="" coords="5,5,189,32"/>
+</map>

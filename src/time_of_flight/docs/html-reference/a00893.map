@@ -1,0 +1,3 @@
+<map id="iris::drivers::serial::SerialDriver" name="iris::drivers::serial::SerialDriver">
+<area shape="rect" id="node2" href="$a00078.html" title="Represents a physical connection driver to communicate via UIP, eg on top of UDP or ICEF..." alt="" coords="5,5,137,32"/>
+</map>
