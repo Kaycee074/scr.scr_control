@@ -9,7 +9,10 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS python)
+find_package(PythonLibs 2.7 REQUIRED)
+
 
 ## Uncomment if the package has a setup.py
 catkin_python_setup()
@@ -38,6 +41,7 @@ add_service_files(
   GetCCT.srv
   GetInt.srv
   GetLights.srv
+  GetHeatmap.srv
   BlindLift.srv
   BlindLiftAll.srv
   BlindTilt.srv
@@ -70,7 +74,10 @@ generate_messages(
 )
 
 catkin_package(
- # CATKIN_DEPENDS message_runtime
+  #  CATKIN_DEPENDS message_runtime
+  INCLUDE_DIRS include
+  CATKIN_DEPENDS roscpp
+  #  DEPENDS system_lib
 )
 
 ########################################
@@ -79,32 +86,39 @@ catkin_package(
 
 SET(CMAKE_CXX_COMPILER, "g++")
 SET(CMAKE_CXX_FLAGS "-w -D_GLIBCXX_USE_CXX11_ABI=0")
-link_directories(
-    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/iris/sensor-api/static
-    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/3rd_party/boost-1_55_0/static
-)
-add_executable(TOF src/time_of_flight/SCR/test.cpp)
+#link_directories(
+#    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/iris/sensor-api/static
+#    src/time_of_flight/lib/x86_64-linux-g++-4.6.3-glibc-2.15/3rd_party/boost-1_55_0/static
+#)
+#add_executable(TOF src/time_of_flight/SCR/test.cpp)
 
-target_include_directories(
-    TOF PUBLIC
-    src/time_of_flight/include/iris/sensor-api
-    src/time_of_flight/include/3rd_party/boost-1_55_0
-)
-include_directories(${catkin_INCLUDE_DIRS})
+#target_include_directories(
+#    TOF PUBLIC
+#    src/time_of_flight/include/iris/sensor-api
+#    src/time_of_flight/include/3rd_party/boost-1_55_0
+#
 
-target_link_libraries(
-    TOF PUBLIC
-    ${catkin_LIBRARIES}
-    IrmaMatrix
-    boost_system-mt
-    boost_filesystem-mt
-    boost_thread-mt
-    boost_regex-mt
-    boost_date_time-mt
-    boost_chrono-mt
-    boost_regex
-    dl
-    pthread
+include_directories(
+  include 
+  ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+  # ${PYTHON_INCLUDE_DIRS}
+  /usr/include/python2.7
 )
 
-add_dependencies(TOF ${catkin_EXPORTED_TARGETS})
+#target_link_libraries(
+#    TOF PUBLIC
+#    ${catkin_LIBRARIES}
+#    IrmaMatrix
+#    boost_system-mt
+#    boost_filesystem-mt
+#    boost_thread-mt
+#    boost_regex-mt
+#    boost_date_time-mt
+#    boost_chrono-mt
+#    boost_regex
+#    dl
+#    pthread
+#)
+
+#add_dependencies(TOF ${catkin_EXPORTED_TARGETS})
