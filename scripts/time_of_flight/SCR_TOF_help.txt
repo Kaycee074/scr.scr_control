@@ -1,0 +1,6 @@
+get_heatmap:
+	returns int16[] distances (a 1D array representing a heatmap of the room) and
+	int16 room_length, (number of data points in one row of the room) - used to convert distances into a 2D array of the room.
+
+help:
+	prints a list of all commands, what they do, and what arguments they take
