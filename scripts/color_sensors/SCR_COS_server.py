@@ -122,17 +122,17 @@ class ColorSensorServer():
 		rospy.init_node("COS_server")
 
 		readAll_service = rospy.Service(
-			"readAll",
+			"read_all",
 			COSReadAll,
 			self.handle_readAll)
 
 		readOne_service = rospy.Service(
-			"readOne",
+			"read_one",
 			COSReadOne,
 			self.handle_readOne)
 
 		inteTime_service = rospy.Service(
-			"inteTime",
+			"inte_time",
 			COSInteTime,
 			self.handle_inteTime)
 

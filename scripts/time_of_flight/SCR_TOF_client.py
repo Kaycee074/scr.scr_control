@@ -8,7 +8,7 @@ from scr_control.srv import *
 from scr_control.msg import *
 
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
-def getHeatmap_client(debug=False):
+def get_heat_map(debug=False):
 	state = utils.service_call('get_heatmap', GetHeatmap, [])
 	if state and debug:
 		print(state.distances)
@@ -16,16 +16,16 @@ def getHeatmap_client(debug=False):
 		return state
 
 # Show help regarding TOF commands
-def help_client(debug=False):
+def help(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_TOF_help.txt'))
 	print(helpFile.read())
 	helpFile.close()
 
 if(__name__ == "__main__"):
 
-					#command       #function           #argument types    #help
+					#command       #function      #argument types    #help
 	serviceCalls = {
-					'get_heatmap': [getHeatmap_client, [],               "get_heatmap"],
-					'help':        [help_client,       [],               "help"]}
+					'get_heatmap': [get_heat_map, [],               "get_heatmap"],
+					'help':        [help,         [],               "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 

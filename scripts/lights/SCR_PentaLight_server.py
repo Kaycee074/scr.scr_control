@@ -219,7 +219,7 @@ class PentaLightServer():
 		rospy.init_node("PentaLight_server")
 
 		CCT_service = rospy.Service(
-			"CCT", 
+			"cct", 
 			PentaLight_CCT, 
 			lambda msg: self.handle_CCT(msg))
 
@@ -229,7 +229,7 @@ class PentaLightServer():
 			lambda msg: self.handle_ragbw(msg))
 
 		CCTAll_service = rospy.Service(
-			"CCT_all", 
+			"cct_all", 
 			PentaLight_CCTAll, 
 			lambda msg: self.handle_CCTAll(msg))
 
@@ -239,17 +239,17 @@ class PentaLightServer():
 			lambda msg: self.handle_ragbwAll(msg))
 
 		get_CCT_service = rospy.Service(
-			"getCCT",
+			"get_cct",
 			GetCCT,
 			lambda msg: self.handle_getCCT(msg))
 
 		get_int_service = rospy.Service(
-			"getInt",
+			"get_int",
 			GetInt,
 			lambda msg: self.handle_getInt(msg))
 
 		get_lights_service = rospy.Service(
-			"getLights",
+			"get_lights",
 			GetLights,
 			lambda msg: self.handle_getLights(msg))
 
