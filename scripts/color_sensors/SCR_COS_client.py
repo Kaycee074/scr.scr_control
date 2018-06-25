@@ -19,8 +19,8 @@ def read_all(debug=False):
 	return state.data
 
 # Read one color sensor
-def read_one(num, debug=False):
-	state = utils.service_call('read_one', COSRead_one, [num])
+def read(num, debug=False):
+	state = utils.service_call('read', COSRead_one, [num])
 	if state and debug:
 		print(state)
 	return state.data
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 					#command        #function     #argument types    #help
 	serviceCalls = {
 					'read_all':     [read_all,    [],                "read_all"],
-					'read':         [read_one,    [str],             "read [sensor_num]"],
+					'read':         [read,        [int],             "read [sensor_num]"],
 					'inte_time':    [inte_time,   [int],             "inte_time [time]"],
 					'help':         [help,        [],                "help"]}
 	

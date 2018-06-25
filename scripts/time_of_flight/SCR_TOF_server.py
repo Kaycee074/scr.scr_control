@@ -48,7 +48,7 @@ class TimeOfFlightServer():
 		rospy.init_node("time_of_flight_server")
 
 		lift_service = rospy.Service(
-			"get_heat_map",
+			"get_distances",
 			GetHeatmap,
 			self.handle_getHeatmap)
 

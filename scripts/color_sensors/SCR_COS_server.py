@@ -72,7 +72,7 @@ class ColorSensorServer():
 		return resp
 
 	def handle_readOne(self, req):
-		num = req.num.zfill(3)
+		num = str(req.num).zfill(3)
 
 		s = self.establish_connection()
 		
