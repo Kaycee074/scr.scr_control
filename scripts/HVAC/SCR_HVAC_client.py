@@ -11,50 +11,50 @@ def set_temp(temp, debug = False):
 	state = utils.service_call('set_temp', HVAC_SetTemp, [temp])
 	if state and debug:
 		print(state)
-	return state
 
 def set_fansp(speed, debug = False):
 	state = utils.service_call('set_fansp', HVAC_SetFanSp, [speed])
 	if state and debug:
 		print(state)
-	return state
 
 def set_ep(ep, val, debug = False):
 	state = utils.service_call('set_ep', HVAC_SetEp, [ep, val])
 	if state and debug:
 		print(state)
-	return state
 
 def set_bms(debug = False):
 	state = utils.service_call('set_bms', HVAC_SetBms, [])
 	if state and debug:
 		print(state)
-	return state
 
 def get_temp(debug = False):
 	state = utils.service_call('get_temp', HVAC_GetTemp, [])
-	if state and debug:
-		print(state)
-	return state
+	if state:
+		if debug:
+			print(state)
+		return state.data
 
 def get_ep(debug = False):
 	state = utils.service_call('get_ep', HVAC_GetEp, [])
-	if state and debug:
-		print(state)
-	return state
+	if state:
+		if debug:
+			print(state)
+		return state.data
 
 def get_co2(debug = False):
 	state = utils.service_call('get_co2', HVAC_GetCO2, [])
-	if state and debug:
-		print(state)
-	return state
+	if state:
+		if debug:
+			print(state)
+		return state.data
 
 def get_rh(debug = False):
 	state = utils.service_call('get_rh', HVAC_GetRH, [])
-	if state and debug:
-		print(state)
-	return state
-
+	if state:
+		if debug:
+			print(state)
+		return state.data
+		
 # Show help regarding blind commands
 def help(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_HVAC_help.txt'))
