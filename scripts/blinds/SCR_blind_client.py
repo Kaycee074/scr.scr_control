@@ -47,8 +47,10 @@ def get_blinds(debug=False):
 # Show help regarding blind commands
 def help(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_blind_help.txt'))
-	print(helpFile.read())
+	helpStr = helpFile.read()
+	print(helpStr)
 	helpFile.close()
+	return helpStr
 
 if(__name__ == "__main__"):
 
