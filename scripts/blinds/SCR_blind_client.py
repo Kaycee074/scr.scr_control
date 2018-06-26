@@ -16,7 +16,7 @@ def lift(b, val, debug=False):
 
 # Lift or lower all blinds
 def lift_all(val, debug=False):
-	state = utils.service_call('lift_all', Blindlift_all, [val])
+	state = utils.service_call('lift_all', BlindLiftAll, [val])
 	if state and debug:
 		print("All blinds now lifted to %s%%" % (state.lift))
 	return state.lift

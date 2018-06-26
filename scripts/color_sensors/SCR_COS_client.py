@@ -10,7 +10,7 @@ from scr_control.msg import *
 
 # Get all values of color sensors
 def read_all(debug=False):
-	state = utils.service_call('read_all', COSRead_all, [])
+	state = utils.service_call('read_all', COSReadAll, [])
 	if state and debug:
 		for i in range(len(state.data)):
 			if(i%state.step == 0 and i > 1):
@@ -20,14 +20,14 @@ def read_all(debug=False):
 
 # Read one color sensor
 def read(num, debug=False):
-	state = utils.service_call('read', COSRead_one, [num])
+	state = utils.service_call('read', COSReadOne, [num])
 	if state and debug:
 		print(state)
 	return state.data
 
 # Integration time
 def inte_time(num, debug=False):
-	state = utils.service_call('inte_time', COSInte_time, [num])
+	state = utils.service_call('inte_time', COSInteTime, [num])
 	if state and debug:
 		print(state)
 	return state
