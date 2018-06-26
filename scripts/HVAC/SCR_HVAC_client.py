@@ -55,13 +55,9 @@ def get_rh(debug = False):
 			print(state)
 		return state.data
 		
-# Show help regarding blind commands
+# Show help regarding HVAC commands
 def help(debug=False):
-	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_HVAC_help.txt'))
-	helpStr = helpFile.read()
-	print(helpStr)
-	helpFile.close()
-	return helpStr
+	return utils.help(os.path.dirname(__file__), "SCR_HVAC_help.txt", debug = debug)
 
 if(__name__ == "__main__"):
 

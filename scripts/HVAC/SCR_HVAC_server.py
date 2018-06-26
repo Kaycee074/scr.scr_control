@@ -8,179 +8,172 @@ import sys
 import os
 import re
 import atexit
-# from HVAC_SetTemp.srv import HVAC_SetTemp, HVAC_SetTempResponse
 
 global address
 global s
 
-def initialize():
-	global address
-	__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-	config = open(os.path.join(__location__,"SCR_HVAC_conf.txt"),'r')
+class HVACServer():
 
-	line = config.readline()
-	line = line.rstrip()
+	'''
+	INIT FUNCTIONS
+	'''
 
-	address = line
+	def __init__(self):
+		self.address = self.initialize_hvac()
+		self.s = self.establish_connection(60606)
+		atexit.register(self.close)
+		self.server_init()
 
-	config.close()
+	def initialize_hvac(self):
+		config = open(os.path.join(os.path.dirname(__file__), 'SCR_HVAC_conf.txt'), 'r')
+		line = config.readline()
+		line = line.rstrip()
+		address = line
+		config.close()
+		return address
 
-def establish_connection(address):
-	global s
-	port = 60606
-	try:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect((address,port))
-	except ConnectionRefusedError:
-		# rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		# rs.connect((address,57011))
-		print("Connection refused on " + address)
-	return s
+	def establish_connection(self, port):
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect((self.address, port))
+		except ConnectionRefusedError:
+			# rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			# rs.connect((address,57011))
+			print("Connection refused on " + self.address)
+		return s
 
-def send_message(message):
-	global s
-	s.send(message.encode())	#send the message (thermostat value)
-	data = s.recv(1024).decode()
-	print ('Received from server: ' + data)
-	return data
+	'''
+	COMMAND HANDLERS
+	'''
 
-def close():
-	global s
-	send_message("bms")
-	send_message("quit")
-	s.shutdown(socket.SHUT_RDWR)
-	s.close()
+	def handle_setTemp(self, req):
+		message = "set temp " + str(req.temp)
+		self.send_message(message)
+		resp = HVAC_SetTempResponse()
+		return resp
 
-def handle_setTemp(req):
-	message = "set temp " + str(req.temp)
-	# print(req.temp)
-	send_message(message)
+	def handle_setFanSp(self, req):
+		message = "set fan " + str(req.speed)
+		self.send_message(message)
+		resp = HVAC_SetFanSpResponse()
+		return resp
 
-	resp = HVAC_SetTempResponse()
-	return resp
+	def handle_setEp(self, req):
+		voltage = (5.0)*req.val/100
+		message = "set ep" + str(req.ep) + " " + str(voltage)
+		self.send_message(message)
+		resp = HVAC_SetEpResponse()
+		return resp
 
-def handle_setFanSp(req):
-	message = "set fan " + str(req.speed)
-	# print(message)
-	send_message(message)
+	def handle_setBms(self, req):
+		self.send_message("bms")
+		resp = HVAC_SetBmsResponse()
+		return resp
 
-	resp = HVAC_SetFanSpResponse()
-	return resp
+	def handle_getTemp(self, req):
+		temp_list = []
+		for i in range(1,6):
+			data = self.send_message("read t"+str(i))
+			temp = [float(a) for a in re.findall("\d+\.\d+", data)]
+			temp_list.append(temp[0])
 
-def handle_setEp(req):
-	voltage = (5.0)*req.val/100
-	message = "set ep" + str(req.ep) + " " + str(voltage)
-	# print(message)
-	send_message(message)
+		resp = HVAC_GetTempResponse()
+		resp.data = temp_list
 
-	resp = HVAC_SetEpResponse()
-	return resp
+		return resp
 
-def handle_setBms(req):
-	send_message("bms")
+	def handle_getEp(self, req):
+		ep_list = []
+		for i in range(1,5):
+			data = self.send_message("read ep"+str(i))
+			ep = [float(a) for a in re.findall("\d+\.\d+", data)]
+			if i != 4:
+				level = 100 - ep[0]
+			else:
+				level = ep[0]
+			ep_list.append(level)
 
-	resp = HVAC_SetBmsResponse()
-	return resp
+		resp = HVAC_GetEpResponse()
+		resp.data = ep_list
 
-def handle_getTemp(req):
-	temp_list = []
-	for i in range(1,6):
-		data = send_message("read t"+str(i))
-		temp = [float(a) for a in re.findall("\d+\.\d+", data)]
-		temp_list.append(temp[0])
+		return resp
 
-	resp = HVAC_GetTempResponse()
-	resp.data = temp_list
+	def handle_getCO2(self, req):
+		data = self.send_message("read co2")
+		co2 = [float(a) for a in re.findall("\d+\.\d+", data)]
+		resp = HVAC_GetCO2Response()
+		resp.data = co2[0]
+		return resp
 
-	return resp
+	def handle_getRH(self, req):
+		data = self.send_message("read rh")
+		hum = [float(a) for a in re.findall("\d+\.\d+", data)]
+		resp = HVAC_GetRHResponse()
+		resp.data = hum[0]
 
-def handle_getEp(req):
-	ep_list = []
-	for i in range(1,5):
-		data = send_message("read ep"+str(i))
-		ep = [float(a) for a in re.findall("\d+\.\d+", data)]
-		if i != 4:
-			level = 100 - ep[0]
-		else:
-			level = ep[0]
-		ep_list.append(level)
+		return resp
 
-	resp = HVAC_GetEpResponse()
-	resp.data = ep_list
+	'''
+	HELPER FUNCTIONS
+	'''
+	def send_message(self, message):
+		self.s.send(message.encode())	#send the message (thermostat value)
+		data = self.s.recv(1024).decode()
+		print ('Received from server: ' + data)
+		return data
 
-	return resp
+	def close(self):
+		self.send_message("bms")
+		self.send_message("quit")
+		self.s.shutdown(socket.SHUT_RDWR)
+		self.s.close()
 
-def handle_getCO2(req):
-	data = send_message("read co2")
-	co2 = [float(a) for a in re.findall("\d+\.\d+", data)]
+	def server_init(self):
 
-	resp = HVAC_GetCO2Response()
-	resp.data = co2[0]
+		rospy.init_node("HVAC_server")
 
-	return resp
+		setTemp_service = rospy.Service(
+			"set_temp",
+			HVAC_SetTemp,
+			self.handle_setTemp)
 
-def handle_getRH(req):
-	data = send_message("read rh")
-	# print("poop")
-	print(data)
-	# data = data.rstrip()
-	hum = [float(a) for a in re.findall("\d+\.\d+", data)]
-	print(hum[0])
-	resp = HVAC_GetRHResponse()
-	resp.data = hum[0]
+		setFanSp_service = rospy.Service(
+			"set_fansp",
+			HVAC_SetFanSp,
+			self.handle_setFanSp)
 
-	return resp
+		setEp_service = rospy.Service(
+			"set_ep",
+			HVAC_SetEp,
+			self.handle_setEp)
 
-def HVAC_server():
-	rospy.init_node("HVAC_server")
+		setBms_service = rospy.Service(
+			"set_bms",
+			HVAC_SetBms,
+			self.handle_setBms)
 
-	setTemp_service = rospy.Service(
-		"set_temp",
-		HVAC_SetTemp,
-		handle_setTemp)
+		getTemp_service = rospy.Service(
+			"get_temp",
+			HVAC_GetTemp,
+			self.handle_getTemp)
 
-	setFanSp_service = rospy.Service(
-		"set_fansp",
-		HVAC_SetFanSp,
-		handle_setFanSp)
+		getEp_service = rospy.Service(
+			"get_ep",
+			HVAC_GetEp,
+			self.handle_getEp)
 
-	setEp_service = rospy.Service(
-		"set_ep",
-		HVAC_SetEp,
-		handle_setEp)
+		getCO2_service = rospy.Service(
+			"get_co2",
+			HVAC_GetCO2,
+			self.handle_getCO2)
 
-	setBms_service = rospy.Service(
-		"set_bms",
-		HVAC_SetBms,
-		handle_setBms)
+		getRH_service = rospy.Service(
+			"get_rh",
+			HVAC_GetRH,
+			self.handle_getRH)
 
-	getTemp_service = rospy.Service(
-		"get_temp",
-		HVAC_GetTemp,
-		handle_getTemp)
-
-	getEp_service = rospy.Service(
-		"get_ep",
-		HVAC_GetEp,
-		handle_getEp)
-
-	getCO2_service = rospy.Service(
-		"get_co2",
-		HVAC_GetCO2,
-		handle_getCO2)
-
-	getRH_service = rospy.Service(
-		"get_rh",
-		HVAC_GetRH,
-		handle_getRH)
-
-	rospy.spin()
+		rospy.spin()
 
 if (__name__ == "__main__"):
-	atexit.register(close)
-	# atexit.register(handle_setBms)
-	global s
-	initialize();
-	s = establish_connection(address);
-	HVAC_server();
+	HVACServer()

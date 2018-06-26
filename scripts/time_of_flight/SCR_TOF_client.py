@@ -21,11 +21,7 @@ def get_distances(debug=False):
 
 # Show help regarding TOF commands
 def help(debug=False):
-	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_TOF_help.txt'))
-	helpStr = helpFile.read()
-	print(helpStr)
-	helpFile.close()
-	return helpStr
+	return utils.help(os.path.dirname(__file__), "SCR_TOF_help.txt", debug = debug)
 
 if(__name__ == "__main__"):
 

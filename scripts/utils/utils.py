@@ -1,5 +1,5 @@
 import rospy
-import socket
+import socket, os
 
 # Makes a service call to the server
 def service_call(serviceName, service, arguments):
@@ -60,3 +60,10 @@ def commandToFunction(sysargs, validCommands, debug=False):
 
 	# return state of called function
 	return state
+
+def help(my_location, help_file, debug = False):
+	helpFile = open(os.path.join(my_location, help_file))
+	helpStr = helpFile.read()
+	print(helpStr)
+	helpFile.close()
+	return helpStr
