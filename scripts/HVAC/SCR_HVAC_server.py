@@ -136,42 +136,42 @@ def HVAC_server():
 	rospy.init_node("HVAC_server")
 
 	setTemp_service = rospy.Service(
-		"setTemp",
+		"set_temp",
 		HVAC_SetTemp,
 		handle_setTemp)
 
 	setFanSp_service = rospy.Service(
-		"setFanSp",
+		"set_fansp",
 		HVAC_SetFanSp,
 		handle_setFanSp)
 
 	setEp_service = rospy.Service(
-		"setEp",
+		"set_ep",
 		HVAC_SetEp,
 		handle_setEp)
 
 	setBms_service = rospy.Service(
-		"setBms",
+		"set_bms",
 		HVAC_SetBms,
 		handle_setBms)
 
 	getTemp_service = rospy.Service(
-		"getTemp",
+		"get_temp",
 		HVAC_GetTemp,
 		handle_getTemp)
 
 	getEp_service = rospy.Service(
-		"getEp",
+		"get_ep",
 		HVAC_GetEp,
 		handle_getEp)
 
 	getCO2_service = rospy.Service(
-		"getCO2",
+		"get_co2",
 		HVAC_GetCO2,
 		handle_getCO2)
 
 	getRH_service = rospy.Service(
-		"getRH",
+		"get_rh",
 		HVAC_GetRH,
 		handle_getRH)
 

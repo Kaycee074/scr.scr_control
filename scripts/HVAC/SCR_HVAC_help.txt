@@ -1,0 +1,17 @@
+set_temp: sets the temperature of the system in degrees celsius
+          first argument is a temperature in celsius as a float
+
+set_fansp: sets the fanspeed for the system
+           first argument is the fan speed, string = off|low|medium|high
+
+set_ep: sets EP for the system
+        first argument is ep value to set
+        second argument is the value to set to, integer from 0-100
+
+set_bms: enables building maintenance system to take control
+
+get_temp: gets current temperature reading from each sensor
+
+get_co2: gets current CO2 reading in the room
+
+get_rh gets the current relative humidity in the room

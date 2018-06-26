@@ -72,9 +72,10 @@ def get_int(x, y, debug=False):
 # Show help regarding light commands
 def help(debug=False):
 	helpFile = open(os.path.join(os.path.dirname(__file__), 'SCR_PentaLight_help.txt'), 'r')
-	print(helpFile.read())
+	helpStr = helpFile.read()
+	print(helpStr)
 	helpFile.close()
-
+	return helpStr
 if(__name__ == "__main__"):
 
 					#command     #function     #argument types                      #help
