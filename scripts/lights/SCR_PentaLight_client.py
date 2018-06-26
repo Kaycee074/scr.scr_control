@@ -11,7 +11,7 @@ from scr_control.msg import *
 def cct(x, y, cct_val, intensity_val, debug=False):
 	if debug:
 		print("Changing light (%s,%s) to cct %s and intensity %s" % (x, y, cct_val, intensity_val))
-	state = utils.service_call('cct', PentaLight_cct, [cct_val, intensity_val, x, y])
+	state = utils.service_call('cct', PentaLight_CCT, [cct_val, intensity_val, x, y])
 	if state and debug:
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
 	return state.cmdstr
@@ -38,7 +38,7 @@ def ragbw_all(red_val, amber_val, green_val, blue_val, white_val, debug=False):
 def cct_all(cct_val, intensity_val, debug=False):
 	if debug:
 		print("Changing all lights to cct %s and intensity %s" % (cct_val, intensity_val))
-	state = utils.service_call('cct_all', PentaLight_cctAll, [cct_val, intensity_val])
+	state = utils.service_call('cct_all', PentaLight_CCTAll, [cct_val, intensity_val])
 	if state and debug:
 		print("Lights are now in state %s" % (state))
 	return state.cmdstr
