@@ -9,10 +9,6 @@ import os
 import re
 import atexit
 
-global address
-global s
-
-
 class HVACServer():
 
 	'''
