@@ -75,7 +75,7 @@ generate_messages(
 
 catkin_package(
   #  CATKIN_DEPENDS message_runtime
-  INCLUDE_DIRS include
+  #  INCLUDE_DIRS include
   CATKIN_DEPENDS roscpp
   #  DEPENDS system_lib
 )
@@ -99,7 +99,7 @@ SET(CMAKE_CXX_FLAGS "-w -D_GLIBCXX_USE_CXX11_ABI=0")
 #
 
 include_directories(
-  include 
+  # include 
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   # ${PYTHON_INCLUDE_DIRS}
