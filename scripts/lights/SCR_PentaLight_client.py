@@ -23,7 +23,7 @@ def ragbw(x, y, red_val, amber_val, green_val, blue_val, white_val, debug=False)
 	state = utils.service_call('ragbw', PentaLight_ragbw, [red_val, amber_val, green_val, blue_val, white_val, x, y])
 	if state and debug:	
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
-	return state.cmdstr
+	return state
 
 # Change color of a light using Red/Amber/Green/Blue/White values
 def ragbw_all(red_val, amber_val, green_val, blue_val, white_val, debug=False):
@@ -75,15 +75,15 @@ def help(debug=False):
 
 if(__name__ == "__main__"):
 
-					#command     #function     #argument types                      #help
+					#command     #function     #argument types                                #help
 	serviceCalls = {
-					'cct':       [cct,         [int, int, int, int],                "cct [x_coord] [y_coord] [cct] [intensity]"],
-					'ragbw':     [ragbw,       [int, int, int, int, int, int, int], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
-					'cct_all':   [cct_all,     [int, int],                          "cct_all [cct] [intensity]"],
-					'ragbw_all': [ragbw_all,   [int, int, int, int, int],           "ragbw_all [red] [amber] [green] [blue] [white]"],
-					'get_cct':   [get_cct,     [int, int],                          "get_cct [x_coord] [y_coord]"],
-					'get_int':   [get_int,     [int, int],                          "get_int [x_coord] [y_coord]"],
-					'get_lights':[get_lights,  [],                                  "get_lights"],
-					'help':      [help,        [],                                  "help"]}
+					'cct':       [cct,         [int, int, int, int],                          "cct [x_coord] [y_coord] [cct] [intensity]"],
+					'ragbw':     [ragbw,       [int, int, float, float, float, float, float], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
+					'cct_all':   [cct_all,     [int, int],                                    "cct_all [cct] [intensity]"],
+					'ragbw_all': [ragbw_all,   [float, float, float, float, float],           "ragbw_all [red] [amber] [green] [blue] [white]"],
+					'get_cct':   [get_cct,     [int, int],                                    "get_cct [x_coord] [y_coord]"],
+					'get_int':   [get_int,     [int, int],                                    "get_int [x_coord] [y_coord]"],
+					'get_lights':[get_lights,  [],                                            "get_lights"],
+					'help':      [help,        [],                                            "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

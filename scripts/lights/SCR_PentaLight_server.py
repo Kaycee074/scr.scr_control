@@ -174,7 +174,7 @@ class PentaLightServer():
 
 	def gen_cmdstr_ragbw(self, req):
 		colors = [req.blue, req.green, req.amber, req.red, req.white]
-		colors = [int(65535*(x/100)) for x in colors]
+		colors = [int(65535*(float(x)/100)) for x in colors]
 		return self.gen_cmdstr_modified_ragbw(colors)
 
 	def gen_cmdstr_modified_ragbw(self, colors):
