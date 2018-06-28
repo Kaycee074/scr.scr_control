@@ -14,10 +14,10 @@ class ColorSensorServer():
 	'''
 
 	def __init__(self):
-		self.address = self.initialize_sensors()
+		self.address = self.read_config()
 		self.COS_server_init()
 
-	def initialize_sensors(self):
+	def read_config(self):
 
 		config = open(os.path.join(os.path.dirname(__file__), 'COS_conf.txt'))
 		line = config.readline()
@@ -30,11 +30,10 @@ class ColorSensorServer():
 		port = 5005
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.connect((self.address,port))
+			s.connect((self.address, port))
 		except:
-			rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			rs.connect((self.address,57011))
 			print("Connection refused on " + self.address)
+			
 		return s
 
 	'''
@@ -62,7 +61,10 @@ class ColorSensorServer():
 			line = line.split(' ')
 			step = len(line)
 			for item in line:
-				item = int(item)
+				if item == '':
+					item = 0
+				else:
+					item = int(item)
 				data_list.append(item)
 		
 		resp = COSReadAllResponse()
@@ -127,7 +129,7 @@ class ColorSensorServer():
 			self.handle_readAll)
 
 		readOne_service = rospy.Service(
-			"read_one",
+			"read",
 			COSReadOne,
 			self.handle_readOne)
 

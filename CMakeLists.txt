@@ -41,7 +41,6 @@ add_service_files(
   GetCCT.srv
   GetInt.srv
   GetLights.srv
-  GetHeatmap.srv
   BlindLift.srv
   BlindLiftAll.srv
   BlindTilt.srv
@@ -49,6 +48,8 @@ add_service_files(
   COSReadAll.srv
   COSReadOne.srv
   COSInteTime.srv
+  TOFGetDistances.srv
+  TOFSetCounting.srv
   HVAC_SetTemp.srv
   HVAC_SetFanSp.srv
   HVAC_SetEp.srv

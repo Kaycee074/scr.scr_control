@@ -1,5 +1,5 @@
 import rospy
-import socket, os
+import socket, os, time
 
 # Makes a service call to the server
 def service_call(serviceName, service, arguments):
@@ -22,6 +22,7 @@ def useage(validCommands):
 def commandToFunction(sysargs, validCommands, debug=False):
 
 	state = None
+	start = time.time()
 
 	# if no command is given, print out valid commands and return none
 	if len(sysargs) < 2:
@@ -57,6 +58,10 @@ def commandToFunction(sysargs, validCommands, debug=False):
 	# invalid command -> print help for all valid commands
 	else:
 		useage(validCommands)		
+
+
+	end = time.time()
+	#print(end - start)
 
 	# return state of called function
 	return state

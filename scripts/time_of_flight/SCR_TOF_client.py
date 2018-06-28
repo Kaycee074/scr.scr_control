@@ -19,15 +19,33 @@ def get_distances(debug=False):
 			print(dist)
 		return dist
 
+# Start updating TOF sensors
+def start_counting(debug=False):
+	state = utils.service_call('set_counting', TOFSetCounting, [True])
+	if debug:
+		print("Starting to update TOF sensors...")
+	if state:
+		return state
+
+# Start updating TOF sensors
+def stop_counting(debug=False):
+	state = utils.service_call('set_counting', TOFSetCounting, [False])
+	if debug:
+		print("Stopping TOF sensors...")
+	if state:
+		return state
+
 # Show help regarding TOF commands
 def help(debug=False):
 	return utils.help(os.path.dirname(__file__), "SCR_TOF_help.txt", debug = debug)
 
 if(__name__ == "__main__"):
 
-					#command         #function       #argument types   #help
+					#command          #function        #argument types   #help
 	serviceCalls = {
-					'get_distances': [get_distances, [],               "get_distances"],
-					'help':          [help,          [],               "help"]}
+					'get_distances':  [get_distances,  [],               "get_distances"],
+					'start_counting': [start_counting, [],               "start_counting"],
+					'stop_counting':  [stop_counting,  [],               "stop_counting"],
+					'help':           [help,           [],               "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 

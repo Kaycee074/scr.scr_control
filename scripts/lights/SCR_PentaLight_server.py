@@ -197,13 +197,15 @@ class PentaLightServer():
 		port = 57007
 		address = self.lights[(x, y)]
 
+		#start = time.time()
+
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((address,port))
 
 		except:
 			rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			rs.connect((address,57011))
+			rs.connect((address, 57011))
 			print("Connection refused")
 
 		s.send(cmdstr)
@@ -212,6 +214,10 @@ class PentaLightServer():
 
 		s.shutdown(socket.SHUT_RDWR)
 		s.close()
+
+		#end = time.time()
+
+		#print("changed (" + str(x) + ", " + str(y) + ") to cmdstr: " + str(cmdstr) + " in " + str(end-start) + " seconds")
 
 		return None
 

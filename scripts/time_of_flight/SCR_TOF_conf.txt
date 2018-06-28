@@ -1,1 +1,1 @@
-/home/martin/tof_control/SCR/output.txt
+192.168.0.46

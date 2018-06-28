@@ -8,4 +8,4 @@ while True:
 	heatmap = numpy.asarray(state.distances)
 	heatmap = numpy.reshape(heatmap, (len(state.distances)/state.room_length, state.room_length))
 	plt.imshow(heatmap)
-	plt.pause(0.1)
+	plt.pause(0.05)

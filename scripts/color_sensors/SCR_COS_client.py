@@ -11,12 +11,13 @@ from scr_control.msg import *
 # Get all values of color sensors
 def read_all(debug=False):
 	state = utils.service_call('read_all', COSReadAll, [])
-	if state and debug:
-		for i in range(len(state.data)):
-			if(i%state.step == 0 and i > 1):
-				print()
-			print(state.data[i], end = " ")
-	return state.data
+	if state:
+		if debug:
+			for i in range(len(state.data)):
+				if(i%state.step == 0 and i > 1):
+					print()
+				print(state.data[i], end = " ")
+		return state.data
 
 # Read one color sensor
 def read(num, debug=False):

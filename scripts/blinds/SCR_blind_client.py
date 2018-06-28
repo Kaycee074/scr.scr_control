@@ -10,30 +10,34 @@ from scr_control.msg import *
 # Lift or lower a given blind
 def lift(b, val, debug=False):
 	state = utils.service_call('lift', BlindLift, [b, val])
-	if state and debug:
-		print("Blind %s is now lifted to %s%%" % (b, state.lift))
-	return state.lift
+	if state:
+		if debug:
+			print("Blind %s is now lifted to %s%%" % (b, state.lift))
+		return state.lift
 
 # Lift or lower all blinds
 def lift_all(val, debug=False):
 	state = utils.service_call('lift_all', BlindLiftAll, [val])
-	if state and debug:
-		print("All blinds now lifted to %s%%" % (state.lift))
-	return state.lift
+	if state:
+		if debug:
+			print("All blinds now lifted to %s%%" % (state.lift))
+		return state.lift
 
 # Tilt a given blind
 def tilt(b, val, debug=False):
 	state = utils.service_call('tilt', BlindTilt, [b, val])
-	if state and debug:
-		print("Blind %s is now tilted to %s%%" % (b, state.tilt))
-	return state.tilt
+	if state:
+		if debug:
+			print("Blind %s is now tilted to %s%%" % (b, state.tilt))
+		return state.tilt
 
 # Tilt all blinds
 def tilt_all(val, debug=False):
 	state = utils.service_call('tilt_all', BlindTiltAll, [val])
-	if state and debug:
-		print("All blinds now tilted to %s%%" % (state.tilt))
-	return state.tilt
+	if state:
+		if debug:
+			print("All blinds now tilted to %s%%" % (state.tilt))
+		return state.tilt
 
 # Get a list of all blinds
 def get_blinds(debug=False):

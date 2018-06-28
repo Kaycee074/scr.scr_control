@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import sys
-import os
+import sys, os, time
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
 import utils
 from scr_control.srv import *
@@ -45,7 +44,7 @@ def cct_all(cct_val, intensity_val, debug=False):
 
 # Get cct value of a given light (returns based on server memory)
 def get_lights(debug=False):
-	state = utils.service_call('getLights', GetLights, [])
+	state = utils.service_call('get_lights', GetLights, [])
 	if state:
 		lights = []
 		for i in range(0, len(state.lights), 2):
