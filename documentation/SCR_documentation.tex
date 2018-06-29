@@ -144,7 +144,7 @@
  	
  	\section{Server}
  	
- 	\subsubsection{Running the Server}
+ 	\subsection{Running the Server}
  	To run any server:
  	
  	\begin{verbatim}
@@ -159,7 +159,7 @@
  	\end{verbatim}
  	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
  	
- 	\subsubsection{Closing the Server}
+ 	\subsection{Closing the Server}
  	The light server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
  	
  	\section{Client}
@@ -167,7 +167,7 @@
  	\subsection{Client}
  	The client sends messages to the server to change the color of a light at a specified position or return the CCT or intensity value of a light at a specified position if it has been changed before.\\
  	
- 	\subsubsection{Running the Client}
+ 	\subsection{Running the Client}
  	For the client to run any commands, the light server must be running first.\\
  	To run the client:
  	
@@ -248,7 +248,7 @@
 	
 
 	
-	\subsubsection{Commands}
+	\subsection{Commands}
 	
 	\begin{enumerate}
 		\item[\bf cct] \verb|[x_coord] [y_coord] [CCT_value] [intensity_percent]|\\
@@ -338,29 +338,7 @@
 		
 	\end{enumerate}
 
- 	\section{In Python}
 
-
-	\subsection{Imports}
-	Because python only searches the current path for imports, you must add the corresponding script folder to your python path before importing any clients. \\ \\
-	Additionally, all functions have the optional argument debug which defaults to False, and determines whether debug information should be printed.
-
-	\subsection{Commands}
-	Running any of the commands in a python script is similar to running from the command line. In the case of the lights, to run light commands from a python script use:
-	\begin{verbatim}
-	SCR_PentaLight_client.[command]([arguments])
-	\end{verbatim}
-	
-	
-	For example:
-	\begin{verbatim}
-	import sys
-	sys.path.append(“/path/to/package/scr_control/scripts/lights”)
-	import SCR_PentaLight_client as light_control
-	
-	light_control.ragbw_all(100, 0, 0, 0, 0, debug = True) 
-	# Prints out: "Changing all lights to red:100% amber:0% green:0% blue:0% white:0%"
-	\end{verbatim}
 	
 	\section{Blinds}
 	The blinds can be raised or lowered to any position. The slats can also be tilted to any angle.
@@ -375,7 +353,7 @@
 	rosrun scr_control SCR_Blind_client.py [command] [arguments]
 	\end{verbatim}
 	
-	\subsubsection{Configuration}
+	\subsection{Configuration}
 	One text file is required to correctly configure the blind server.
 	
 	\begin{enumerate}
@@ -395,7 +373,7 @@
 	\end{enumerate}
 
 	
-	\subsubsection{Commands}
+	\subsection{Commands}
 	
 	\begin{enumerate}
 		\item[\bf lift]\verb| [blind] [percent]|\\
@@ -456,7 +434,7 @@
 	rosrun scr_control SCR_ColorSensor_client.py [command] [arguments]
 	\end{verbatim}
 	
-	\subsubsection{Configuration}
+	\subsection{Configuration}
 	One text file is required to correctly configure the blind server.
 	
 	\begin{enumerate}
@@ -469,7 +447,7 @@
 	
 	\end{enumerate}
 	
-	\subsubsection{Commands}
+	\subsection{Commands}
 	
 	\begin{enumerate}
 		\item[\bf read\_all] Reads data from every sensor in the system\\
@@ -507,7 +485,7 @@
 	rosrun scr_control SCR_HVAC_client.py [command] [arguments]
 	\end{verbatim}
 	
-	\subsubsection{Configuration}
+	\subsection{Configuration}
 	One text file is required to correctly configure the HVAC server.
 	
 	\begin{enumerate}
@@ -520,7 +498,7 @@
 		
 	\end{enumerate}
 	
-	\subsubsection{Commands}
+	\subsection{Commands}
 	
 	\begin{enumerate}
 		
@@ -565,7 +543,7 @@
 	\end{enumerate}
 
 	\section{Time of Flight}
-
+ 	
 	To run the TOF server run:
 	\begin{verbatim}
 	rosrun scr_control SCR_TOF_server.py
@@ -576,7 +554,7 @@
 	rosrun scr_control SCR_TOF_client.py [command] [arguments]
 	\end{verbatim}
 	
-	\subsubsection{Configuration}
+	\subsection{Configuration}
 	One text file is required to correctly configure the TOF server.
 	
 	\begin{enumerate}
@@ -589,7 +567,7 @@
 		
 	\end{enumerate}
 	
-	\subsubsection{Commands}
+	\subsection{Commands}
 	
 	\begin{enumerate}
 
@@ -600,5 +578,30 @@
 		
 		\item[\bf help] prints a list of all commands, what they do, and what arguments they take
 	\end{enumerate}
+
+	\section{In Python}
+
+
+\subsection{Imports}
+Because python only searches the current path for imports, you must add the corresponding script folder to your python path before importing any clients. \\ \\
+Additionally, all functions have the optional argument debug which defaults to False, and determines whether debug information should be printed.
+
+\subsection{Commands}
+Running any of the commands in a python script is similar to running from the command line. In the case of the lights, to run light commands from a python script use:
+\begin{verbatim}
+SCR_PentaLight_client.[command]([arguments])
+\end{verbatim}
+
+
+For example:
+\begin{verbatim}
+import sys
+sys.path.append(“/path/to/package/scr_control/scripts/lights”)
+import SCR_PentaLight_client as light_control
+
+light_control.ragbw_all(100, 0, 0, 0, 0, debug = True) 
+# Prints out: "Changing all lights to red:100% amber:0% green:0% blue:0% white:0%"
+\end{verbatim}
+
 	
 \end{document}

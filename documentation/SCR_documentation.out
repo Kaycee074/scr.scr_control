@@ -9,26 +9,26 @@
 \BOOKMARK [3][-]{subsubsection.2.5.2}{Set environment variables}{subsection.2.5}% 9
 \BOOKMARK [3][-]{subsubsection.2.5.3}{Run the server and client}{subsection.2.5}% 10
 \BOOKMARK [1][-]{section.3}{Server}{}% 11
-\BOOKMARK [2][-]{subsubsection.3.0.1}{Running the Server}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.0.2}{Closing the Server}{subsubsection.3.0.1}% 13
+\BOOKMARK [2][-]{subsection.3.1}{Running the Server}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.2}{Closing the Server}{section.3}% 13
 \BOOKMARK [1][-]{section.4}{Client}{}% 14
 \BOOKMARK [2][-]{subsection.4.1}{Client}{section.4}% 15
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Running the Client}{subsection.4.1}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Running the Client}{section.4}% 16
 \BOOKMARK [1][-]{section.5}{Lights}{}% 17
 \BOOKMARK [2][-]{subsection.5.1}{Configuration}{section.5}% 18
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Commands}{subsection.5.1}% 19
-\BOOKMARK [1][-]{section.6}{In Python}{}% 20
-\BOOKMARK [2][-]{subsection.6.1}{Imports}{section.6}% 21
+\BOOKMARK [2][-]{subsection.5.2}{Commands}{section.5}% 19
+\BOOKMARK [1][-]{section.6}{Blinds}{}% 20
+\BOOKMARK [2][-]{subsection.6.1}{Configuration}{section.6}% 21
 \BOOKMARK [2][-]{subsection.6.2}{Commands}{section.6}% 22
-\BOOKMARK [1][-]{section.7}{Blinds}{}% 23
-\BOOKMARK [2][-]{subsubsection.7.0.1}{Configuration}{section.7}% 24
-\BOOKMARK [3][-]{subsubsection.7.0.2}{Commands}{subsubsection.7.0.1}% 25
-\BOOKMARK [1][-]{section.8}{Color Sensors}{}% 26
-\BOOKMARK [2][-]{subsubsection.8.0.1}{Configuration}{section.8}% 27
-\BOOKMARK [3][-]{subsubsection.8.0.2}{Commands}{subsubsection.8.0.1}% 28
-\BOOKMARK [1][-]{section.9}{HVAC}{}% 29
-\BOOKMARK [2][-]{subsubsection.9.0.1}{Configuration}{section.9}% 30
-\BOOKMARK [3][-]{subsubsection.9.0.2}{Commands}{subsubsection.9.0.1}% 31
-\BOOKMARK [1][-]{section.10}{Time of Flight}{}% 32
-\BOOKMARK [2][-]{subsubsection.10.0.1}{Configuration}{section.10}% 33
-\BOOKMARK [3][-]{subsubsection.10.0.2}{Commands}{subsubsection.10.0.1}% 34
+\BOOKMARK [1][-]{section.7}{Color Sensors}{}% 23
+\BOOKMARK [2][-]{subsection.7.1}{Configuration}{section.7}% 24
+\BOOKMARK [2][-]{subsection.7.2}{Commands}{section.7}% 25
+\BOOKMARK [1][-]{section.8}{HVAC}{}% 26
+\BOOKMARK [2][-]{subsection.8.1}{Configuration}{section.8}% 27
+\BOOKMARK [2][-]{subsection.8.2}{Commands}{section.8}% 28
+\BOOKMARK [1][-]{section.9}{Time of Flight}{}% 29
+\BOOKMARK [2][-]{subsection.9.1}{Configuration}{section.9}% 30
+\BOOKMARK [2][-]{subsection.9.2}{Commands}{section.9}% 31
+\BOOKMARK [1][-]{section.10}{In Python}{}% 32
+\BOOKMARK [2][-]{subsection.10.1}{Imports}{section.10}% 33
+\BOOKMARK [2][-]{subsection.10.2}{Commands}{section.10}% 34
