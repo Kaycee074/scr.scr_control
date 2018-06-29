@@ -160,15 +160,12 @@
  	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
  	
  	\subsection{Closing the Server}
- 	The light server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
+ 	The server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
  	
  	\section{Client}
  	
- 	\subsection{Client}
- 	The client sends messages to the server to change the color of a light at a specified position or return the CCT or intensity value of a light at a specified position if it has been changed before.\\
- 	
  	\subsection{Running the Client}
- 	For the client to run any commands, the light server must be running first.\\
+ 	For the client to run any commands, the corresponding server must be running first.\\
  	To run the client:
  	
  	\begin{verbatim}
