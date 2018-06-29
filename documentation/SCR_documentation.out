@@ -15,30 +15,20 @@
 \BOOKMARK [2][-]{subsection.4.1}{Client}{section.4}% 15
 \BOOKMARK [3][-]{subsubsection.4.1.1}{Running the Client}{subsection.4.1}% 16
 \BOOKMARK [1][-]{section.5}{Lights}{}% 17
-\BOOKMARK [2][-]{subsection.5.1}{Light Server}{section.5}% 18
-\BOOKMARK [2][-]{subsection.5.2}{Light client}{section.5}% 19
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Configuration}{subsection.5.2}% 20
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Commands}{subsection.5.2}% 21
-\BOOKMARK [1][-]{section.6}{In Python}{}% 22
-\BOOKMARK [2][-]{subsection.6.1}{Imports}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.2}{Commands}{section.6}% 24
-\BOOKMARK [1][-]{section.7}{Blinds}{}% 25
-\BOOKMARK [2][-]{subsection.7.1}{Blind Server}{section.7}% 26
-\BOOKMARK [2][-]{subsection.7.2}{Blind client}{section.7}% 27
-\BOOKMARK [3][-]{subsubsection.7.2.1}{Configuration}{subsection.7.2}% 28
-\BOOKMARK [3][-]{subsubsection.7.2.2}{Commands}{subsection.7.2}% 29
-\BOOKMARK [1][-]{section.8}{Color Sensors}{}% 30
-\BOOKMARK [2][-]{subsection.8.1}{Color Sensor Server}{section.8}% 31
-\BOOKMARK [2][-]{subsection.8.2}{Light client}{section.8}% 32
-\BOOKMARK [3][-]{subsubsection.8.2.1}{Configuration}{subsection.8.2}% 33
-\BOOKMARK [3][-]{subsubsection.8.2.2}{Commands}{subsection.8.2}% 34
-\BOOKMARK [1][-]{section.9}{HVAC}{}% 35
-\BOOKMARK [2][-]{subsection.9.1}{HVAC Server}{section.9}% 36
-\BOOKMARK [2][-]{subsection.9.2}{HVAC client}{section.9}% 37
-\BOOKMARK [3][-]{subsubsection.9.2.1}{Configuration}{subsection.9.2}% 38
-\BOOKMARK [3][-]{subsubsection.9.2.2}{Commands}{subsection.9.2}% 39
-\BOOKMARK [1][-]{section.10}{Time of Flight}{}% 40
-\BOOKMARK [2][-]{subsection.10.1}{TOF Server}{section.10}% 41
-\BOOKMARK [2][-]{subsection.10.2}{TOF client}{section.10}% 42
-\BOOKMARK [3][-]{subsubsection.10.2.1}{Configuration}{subsection.10.2}% 43
-\BOOKMARK [3][-]{subsubsection.10.2.2}{Commands}{subsection.10.2}% 44
+\BOOKMARK [2][-]{subsection.5.1}{Configuration}{section.5}% 18
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Commands}{subsection.5.1}% 19
+\BOOKMARK [1][-]{section.6}{In Python}{}% 20
+\BOOKMARK [2][-]{subsection.6.1}{Imports}{section.6}% 21
+\BOOKMARK [2][-]{subsection.6.2}{Commands}{section.6}% 22
+\BOOKMARK [1][-]{section.7}{Blinds}{}% 23
+\BOOKMARK [2][-]{subsubsection.7.0.1}{Configuration}{section.7}% 24
+\BOOKMARK [3][-]{subsubsection.7.0.2}{Commands}{subsubsection.7.0.1}% 25
+\BOOKMARK [1][-]{section.8}{Color Sensors}{}% 26
+\BOOKMARK [2][-]{subsubsection.8.0.1}{Configuration}{section.8}% 27
+\BOOKMARK [3][-]{subsubsection.8.0.2}{Commands}{subsubsection.8.0.1}% 28
+\BOOKMARK [1][-]{section.9}{HVAC}{}% 29
+\BOOKMARK [2][-]{subsubsection.9.0.1}{Configuration}{section.9}% 30
+\BOOKMARK [3][-]{subsubsection.9.0.2}{Commands}{subsubsection.9.0.1}% 31
+\BOOKMARK [1][-]{section.10}{Time of Flight}{}% 32
+\BOOKMARK [2][-]{subsubsection.10.0.1}{Configuration}{section.10}% 33
+\BOOKMARK [3][-]{subsubsection.10.0.2}{Commands}{subsubsection.10.0.1}% 34
