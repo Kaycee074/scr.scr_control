@@ -8,28 +8,37 @@
 \BOOKMARK [3][-]{subsubsection.2.5.1}{Test communication between devices}{subsection.2.5}% 8
 \BOOKMARK [3][-]{subsubsection.2.5.2}{Set environment variables}{subsection.2.5}% 9
 \BOOKMARK [3][-]{subsubsection.2.5.3}{Run the server and client}{subsection.2.5}% 10
-\BOOKMARK [1][-]{section.3}{Lights}{}% 11
-\BOOKMARK [2][-]{subsection.3.1}{Light Server}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Configuration}{subsection.3.1}% 13
-\BOOKMARK [3][-]{subsubsection.3.1.2}{Running the Server}{subsection.3.1}% 14
-\BOOKMARK [3][-]{subsubsection.3.1.3}{Closing the Server}{subsection.3.1}% 15
-\BOOKMARK [2][-]{subsection.3.2}{Light Client}{section.3}% 16
-\BOOKMARK [3][-]{subsubsection.3.2.1}{Running the Client}{subsection.3.2}% 17
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Commands}{subsection.3.2}% 18
-\BOOKMARK [1][-]{section.4}{Blinds}{}% 19
-\BOOKMARK [2][-]{subsection.4.1}{Blind Server}{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Configuration}{subsection.4.1}% 21
-\BOOKMARK [3][-]{subsubsection.4.1.2}{Running the Server}{subsection.4.1}% 22
-\BOOKMARK [3][-]{subsubsection.4.1.3}{Closing the Server}{subsection.4.1}% 23
-\BOOKMARK [2][-]{subsection.4.2}{Blind Client}{section.4}% 24
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Running the Client}{subsection.4.2}% 25
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Commands}{subsection.4.2}% 26
-\BOOKMARK [1][-]{section.5}{Color Sensors}{}% 27
-\BOOKMARK [2][-]{subsection.5.1}{Color Sensor Server}{section.5}% 28
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Configuration}{subsection.5.1}% 29
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Running the Server}{subsection.5.1}% 30
-\BOOKMARK [3][-]{subsubsection.5.1.3}{Closing the Server}{subsection.5.1}% 31
-\BOOKMARK [2][-]{subsection.5.2}{Color Sensor Client}{section.5}% 32
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Running the Client}{subsection.5.2}% 33
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Commands}{subsection.5.2}% 34
-\BOOKMARK [1][-]{section.6}{HVAC}{}% 35
+\BOOKMARK [1][-]{section.3}{Server}{}% 11
+\BOOKMARK [2][-]{subsubsection.3.0.1}{Running the Server}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.0.2}{Closing the Server}{subsubsection.3.0.1}% 13
+\BOOKMARK [1][-]{section.4}{Client}{}% 14
+\BOOKMARK [2][-]{subsection.4.1}{Client}{section.4}% 15
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Running the Client}{subsection.4.1}% 16
+\BOOKMARK [1][-]{section.5}{Lights}{}% 17
+\BOOKMARK [2][-]{subsection.5.1}{Light Server}{section.5}% 18
+\BOOKMARK [2][-]{subsection.5.2}{Light client}{section.5}% 19
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Configuration}{subsection.5.2}% 20
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Commands}{subsection.5.2}% 21
+\BOOKMARK [1][-]{section.6}{In Python}{}% 22
+\BOOKMARK [2][-]{subsection.6.1}{Imports}{section.6}% 23
+\BOOKMARK [2][-]{subsection.6.2}{Commands}{section.6}% 24
+\BOOKMARK [1][-]{section.7}{Blinds}{}% 25
+\BOOKMARK [2][-]{subsection.7.1}{Blind Server}{section.7}% 26
+\BOOKMARK [2][-]{subsection.7.2}{Blind client}{section.7}% 27
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Configuration}{subsection.7.2}% 28
+\BOOKMARK [3][-]{subsubsection.7.2.2}{Commands}{subsection.7.2}% 29
+\BOOKMARK [1][-]{section.8}{Color Sensors}{}% 30
+\BOOKMARK [2][-]{subsection.8.1}{Color Sensor Server}{section.8}% 31
+\BOOKMARK [2][-]{subsection.8.2}{Light client}{section.8}% 32
+\BOOKMARK [3][-]{subsubsection.8.2.1}{Configuration}{subsection.8.2}% 33
+\BOOKMARK [3][-]{subsubsection.8.2.2}{Commands}{subsection.8.2}% 34
+\BOOKMARK [1][-]{section.9}{HVAC}{}% 35
+\BOOKMARK [2][-]{subsection.9.1}{HVAC Server}{section.9}% 36
+\BOOKMARK [2][-]{subsection.9.2}{HVAC client}{section.9}% 37
+\BOOKMARK [3][-]{subsubsection.9.2.1}{Configuration}{subsection.9.2}% 38
+\BOOKMARK [3][-]{subsubsection.9.2.2}{Commands}{subsection.9.2}% 39
+\BOOKMARK [1][-]{section.10}{Time of Flight}{}% 40
+\BOOKMARK [2][-]{subsection.10.1}{TOF Server}{section.10}% 41
+\BOOKMARK [2][-]{subsection.10.2}{TOF client}{section.10}% 42
+\BOOKMARK [3][-]{subsubsection.10.2.1}{Configuration}{subsection.10.2}% 43
+\BOOKMARK [3][-]{subsubsection.10.2.2}{Commands}{subsection.10.2}% 44

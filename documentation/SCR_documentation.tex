@@ -53,7 +53,11 @@
 	\section{Introduction}
 	This project is a ROS package containing scripts to control the lights, blinds and HVAC, and read data from sensors in the Smart Conference Room. In order to run any of the scripts, ROS must be installed and \verb|roscore| must be active. Information on ROS can be found at \url{http://wiki.ros.org/}.
 	
+
+	
 	\section{Setup}
+	
+	
 	Robot Operating System (ROS) must be installed in order to run these scripts.
 	
 	\subsection{Installing ROS}
@@ -138,12 +142,59 @@
  	You should now be able to run the server and client scripts on separate machines. \\
  	If you are still having troubles, see the relevant ROS tutorial: \url{http://wiki.ros.org/ROS/Tutorials/MultipleMachines}
  	
+ 	\section{Server}
+ 	
+ 	\subsubsection{Running the Server}
+ 	To run any server:
+ 	
+ 	\begin{verbatim}
+ 	rosrun scr_control SCR_(server_name)_server.py
+ 	\end{verbatim}
+ 	If the server prints:
+ 	
+ 	\begin{verbatim}
+ 	Unable to register with master node [http://localhost:11311]: master may not be running yet. 
+ 	Will keep trying.
+ 	\end{verbatim}
+ 	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
+ 	
+ 	\subsubsection{Closing the Server}
+ 	The light server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
+ 	
+ 	\section{Client}
+ 	
+ 	\subsection{Client}
+ 	The client sends messages to the server to change the color of a light at a specified position or return the CCT or intensity value of a light at a specified position if it has been changed before.\\
+ 	
+ 	\subsubsection{Running the Client}
+ 	For the client to run any commands, the light server must be running first.\\
+ 	To run the client:
+ 	
+ 	\begin{verbatim}
+ 	$ rosrun scr_control SCR_(client_name)_client.py [command] [arguments]
+ 	\end{verbatim}
+ 	
+
+ 	
+ 	
+ 	
+ 	
  	
 	\section{Lights}
 	The lights in the Smart Conference Room have many parameters controlling their color. Each light has five color options, red, blue, green, amber and white. Each color can be set from 0\% to 100\% intensity to produce different combinations of colors. Each light can also be set to specific CCT's and overall intensities.
 	
 	\subsection{Light Server}
-	The Light Server listens for commands from the client and takes action and responds based on those commands.
+	To run the light server run:
+	\begin{verbatim}
+	rosrun scr_control SCR_PentaLight_server.py
+	\end{verbatim}
+	
+	\subsection{Light client}
+	To run the light client run:
+	\begin{verbatim}
+	rosrun scr_control SCR_PentaLight_client.py [command] [arguments]
+	\end{verbatim}
+
 	
 	\subsubsection{Configuration}
 	Three text files are required to correctly configure the light server.
@@ -198,38 +249,14 @@
 		\[I_b = -.0826i_b^2+1.0943i_b\]
 	\end{enumerate}
 
-	\subsubsection{Running the Server}
-	To run the server:
 	
-	\begin{verbatim}
-		rosrun scr_control SCR_PentaLight_server.py
-	\end{verbatim}
-	If the server prints:
 	
-	\begin{verbatim}
-		Unable to register with master node [http://localhost:11311]: master may not be running yet. 
-		Will keep trying.
-	\end{verbatim}
-	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
-	
-	\subsubsection{Closing the Server}
-	The light server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
-	
-	\subsection{Light Client}
-	The light client sends messages to the server to change the color of a light at a specified position or return the CCT or intensity value of a light at a specified position if it has been changed before.\\
-	
-	\subsubsection{Running the Client}
-	For the light client to run any commands, the light server must be running first.\\
-	To run the client:
-	
-	\begin{verbatim}
-	    $ rosrun scr_control SCR_PentaLight_client.py [command] [arguments]
-	\end{verbatim}
+
 	
 	\subsubsection{Commands}
 	
 	\begin{enumerate}
-		\item[\bf CCT] \verb|[x_coord] [y_coord] [CCT_value] [intensity_percent]|\\
+		\item[\bf cct] \verb|[x_coord] [y_coord] [CCT_value] [intensity_percent]|\\
 		Sets the CCT of the light at the input coordinates to the input CCT value at the input intensity.\\
 		Returns the new state of the specified light.
 		
@@ -262,7 +289,7 @@
 			a percentage between 0 and 100
 		\end{enumerate}
 		
-		\item[\bf CCT\_all] \verb|[CCT_value] [intensity_percent]|\\
+		\item[\bf cct\_all] \verb|[CCT_value] [intensity_percent]|\\
 		Sets the CCT of all lights to the input CCT value at the input intensity.\\
 		Returns the new state of the last light changed.
 		
@@ -315,12 +342,45 @@
 		\item[\bf help] prints a list of commands and their arguments
 		
 	\end{enumerate}
+
+ 	\section{In Python}
+
+
+	\subsection{Imports}
+	Because python only searches the current path for imports, you must add the corresponding script folder to your python path before importing any clients. \\ \\
+	Additionally, all functions have the optional argument debug which defaults to False, and determines whether debug information should be printed.
+
+	\subsection{Commands}
+	Running any of the commands in a python script is similar to running from the command line. In the case of the lights, to run light commands from a python script use:
+	\begin{verbatim}
+	SCR_PentaLight_client.[command]([arguments])
+	\end{verbatim}
+	
+	
+	For example:
+	\begin{verbatim}
+	import sys
+	sys.path.append(“/path/to/package/scr_control/scripts/lights”)
+	import SCR_PentaLight_client as light_control
+	
+	light_control.ragbw_all(100, 0, 0, 0, 0, debug = True) 
+	# Prints out: "Changing all lights to red:100% amber:0% green:0% blue:0% white:0%"
+	\end{verbatim}
 	
 	\section{Blinds}
 	The blinds can be raised or lowered to any position. The slats can also be tilted to any angle.
 	
 	\subsection{Blind Server}
-	The Blind Server listens for commands from the client and takes action and responds based on those commands.
+	To run the Blind server run:
+	\begin{verbatim}
+	rosrun scr_control SCR_Blind_server.py
+	\end{verbatim}
+	
+	\subsection{Blind client}
+	To run the light client run:
+	\begin{verbatim}
+	rosrun scr_control SCR_Blind_client.py [command] [arguments]
+	\end{verbatim}
 	
 	\subsubsection{Configuration}
 	One text file is required to correctly configure the blind server.
@@ -340,36 +400,7 @@
 		The first part is the IP address of the blind controller. The second part is a list of blinds. Each blind has an orientation (N,E,S,W) and a number (1,...,n). For each orientation, the numbering of blinds begins at 1 and increases. The two parts are separated by a dash (-).
 		
 	\end{enumerate}
-	
-	\subsubsection{Running the Server}
-	To run the server:
-	
-	\begin{verbatim}
-	    rosrun scr_control SCR_blind_server.py
-	\end{verbatim}
-	If the server prints:
-	
-	\begin{verbatim}
-	    Unable to register with master node [http://localhost:11311]: master may not be running yet. 
-	    Will keep trying.
-	\end{verbatim}
-	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
-	
-	\subsubsection{Closing the Server}
-	
-	The blind server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
-		
-	\subsection{Blind Client}
-	
-	The blind client sends a messages to the blind server to tilt or twist the blinds.\\
-	
-	\subsubsection{Running the Client}
-	For the blind client to run any commands, the blind server must be running first.\\
-	To run the client:
-	
-	\begin{verbatim}
-	$ rosrun scr_control SCR_blind_client.py [command] [arguments]
-	\end{verbatim}
+
 	
 	\subsubsection{Commands}
 	
@@ -423,7 +454,16 @@
 	The color sensors read the color data of the room.
 	
 	\subsection{Color Sensor Server}
-	The color sensor Server receives read signals from the client and returns data read form the sensors. 
+	To run the Color Sensor server run:
+	\begin{verbatim}
+	rosrun scr_control SCR_ColorSensor_server.py
+	\end{verbatim}
+	
+	\subsection{Light client}
+	To run the Color Sensor client run:
+	\begin{verbatim}
+	rosrun scr_control SCR_ColorSensor_client.py [command] [arguments]
+	\end{verbatim}
 	
 	\subsubsection{Configuration}
 	One text file is required to correctly configure the blind server.
@@ -437,36 +477,6 @@
 		\end{verbatim}
 	
 	\end{enumerate}
-
-	\subsubsection{Running the Server}
-	To run the server:
-	
-	\begin{verbatim}
-	rosrun scr_control SCR_COS_server.py
-	
-	\end{verbatim}
-	If the server prints:
-	
-	\begin{verbatim}
-	Unable to register with master node [http://localhost:11311]: master may not be running yet. 
-	Will keep trying.
-	
-	\end{verbatim}
-	Then \verb|roscore| is not running. Open another shell and run \verb|roscore| and the server should run.
-	
-	\subsubsection{Closing the Server}
-	The color sensor server can be closed at any time by pressing \keystroke{Ctrl}+\keystroke{C} in the shell in which the server is running.
-	
-	\subsection{Color Sensor Client}
-	The color sensor client sends requests to the color sensor server to read data from the color sensors.
-	
-	\subsubsection{Running the Client}
-		For the blind client to run any commands, the blind server must be running first.\\
-	To run the client:
-	
-	\begin{verbatim}
-	$ rosrun scr_control SCR_COS_client.py [command] [arguments]
-	\end{verbatim}
 	
 	\subsubsection{Commands}
 	
@@ -494,6 +504,116 @@
 	\end{enumerate}
 	
 	\section{HVAC}
-	TODO
+	The HVAC system 
+	
+	\subsection{HVAC Server}
+	To run the HVAC server run:
+	\begin{verbatim}
+	rosrun scr_control SCR_HVAC_server.py
+	\end{verbatim}
+	
+	\subsection{HVAC client}
+	To run the HVAC client run:
+	\begin{verbatim}
+	rosrun scr_control SCR_HVAC_client.py [command] [arguments]
+	\end{verbatim}
+	
+	\subsubsection{Configuration}
+	One text file is required to correctly configure the HVAC server.
+	
+	\begin{enumerate}
+		\item \verb|SCR_HVAC_conf.txt|\\
+		This file contains the IP address of the HVAC controller. The format of the file is as follows:
+		
+		\begin{verbatim}
+		192.168.0.36
+		\end{verbatim}
+		
+	\end{enumerate}
+	
+	\subsubsection{Commands}
+	
+	\begin{enumerate}
+		
+		\item[\bf set\_temp] [temp]
+		sets the temperature of the room	
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it temp] temperature, in Celsius, to set the room to\\
+			a float
+		\end{enumerate}
+		
+		\item[\bf set\_fansp] [speed]
+		sets the fan speed of the room
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it speed] speed to set the fan to\\ 
+			a string, string = off|low|medium|high
+		\end{enumerate}
+		
+		\item[\bf set\_ep] [ep] [val]
+		sets ep for the system
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it ep] ep value to set\\ 
+			an int
+			\item[\it val] the value the ep will be set to\\ 
+			an int from 0-100
+		\end{enumerate}
+		
+		\item[\bf set\_bms]	enables building maintenance system to take control
+		
+		\item[\bf get\_temp] gets current temperature reading from each sensor \\
+		returns a list with the temperature readings from each sensor
+		
+		\item[\bf get\_ep] gets current ep values from each ep \\
+		returns a list with the ep values for each ep
+		
+		\item[\bf get\_co2] gets current CO2 reading in the room \\
+		returns a list with the co2 readings from each sensor
+		
+		\item[\bf get\_rh] gets the current relative humidity in the room \\
+		returns a list with the co2 readings from each sensor
+		
+		\item[\bf help] prints a list of commands and their arguments
+	\end{enumerate}
+
+	\section{Time of Flight}
+
+	
+	
+	\subsection{TOF Server}
+	To run the TOF server run:
+	\begin{verbatim}
+	rosrun scr_control SCR_TOF_server.py
+	\end{verbatim}
+	
+	\subsection{TOF client}
+	To run the TOF client run:
+	\begin{verbatim}
+	rosrun scr_control SCR_TOF_client.py [command] [arguments]
+	\end{verbatim}
+	
+	\subsubsection{Configuration}
+	One text file is required to correctly configure the TOF server.
+	
+	\begin{enumerate}
+		\item \verb|SCR_TOF_conf.txt|\\
+		This file contains the IP address of the ToF controller. The format of the file is as follows:
+		
+		\begin{verbatim}
+		192.168.0.36
+		\end{verbatim}
+		
+	\end{enumerate}
+	
+	\subsubsection{Commands}
+	
+	\begin{enumerate}
+
+		\item[\bf get\_distances]
+		returns a list with 2 elements \\
+		int16[] distances, a 1D array representing a distance map of the room \\
+		int16 room\_length, number of data points in one row of the room
+		
+		\item[\bf help] prints a list of all commands, what they do, and what arguments they take
+	\end{enumerate}
 	
 \end{document}
