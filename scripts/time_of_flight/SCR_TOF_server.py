@@ -29,12 +29,13 @@ class TimeOfFlightServer():
 
 	def establish_connection(self):
 		port = 3660
+		print("Trying to reach", port, self.address)
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((self.address,port))
 		except:
-			rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			rs.connect((self.address, 57011))
+			#rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			#rs.connect((self.address, 57011))
 			print("Connection refused on " + self.address)
 		return s
 

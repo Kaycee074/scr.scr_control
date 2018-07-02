@@ -10,25 +10,25 @@ from scr_control.msg import *
 def cct(x, y, cct_val, intensity_val, debug=False):
 	if debug:
 		print("Changing light (%s,%s) to cct %s and intensity %s" % (x, y, cct_val, intensity_val))
-	state = utils.service_call('cct', PentaLight_CCT, [cct_val, intensity_val, x, y])
+	state = utils.service_call('cct', OctaLight_CCT, [cct_val, intensity_val, x, y])
 	if state and debug:
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
 	return state.cmdstr
 
 # Change color of a light using Red/Amber/Green/Blue/White values
-def ragbw(x, y, red_val, amber_val, green_val, blue_val, white_val, debug=False):
+def sources(x, y, b1, b2, b3, l, a, o, r1, r2, debug=False):
 	if debug:
-		print("Changing light (%s,%s) to red:%s%% amber:%s%% green:%s%% blue:%s%% white:%s%%" % (x, y, red_val, amber_val, green_val, blue_val, white_val))
-	state = utils.service_call('ragbw', PentaLight_ragbw, [red_val, amber_val, green_val, blue_val, white_val, x, y])
+		print("Changing light (%s,%s) to blue1:%s%% blue2:%s%% blue3:%s%% lime:%s%% amber:%s%% orange:%s%% red1:%s%% red2:%s%%" % (x, y, b1, b2, b3, l, a, o, r1, r2))
+	state = utils.service_call('sources', OctaLight_sources, [b1, b2, b3, l, a, o, r1, r2, x, y])
 	if state and debug:	
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
 	return state
 
 # Change color of a light using Red/Amber/Green/Blue/White values
-def ragbw_all(red_val, amber_val, green_val, blue_val, white_val, debug=False):
+def sources_all(b1, b2, b3, l, a, o, r1, r2, debug=False):
 	if debug:
-		print("Changing all lights to red:%s%% amber:%s%% green:%s%% blue:%s%% white:%s%%" % (red_val, amber_val, green_val, blue_val, white_val))
-	state = utils.service_call('ragbw_all', PentaLight_ragbwAll, [red_val, amber_val, green_val, blue_val, white_val])
+		print("Changing all lights to blue1:%s%% blue2:%s%% blue3:%s%% lime:%s%% amber:%s%% orange:%s%% red1:%s%% red2:%s%%" % (b1, b2, b3, l, a, o, r1, r2))
+	state = utils.service_call('sources_all', OctaLight_sourcesAll, [b1, b2, b3, l, a, o, r1, r2])
 	if state and debug:	
 		print("Lights are now in state %s" % (state))
 	return state.cmdstr
@@ -37,7 +37,7 @@ def ragbw_all(red_val, amber_val, green_val, blue_val, white_val, debug=False):
 def cct_all(cct_val, intensity_val, debug=False):
 	if debug:
 		print("Changing all lights to cct %s and intensity %s" % (cct_val, intensity_val))
-	state = utils.service_call('cct_all', PentaLight_CCTAll, [cct_val, intensity_val])
+	state = utils.service_call('cct_all', OctaLight_CCTAll, [cct_val, intensity_val])
 	if state and debug:
 		print("Lights are now in state %s" % (state))
 	return state.cmdstr
@@ -70,19 +70,19 @@ def get_int(x, y, debug=False):
 
 # Show help regarding light commands
 def help(debug=False):
-	return utils.help(os.path.dirname(__file__), "SCR_PentaLight_help.txt", debug = debug)
+	return utils.help(os.path.dirname(__file__), "SCR_OctaLight_help.txt", debug = debug)
 
 if(__name__ == "__main__"):
 
-					#command     #function     #argument types                                #help
+					#command     #function     #argument types                                         #help
 	serviceCalls = {
-					'cct':       [cct,         [int, int, int, int],                          "cct [x_coord] [y_coord] [cct] [intensity]"],
-					'ragbw':     [ragbw,       [int, int, float, float, float, float, float], "ragbw [x_coord] [y_coord] [red] [amber] [green] [blue] [white]"],
-					'cct_all':   [cct_all,     [int, int],                                    "cct_all [cct] [intensity]"],
-					'ragbw_all': [ragbw_all,   [float, float, float, float, float],           "ragbw_all [red] [amber] [green] [blue] [white]"],
-					'get_cct':   [get_cct,     [int, int],                                    "get_cct [x_coord] [y_coord]"],
-					'get_int':   [get_int,     [int, int],                                    "get_int [x_coord] [y_coord]"],
-					'get_lights':[get_lights,  [],                                            "get_lights"],
-					'help':      [help,        [],                                            "help"]}
+					'cct':         [cct,         [int, int, int, int],                                 "cct [x_coord] [y_coord] [cct] [intensity]"],
+					'sources':     [sources,     [int, int, int, int, int, int, int, int, int, int],   "sources [x_coord] [y_coord] [blue] [blue] [blue] [lime] [amber] [orange] [red] [red]"],
+					'cct_all':     [cct_all,     [int, int],                                           "cct_all [cct] [intensity]"],
+					'sources_all': [sources_all, [int, int, int, int, int, int, int, int],             "sources_all [blue] [blue] [blue] [lime] [amber] [orange] [red] [red]"],
+					'get_cct':     [get_cct,     [int, int],                                           "get_cct [x_coord] [y_coord]"],
+					'get_int':     [get_int,     [int, int],                                           "get_int [x_coord] [y_coord]"],
+					'get_lights':  [get_lights,  [],                                                   "get_lights"],
+					'help':        [help,        [],                                                   "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

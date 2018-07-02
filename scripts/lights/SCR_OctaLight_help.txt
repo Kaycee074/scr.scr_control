@@ -5,28 +5,34 @@ cct:
 		third argument is a CCT value between 1800 and 10000
 		fourth argument is an intensity value as a % betweem 0 and 100
 		
-ragbw:
+sources:
 		changes the color of the light at the specified postion
 		first argument is the x coordinate of the light to change
 		second argument is the y coordinate of the light to change
-		third argument is a red color value as a % between 0 and 100
-		fourth argument is a amber color value as a % between 0 and 100
-		fifth argument is a green color value as a % between 0 and 100
-		sixth argument is a blue color value as a % between 0 and 100
-		seventh argument is a white color value as a % between 0 and 100
+		third argument is the first blue color value as a % between 0 and 100
+		fourth argument is the second blue color value as a % between 0 and 100
+		fifth argument is the third blue color value as a % between 0 and 100
+		sixth argument is the lime color value as a % between 0 and 100
+		seventh argument is the amber color value as a % between 0 and 100
+		eigth argument is the orange color value as a % between 0 and 100
+		ninth argument is the first red color value as a % between 0 and 100
+		tenth argument is the second red color value as a % between 0 and 100
 		
 cct_all:
 		changes the color temperature and intensity of all lights
 		first argument is a CCT value between 1800 and 10000
 		second argument is an intensity value as a % betweem 0 and 100
 		
-ragbw_all:
+sources_all:
 		changes the color of all lights
-		first argument is a red color value as a % between 0 and 100
-		second argument is a amber color value as a % between 0 and 100
-		third argument is a green color value as a % between 0 and 100
-		fourth argument is a blue color value as a % between 0 and 100
-		fifth argument is a white color value as a % between 0 and 100
+		first argument is the first blue color value as a % between 0 and 100
+		second argument is the second blue color value as a % between 0 and 100
+		third argument is the third blue color value as a % between 0 and 100
+		fourth argument is the lime color value as a % between 0 and 100
+		fifth argument is the amber color value as a % between 0 and 100
+		sixth argument is the orange color value as a % between 0 and 100
+		seventh argument is the first red color value as a % between 0 and 100
+		eigth argument is the second red color value as a % between 0 and 100
 		
 get_cct:
 		returns the cct value of the light at the specified position if it has been changed

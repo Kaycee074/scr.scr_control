@@ -32,11 +32,11 @@ add_service_files(
   FILES
   LightState.srv
   TestLightChange.srv
-  PentaLight_CCT.srv
-  PentaLight_int.srv
-  PentaLight_ragbw.srv
-  PentaLight_ragbwAll.srv
-  PentaLight_CCTAll.srv
+  OctaLight_CCT.srv
+  OctaLight_int.srv
+  OctaLight_sources.srv
+  OctaLight_sourcesAll.srv
+  OctaLight_CCTAll.srv
   GetBlinds.srv
   GetCCT.srv
   GetInt.srv
