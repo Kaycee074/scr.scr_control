@@ -40,6 +40,7 @@ add_service_files(
   GetBlinds.srv
   GetCCT.srv
   GetInt.srv
+  GetSources.srv
   GetLights.srv
   BlindLift.srv
   BlindLiftAll.srv

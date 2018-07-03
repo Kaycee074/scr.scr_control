@@ -131,11 +131,13 @@ class OctaLightServer():
 		self.change_light_all(self.gen_cmdstr(channels))
 		return OctaLight_sourcesAllResponse(str(channels))
 
-	def handle_getCCT(self, req):
-		return GetCCTResponse(1);
-
-	def handle_getInt(self, req):
-		return GetIntResponse(1)
+	def handle_getSources(self, req):
+		if not (req.x, req.y) in self.lights:
+			return "Error: No light at specified coordinates"
+		address = self.lights[(req.x, req.y)]
+		channels = api.get_all_drive_levels(address)
+		channels = [float(x*100) for x in channels]
+		return GetSourcesResponse(channels);
 
 	def handle_getLights(self, req):
 		out = []
@@ -157,16 +159,16 @@ class OctaLightServer():
 	def get_channels_CCT(self, CCT, intensity):
 
 		colors = []
-		for i in range(5):
-			colors.append(self.CCT_dict[CCT][i])
+		for i in range(8):
+			colors.append(float(float(self.CCT_dict[CCT][i])/100))
 
 		intensity = float(intensity)/100
 		intensity_colors = []
-		for i in range(5):
+		for i in range(8):
 			intensity_colors.append(self.int_list[i][0]*intensity*intensity+self.int_list[i][1]*intensity)
 		
-		for i in range(len(colors)):
-			colors[i] = int(colors[i]*intensity_colors[i])
+		#for i in range(len(colors)):
+			#colors[i] = (colors[i]*intensity_colors[i])
 
 		return colors
 
@@ -178,9 +180,10 @@ class OctaLightServer():
 
 	def getIntensityCCT(self, i, c):
 		intensity = max(min(i, 100), 0)
-		CCT = max(min(c, 10000), 1800)
-		#if CCT != 10000 and CCT != 1800:
-		#	CCT = c - c%100
+		CCT = max(min(c, 11500), 1500)
+		CCT = CCT - c%500
+		if (CCT%1000 == 0):
+			CCT += 500
 		return intensity, CCT
 
 	def change_light_all(self, cmdstr):
@@ -217,15 +220,10 @@ class OctaLightServer():
 			OctaLight_sourcesAll, 
 			lambda msg: self.handle_sourcesAll(msg))
 
-		get_CCT_service = rospy.Service(
-			"get_cct",
-			GetCCT,
-			lambda msg: self.handle_getCCT(msg))
-
-		get_int_service = rospy.Service(
-			"get_int",
-			GetInt,
-			lambda msg: self.handle_getInt(msg))
+		get_Sources_service = rospy.Service(
+			"get_sources",
+			GetSources,
+			lambda msg: self.handle_getSources(msg))
 
 		get_lights_service = rospy.Service(
 			"get_lights",

@@ -55,18 +55,12 @@ def get_lights(debug=False):
 	return None
 
 # Get cct value of a given light (returns based on server memory)
-def get_cct(x, y, debug=False):
-	state = utils.service_call('getcct', Getcct, [x, y])
+def get_sources(x, y, debug=False):
+	state = utils.service_call('get_sources', GetSources, [x, y])
 	if state and debug:
-		print("The cct of Light (%s,%s) is %s" % (x, y, state))
-	return state.cct
+		print("The sources of Light (%s,%s) is %s" % (x, y, state.sources))
+	return state.sources
 
-# Get INT value of a given light (returns based on server memory)
-def get_int(x, y, debug=False):
-	state = utils.service_call('getInt', GetInt, [x, y])
-	if state and debug:
-		print("The intensity of Light (%s,%s) is %s" % (x, y, state))
-	return state.intensity
 
 # Show help regarding light commands
 def help(debug=False):
@@ -80,8 +74,7 @@ if(__name__ == "__main__"):
 					'sources':     [sources,     [int, int, int, int, int, int, int, int, int, int],   "sources [x_coord] [y_coord] [blue] [blue] [blue] [lime] [amber] [orange] [red] [red]"],
 					'cct_all':     [cct_all,     [int, int],                                           "cct_all [cct] [intensity]"],
 					'sources_all': [sources_all, [int, int, int, int, int, int, int, int],             "sources_all [blue] [blue] [blue] [lime] [amber] [orange] [red] [red]"],
-					'get_cct':     [get_cct,     [int, int],                                           "get_cct [x_coord] [y_coord]"],
-					'get_int':     [get_int,     [int, int],                                           "get_int [x_coord] [y_coord]"],
+					'get_sources': [get_sources, [int, int],                                           "get_sources [x_coord] [y_coord]"],
 					'get_lights':  [get_lights,  [],                                                   "get_lights"],
 					'help':        [help,        [],                                                   "help"]}
 

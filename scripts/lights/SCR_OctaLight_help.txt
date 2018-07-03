@@ -34,15 +34,10 @@ sources_all:
 		seventh argument is the first red color value as a % between 0 and 100
 		eigth argument is the second red color value as a % between 0 and 100
 		
-get_cct:
-		returns the cct value of the light at the specified position if it has been changed
-		first argument is the x coordinate of the light to change
-		second argument is the y coordinate of the light to change
-
-get_int:
-		returns the intensity value of the light at the specified position if it has been changed
-		first argument is the x coordinate of the light to change
-		second argument is the y coordinate of the light to change
+get_sources:
+		returns a table of primary sources values of the light at the specified position
+		first argument is the x coordinate of the light
+		second argument is the y coordinate of the light
 
 get_lights:
 		returns all available light coordinates
