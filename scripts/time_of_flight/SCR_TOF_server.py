@@ -29,7 +29,6 @@ class TimeOfFlightServer():
 
 	def establish_connection(self):
 		port = 3660
-		print("Trying to reach", port, self.address)
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((self.address,port))
@@ -48,23 +47,21 @@ class TimeOfFlightServer():
 		config = open(os.path.join(os.path.dirname(__file__), 'SCR_TOF_conf.txt'), 'r')
 		return config.readline()
 
-	def handle_getHeatmap(self, req):
-		distances = []
-		room_length = 0
-		data_file = open(self.data_location, 'r')
+	def handle_getDistances(self, req):
+		s = self.establish_connection()
+		s.send("get_data"+str(req.sensor_id))
+		data = s.recv(3000)
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
 
-		for line in data_file:
-			lineData = line.split()
-			if room_length == 0:
-				room_length = len(lineData)
-			for num in lineData:
-				distances.append(int(num))
+		data = data.split(",")
+		data = [int(float(x)) for x in data]
 
-		return GetHeatmapResponse(distances, room_length)
+		return TOFGetDistancesResponse(data)
+
 
 	def handle_setCounting(self, req):
 		if req.mode:
-			print("Starting to update TOF sensors...")
 			s = self.establish_connection()
 			s.send("start_counting")
 			#data = s.recv(3000)
@@ -72,10 +69,9 @@ class TimeOfFlightServer():
 			s.close()
 
 		else:
-			print("Stopping TOF sensors...")
 			s = self.establish_connection()
 			s.send("stop_counting")
-			#data = s.recv(3000)
+			#data = s.recv(3000)s
 			s.shutdown(socket.SHUT_RDWR)
 			s.close()
 
@@ -89,8 +85,8 @@ class TimeOfFlightServer():
 
 		lift_service = rospy.Service(
 			"get_distances",
-			GetHeatmap,
-			self.handle_getHeatmap)
+			TOFGetDistances,
+			self.handle_getDistances)
 
 		lift_service = rospy.Service(
 			"set_counting",

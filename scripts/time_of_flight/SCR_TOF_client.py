@@ -9,15 +9,14 @@ from scr_control.srv import *
 from scr_control.msg import *
 
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
-def get_distances(debug=False):
-	state = utils.service_call('get_heatmap', GetHeatmap, [])
+def get_distances(sensor_id, debug=False):
+	state = utils.service_call('get_distances', TOFGetDistances, [sensor_id])
+	if debug:
+		print(state)
 	if state:
-		dist = numpy.asarray(state.distances)
-		dist = numpy.reshape(heatmap, (len(state.distances)/state.room_length, state.room_length))
-		dist = dist.tolist()
-		if debug:
-			print(dist)
-		return dist
+		return state.data
+
+	return None
 
 # Start updating TOF sensors
 def start_counting(debug=False):
@@ -43,7 +42,7 @@ if(__name__ == "__main__"):
 
 					#command          #function        #argument types   #help
 	serviceCalls = {
-					'get_distances':  [get_distances,  [],               "get_distances"],
+					'get_distances':  [get_distances,  [int],            "get_distances [sensor_id]"],
 					'start_counting': [start_counting, [],               "start_counting"],
 					'stop_counting':  [stop_counting,  [],               "stop_counting"],
 					'help':           [help,           [],               "help"]}
