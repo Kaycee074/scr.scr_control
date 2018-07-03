@@ -15,13 +15,9 @@ class OctaLightServer():
 	'''
 
 	def __init__(self):
-
 		self.lights = self.read_config()
-
 		self.CCT_dict = self.initialize_CCT()
-		self.int_list = self.initialize_int()
 		self.ip_list = self.initialize_lights()
-
 		self.server_init()
 
 	def read_config(self):
@@ -91,6 +87,7 @@ class OctaLightServer():
 
 		return CCT_dict
 
+	'''
 	def initialize_int(self):
 
 		vals = open(os.path.join(os.path.dirname(__file__), 'SCR_OctaLight_int.txt'), 'r')
@@ -104,6 +101,7 @@ class OctaLightServer():
 		vals.close()
 
 		return ints
+	'''
 
 	'''
 	COMMAND HANDLERS
@@ -145,7 +143,7 @@ class OctaLightServer():
 			out.append(light[0])
 			out.append(light[1])
 		return GetLightsResponse(out)
-		
+
 	'''
 	HELPER FUNCTIONS
 	'''
@@ -157,19 +155,9 @@ class OctaLightServer():
 		return colors
 
 	def get_channels_CCT(self, CCT, intensity):
-
 		colors = []
 		for i in range(8):
-			colors.append(float(float(self.CCT_dict[CCT][i])/100))
-
-		intensity = float(intensity)/100
-		intensity_colors = []
-		for i in range(8):
-			intensity_colors.append(self.int_list[i][0]*intensity*intensity+self.int_list[i][1]*intensity)
-		
-		#for i in range(len(colors)):
-			#colors[i] = (colors[i]*intensity_colors[i])
-
+			colors.append(float(float(self.CCT_dict[CCT][i])/100)*intensity)
 		return colors
 
 	def gen_cmdstr(self, colors):
@@ -179,7 +167,7 @@ class OctaLightServer():
 		return "PS"+''.join(colors)
 
 	def getIntensityCCT(self, i, c):
-		intensity = max(min(i, 100), 0)
+		intensity = float(max(min(i, 100), 0))/100
 		CCT = max(min(c, 11500), 1500)
 		CCT = CCT - c%500
 		if (CCT%1000 == 0):
