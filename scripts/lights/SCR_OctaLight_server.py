@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 
 from scr_control.srv import *
-import rospy
-import socket
-import time
-import sys
-import os
-import api
+import rospy, api
+import time, sys, os
 
 class OctaLightServer():
 
@@ -21,7 +17,6 @@ class OctaLightServer():
 		self.server_init()
 
 	def read_config(self):
-
 		config = open(os.path.join(os.path.dirname(__file__), 'SCR_OctaLight_conf.txt'), 'r')
 		lights = {}
 		addresses = []
@@ -47,13 +42,13 @@ class OctaLightServer():
 			y += 1
 
 		config.close()
-
 		return lights
 
 	def initialize_lights(self):
+		# Redirect error printing, api.discover() will otherwise print many warnings/errors that do not affect the program
 		sys.stderr = open(os.devnull, "w")
 		ip_list = api.discover()
-		sys.stdout = sys.__stdout__
+		sys.stderr = sys.__stderr__
 		return ip_list
 
 	def initialize_CCT(self):
@@ -108,7 +103,6 @@ class OctaLightServer():
 	'''
 
 	def handle_CCT(self, req):
-		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
 		channels = self.get_channels_CCT(CCT, intensity)
 		self.change_light(req.x, req.y, channels)
 		return OctaLight_CCTResponse(str(channels))
@@ -119,7 +113,6 @@ class OctaLightServer():
 		return OctaLight_sourcesResponse(str(channels))
 
 	def handle_CCTAll(self, req):
-		intensity, CCT = self.getIntensityCCT(req.intensity, req.CCT)
 		channels = self.get_channels_CCT(CCT, intensity)
 		self.change_light_all(self.gen_cmdstr(channels))
 		return OctaLight_CCTAllResponse(str(channels))
@@ -150,11 +143,12 @@ class OctaLightServer():
 
 	def get_channels(self, req):
 		colors = [req.b1, req.b2, req.b3, req.l, req.a, req.o, req.r1, req.r2]
-		for i in range(len(colors)):
+		for i in range(8):
 			colors[i] = float(float(colors[i])/100)
 		return colors
 
 	def get_channels_CCT(self, CCT, intensity):
+		intensity, CCT = self.getIntensityCCT(intensity, CCT)
 		colors = []
 		for i in range(8):
 			colors.append(float(float(self.CCT_dict[CCT][i])/100)*intensity)
@@ -176,7 +170,7 @@ class OctaLightServer():
 
 	def change_light_all(self, cmdstr):
 		api.sendMessageParallel(self.ip_list, cmdstr)
-		return "Lights changed to " + cmdstr
+		return cmdstr
 
 	def change_light(self, x, y, channels):
 		if not (x, y) in self.lights:
