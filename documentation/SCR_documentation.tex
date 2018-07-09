@@ -67,15 +67,13 @@
 	\begin{verbatim}
 	    $ source /opt/ros/<distro>/setup.bash
 	\end{verbatim} 
-	
 	This command needs to be run on every new shell in order to access ROS commands, unless you add it to your .bashrc.\\
 	See the tutorial at \url{http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment} for more information. \\  \\
 	To use ROS on windows, you can install Ubuntu using Windows Subsystem for Linux (WSL). For more information, use the following microsoft tutorial: \url{https://docs.microsoft.com/en-us/windows/wsl/install-win10}
 	
 	\subsubsection{Installing ROS on a raspberry pi}
-	An SD Card Image with Ubuntu 16.04 (LXDE) and ROS Kinetic installed for the Raspberry Pi 3 can be downloaded at \url{https://downloads.ubiquityrobotics.com/pi.html}\\
-	
-	For other raspberry pi models follow the tutorial at \url{http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Kinetic%20on%20the%20Raspberry%20Pi}. ote that this may take multiple hours.
+	An SD Card Image with Ubuntu 16.04 (LXDE) and ROS Kinetic installed for the Raspberry Pi 3 can be downloaded at \url{https://downloads.ubiquityrobotics.com/pi.html}\\ \\
+	For other raspberry pi models follow the tutorial at \url{http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Kinetic%20on%20the%20Raspberry%20Pi}. Note that this may take multiple hours.
 	
 	\subsection{Creating a Workspace}
 	Making the ROS package requires a catkin workspace. To create a new workspace, create a new directory and run \verb|catkin_make| in it. For example:
@@ -153,7 +151,7 @@
  	To run any server:
  	
  	\begin{verbatim}
- 	rosrun scr_control SCR_[]server_name]_server.py
+ 	rosrun scr_control SCR_[server_name]_server.py
  	\end{verbatim}
  	The names of each client can be found at the beginning of their respective section. \\ 
  	If the server prints:
@@ -231,7 +229,7 @@
 		The first column is a CCT value, followed by the values for red, amber, green, blue, and 
 		white in each following column. Each column is seperated by a single tab. The values for each color are percentages of intensity for that individual color with 1 being maximum intensity.
 		
-		\item \verb|SCR_PentaLight_int.txt|\\
+		\item \verb|SCR_OctaLight_int.txt|\\
 		This file contains coefficients for each color of light to achieve a linear curve for light levels ranging from 0\% to 100\% intensity. The format of the file is as follows:
 		
 		\begin{verbatim}
@@ -290,9 +288,9 @@
 			a percentage between 0 and 100
 			
 			\item[{\it red1\_percent}] the first percent of red to set the specified light to\\
-			integer value between 1800 and 10000
+			integer value between 100 and 100
 			\item[{\it red2\_percent}] the second percent of red to set the specified light to\\
-			integer value between 1800 and 10000
+			integer value between 100 and 100
 		\end{enumerate}
 		
 		\item[\bf cct\_all] \verb|[CCT_value] [intensity_percent]|\\
@@ -621,18 +619,18 @@ Additionally, all functions have the optional argument debug which defaults to F
 \subsection{Commands}
 Running any of the commands in a python script is similar to running from the command line. In the case of the lights, to run light commands from a python script use:
 \begin{verbatim}
-SCR_PentaLight_client.[command]([arguments])
+SCR_OctaLight_client.[command]([arguments])
 \end{verbatim}
 
 
 For example:
 \begin{verbatim}
 import sys
-sys.path.append(“/path/to/package/scr_control/scripts/lights”)
-import SCR_PentaLight_client as light_control
+sys.path.append("/path/to/package/scr_control/scripts/lights")
+import SCR_OctaLight_client as light_control
 
-light_control.ragbw_all(100, 0, 0, 0, 0, debug = True) 
-# Prints out: "Changing all lights to red:100% amber:0% green:0% blue:0% white:0%"
+light_control.cct_all(1800, 50, debug = True) 
+# Prints out: "Changing all lights to cct 1800 and intensity 50%"
 \end{verbatim}
 
 	
