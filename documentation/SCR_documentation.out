@@ -1,19 +1,19 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Setup}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Installing ROS}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Creating a Workspace}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Downloading the Package}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Running Scripts}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.5}{Running ROS from multiple machines}{section.2}% 7
-\BOOKMARK [3][-]{subsubsection.2.5.1}{Test communication between devices}{subsection.2.5}% 8
-\BOOKMARK [3][-]{subsubsection.2.5.2}{Set environment variables}{subsection.2.5}% 9
-\BOOKMARK [3][-]{subsubsection.2.5.3}{Run the server and client}{subsection.2.5}% 10
-\BOOKMARK [1][-]{section.3}{Server}{}% 11
-\BOOKMARK [2][-]{subsection.3.1}{Running the Server}{section.3}% 12
-\BOOKMARK [2][-]{subsection.3.2}{Closing the Server}{section.3}% 13
-\BOOKMARK [1][-]{section.4}{Client}{}% 14
-\BOOKMARK [2][-]{subsection.4.1}{Client}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.2}{Running the Client}{section.4}% 16
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Installing ROS on a raspberry pi}{subsection.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Creating a Workspace}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Downloading the Package}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.4}{Running Scripts}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.5}{Running ROS from multiple machines}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.5.1}{Test communication between devices}{subsection.2.5}% 9
+\BOOKMARK [3][-]{subsubsection.2.5.2}{Set environment variables}{subsection.2.5}% 10
+\BOOKMARK [3][-]{subsubsection.2.5.3}{Run the server and client}{subsection.2.5}% 11
+\BOOKMARK [1][-]{section.3}{Server}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Running the Server}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Closing the Server}{section.3}% 14
+\BOOKMARK [1][-]{section.4}{Client}{}% 15
+\BOOKMARK [2][-]{subsection.4.1}{Running the Client}{section.4}% 16
 \BOOKMARK [1][-]{section.5}{Lights}{}% 17
 \BOOKMARK [2][-]{subsection.5.1}{Configuration}{section.5}% 18
 \BOOKMARK [2][-]{subsection.5.2}{Commands}{section.5}% 19

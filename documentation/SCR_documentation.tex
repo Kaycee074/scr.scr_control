@@ -61,16 +61,21 @@
 	Robot Operating System (ROS) must be installed in order to run these scripts.
 	
 	\subsection{Installing ROS}
-	To install ROS Lunar, follow the tutorial on the ROS website (\url{http://wiki.ros.org/ROS/Installation}).\\
+	To install ROS Kinetic, follow the tutorial on the ROS website (\url{http://wiki.ros.org/ROS/Installation}).\\
 	After installing ROS, you need to source its setup.*sh files. To do this, run:
 	
 	\begin{verbatim}
 	    $ source /opt/ros/<distro>/setup.bash
-	    
-	\end{verbatim}
+	\end{verbatim} 
+	
 	This command needs to be run on every new shell in order to access ROS commands, unless you add it to your .bashrc.\\
 	See the tutorial at \url{http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment} for more information. \\  \\
 	To use ROS on windows, you can install Ubuntu using Windows Subsystem for Linux (WSL). For more information, use the following microsoft tutorial: \url{https://docs.microsoft.com/en-us/windows/wsl/install-win10}
+	
+	\subsubsection{Installing ROS on a raspberry pi}
+	An SD Card Image with Ubuntu 16.04 (LXDE) and ROS Kinetic installed for the Raspberry Pi 3 can be downloaded at \url{https://downloads.ubiquityrobotics.com/pi.html}\\
+	
+	For other raspberry pi models follow the tutorial at \url{http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Kinetic%20on%20the%20Raspberry%20Pi}. ote that this may take multiple hours.
 	
 	\subsection{Creating a Workspace}
 	Making the ROS package requires a catkin workspace. To create a new workspace, create a new directory and run \verb|catkin_make| in it. For example:
@@ -179,12 +184,12 @@
 	
 	To run the light server run:
 	\begin{verbatim}
-	rosrun scr_control SCR_PentaLight_server.py
+	rosrun scr_control SCR_OctaLight_server.py
 	\end{verbatim}
 	
 	To run the light client run:
 	\begin{verbatim}
-	rosrun scr_control SCR_PentaLight_client.py [command] [arguments]
+	rosrun scr_control SCR_OctaLight_client.py [command] [arguments]
 	\end{verbatim}	
 
 	
@@ -192,7 +197,7 @@
 	Three text files are required to correctly configure the light server.
 	
 	\begin{enumerate}
-		\item \verb|SCR_PentaLight_conf.txt|\\
+		\item \verb|SCR_OctaLight_conf.txt|\\
 		This file contains a list of the IP addresses of the lights in the system, as well as a position array of the lights. The format of the file is as follows:
 		
 		\begin{verbatim}
@@ -210,7 +215,7 @@
 		
 		The first part of the configuration file is a list of IP addresses for every light in the system. The second part is an array representing the position of lights in the room. The number of 1's in the array must equal the number of IP addresses. A 1 represents a light and a 0 represents empty space. The IP addresses are assigned to positions in order. In the above example, light 1 would have IP address 192.168.0.111 and coordinates (0,0). Light 2 would have IP address 192.168.0.111 and coordinates (0,2). Light n would have IP address 192.168.0.120 and coordinates (4,2). The two parts are separated by a dash (-). 
 		
-		\item \verb|SCR_PentaLight_CCT.txt|\\
+		\item \verb|SCR_OctaLight_CCT.txt|\\
 		This file contains the color values needed to produce different correlated color temperatures (CCT's). The CCT's available range from 1800 K to 10000 K in increments of 100. The format of the file is as follows:
 		
 		\begin{verbatim}
@@ -261,24 +266,33 @@
 			a percentage between 0 and 100
 		\end{enumerate}
 		
-		\item[\bf ragbw] \verb|[x_coord] [y_coord] [red_percent] [amber_percent]|\\
-						 \verb|[green_percent] [blue_percent] [white_percent]|\\
+		\item[\bf sources] \verb|[x_coord] [y_coord] [blue1_percent] [blue2_percent] [blue3_percent]|\\
+						 \verb| [lime_percent] [amber_percent] [orange_percent] [red1_percent] [red2_percent]|\\
 		Sets the color of the light at the input coordinates to the input values.\\
 		Returns the new state of the specified light.
 		
 		\begin{enumerate}[leftmargin=3\parindent]
 			\item[{\it x\_coord}] the x coordinate of the light to be changed
 			\item[{\it y\_coord}] the y coordinate of the light to be changed
-			\item[{\it red\_percent}] the percent red to set the specified light to\\
-			integer value between 1800 and 10000
+			
+			\item[{\it blue1\_percent}] the first percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it blue2\_percent}] the second percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it blue3\_percent}] the third percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			
+			\item[{\it lime\_percent}] the percent lime to set the specified light to\\
+			a percentage between 0 and 100
 			\item[{\it amber\_percent}] the percent amber to set the specified light to\\
 			a percentage between 0 and 100
-			\item[{\it green\_percent}] the percent green to set the specified light to\\
+			\item[{\it orange\_percent}] the percent orange to set the specified light to\\
 			a percentage between 0 and 100
-			\item[{\it blue\_percent}] the percent blue to set the specified light to\\
-			a percentage between 0 and 100
-			\item[{\it white\_percent}] the percent white to set the specified light to\\
-			a percentage between 0 and 100
+			
+			\item[{\it red1\_percent}] the first percent of red to set the specified light to\\
+			integer value between 1800 and 10000
+			\item[{\it red2\_percent}] the second percent of red to set the specified light to\\
+			integer value between 1800 and 10000
 		\end{enumerate}
 		
 		\item[\bf cct\_all] \verb|[CCT_value] [intensity_percent]|\\
@@ -292,22 +306,30 @@
 			a percentage between 0 and 100
 		\end{enumerate}
 	
-		\item[\bf ragbw\_all] \verb|[red_percent] [amber_percent] [green_percent] [blue_percent] |\\
-		\verb|[white_percent]|\\
+		\item[\bf sources\_all] \verb|[blue1_percent] [blue2_percent] [blue3_percent] [lime_percent]|\\
+		\verb| [amber_percent] [orange_percent] [red1_percent] [red2_percent]|\\
 		Sets the color of all lights at the input coordinates to the input values.\\
 		Returns the new state of the last changed light.
 		
-		\begin{enumerate}[leftmargin=3\parindent]
-			\item[{\it red\_percent}] the percent red to set all lights to\\
+		\begin{enumerate}[leftmargin=3\parindent]			
+			\item[{\it blue1\_percent}] the first percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it blue2\_percent}] the second percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it blue3\_percent}] the third percent of blue to set the specified light to\\
+			a percentage between 0 and 100
+			
+			\item[{\it lime\_percent}] the percent lime to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it amber\_percent}] the percent amber to set the specified light to\\
+			a percentage between 0 and 100
+			\item[{\it orange\_percent}] the percent orange to set the specified light to\\
+			a percentage between 0 and 100
+			
+			\item[{\it red1\_percent}] the first percent of red to set the specified light to\\
 			integer value between 1800 and 10000
-			\item[{\it amber\_percent}] the percent amber to set all lights to\\
-			a percentage between 0 and 100
-			\item[{\it green\_percent}] the percent green to set all lights to\\
-			a percentage between 0 and 100
-			\item[{\it blue\_percent}] the percent blue to set all lights to\\
-			a percentage between 0 and 100
-			\item[{\it white\_percent}] the percent white to set all lights to\\
-			a percentage between 0 and 100
+			\item[{\it red2\_percent}] the second percent of red to set the specified light to\\
+			integer value between 1800 and 10000
 		\end{enumerate}
 		
 		\item[\bf get\_cct] \verb|[x_coord] [y_coord]|\\
@@ -540,15 +562,17 @@
 	\end{enumerate}
 
 	\section{Time of Flight}
- 	
-	To run the TOF server run:
+	To run the ROS TOF server run:
 	\begin{verbatim}
 	rosrun scr_control SCR_TOF_server.py
 	\end{verbatim}
-	
 	To run the TOF client run:
 	\begin{verbatim}
 	rosrun scr_control SCR_TOF_client.py [command] [arguments]
+	\end{verbatim}
+	A second server must also be running to communicate with the TOF sensors, which is held in a separate git repository \url{https://github.com/duffym4/tof_control}. This second server exists because the TOF sensor API is in c++. To run this second server, run:
+	\begin{verbatim}
+	./tof_control/SCR/tof
 	\end{verbatim}
 	
 	\subsection{Configuration}
@@ -556,10 +580,10 @@
 	
 	\begin{enumerate}
 		\item \verb|SCR_TOF_conf.txt|\\
-		This file contains the IP address of the ToF controller. The format of the file is as follows:
+		This file contains the IP address of the device running the c++ server. The format of the file is as follows:
 		
 		\begin{verbatim}
-		192.168.0.36
+		127.0.0.1
 		\end{verbatim}
 		
 	\end{enumerate}
@@ -567,11 +591,22 @@
 	\subsection{Commands}
 	
 	\begin{enumerate}
-
-		\item[\bf get\_distances]
-		returns a list with 2 elements \\
-		int16[] distances, a 1D array representing a distance map of the room \\
-		int16 room\_length, number of data points in one row of the room
+		\item[\bf start\_counting]
+		turns on the TOF sensors and sets them to start gathering data.
+		
+		\item[\bf stop\_counting]
+		turns off the TOF sensors.
+		
+		\item[\bf get\_distances] [sensor\_num]
+		returns a 2D list with the data from the TOF sensor
+		
+		\begin{enumerate}[leftmargin=3\parindent]
+			\item[\it sensor\_num] the sensor that you wish to get data of\\ 
+			an int
+		\end{enumerate}
+		
+		\item[\bf get\_distances\_all]
+		returns a 2D list representing a map of the room using data from the TOF sensors. Areas not covered by the TOF sensors are set to 0. 
 		
 		\item[\bf help] prints a list of all commands, what they do, and what arguments they take
 	\end{enumerate}
