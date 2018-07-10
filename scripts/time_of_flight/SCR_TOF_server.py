@@ -48,16 +48,35 @@ class TimeOfFlightServer():
 		return config.readline()
 
 	def handle_getDistances(self, req):
-		s = self.establish_connection()
-		s.send("get_data"+str(req.sensor_id))
-		data = s.recv(3000)
-		s.shutdown(socket.SHUT_RDWR)
-		s.close()
-
-		data = data.split(",")
-		data = [int(float(x)) for x in data]
+		data = self.get_sensorData(req.sensor_id)
 
 		return TOFGetDistancesResponse(data)
+
+	#160 x 75
+	def handle_getDistancesAll(self, req):
+		distances =  [0]*(160*75)
+		for i in range(18):
+			startY = 25
+			startX = 0
+			
+			if (i < 8):
+				startY = 50
+				startX = i*20
+			elif (i == 8):
+				startX = 140
+				startY = 25
+			elif (i < 17):
+				startY = 0
+				startX = 140 - (i-9)*20				
+		
+			data = self.get_sensorData(i)
+
+			for j in range(len(data)):
+				x = (j % 20) + startX
+				y = (j / 20) + startY
+				distances[x+y*160] = data[j]
+
+		return TOFGetDistancesAllResponse(distances)
 
 
 	def handle_setCounting(self, req):
@@ -74,21 +93,40 @@ class TimeOfFlightServer():
 			#data = s.recv(3000)s
 			s.shutdown(socket.SHUT_RDWR)
 			s.close()
+		return TOFSetCountingResponse()
 
 
 	'''
 	HELPER FUNCTIONS
 	'''
 
+	def get_sensorData(self, sensor_id):
+		s = self.establish_connection()
+		s.send("get_data"+str(sensor_id))
+		data = s.recv(3000)
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
+
+
+		data = data.split(",")
+		data = [int(float(x)) for x in data]
+
+		return data
+
 	def server_init(self):
 		rospy.init_node("time_of_flight_server")
 
-		lift_service = rospy.Service(
+		get_distances_service = rospy.Service(
 			"get_distances",
 			TOFGetDistances,
 			self.handle_getDistances)
 
-		lift_service = rospy.Service(
+		get_distances_all_service = rospy.Service(
+			"get_distances_all",
+			TOFGetDistancesAll,
+			self.handle_getDistancesAll)
+
+		set_counting_service = rospy.Service(
 			"set_counting",
 			TOFSetCounting,
 			self.handle_setCounting)

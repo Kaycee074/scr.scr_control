@@ -50,6 +50,7 @@ add_service_files(
   COSReadOne.srv
   COSInteTime.srv
   TOFGetDistances.srv
+  TOFGetDistancesAll.srv
   TOFSetCounting.srv
   HVAC_SetTemp.srv
   HVAC_SetFanSp.srv
