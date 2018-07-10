@@ -1,23 +1,18 @@
 import sys, time, os
-
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "lights"))
-
 import SCR_OctaLight_client as light_control
 
-
-sum = 0 
-iterations = 500
-
-for i in range(iterations):
+def changeLights(values):
 	start = time.time()
-	light_control.sources_all(0, 0, 0, 0, 0, 0, 0, 0)
-	duration = time.time() - start
-	sum += duration
+	light_control.sources_all(*values)
+	return time.time() - start
 
-	start = time.time()
-	light_control.sources_all(100, 0, 0, 0, 0, 0, 0, 0)
-	duration = time.time() - start
-	sum += duration
+if __name__ == "__main__":
+	s = 0
+	iterations = 500
+	for i in range(iterations):
+		s += changeLights([100, 0, 0, 0, 0, 0, 0, 0])
+		s += changeLights([0, 0, 0, 0, 0, 0, 0, 0])
 
-avg = sum/(iterations*2)
-print(avg)
+	avg = s/(iterations*2)
+	print("Average time to switch lights: " + str(avg))

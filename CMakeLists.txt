@@ -105,7 +105,7 @@ include_directories(
   # include 
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
-  # ${PYTHON_INCLUDE_DIRS}
+  ${PYTHON_INCLUDE_DIRS}
   /usr/include/python2.7
 )
 
