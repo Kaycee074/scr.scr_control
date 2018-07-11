@@ -13,6 +13,7 @@ class OctaLightServer():
 	def __init__(self):
 		self.lights = self.read_config()
 		self.CCT_dict = self.initialize_CCT()
+		self.step = 25
 		self.ip_list = self.initialize_lights()
 		self.server_init()
 
@@ -53,32 +54,23 @@ class OctaLightServer():
 
 	def initialize_CCT(self):
 
-		vals = open(os.path.join(os.path.dirname(__file__), 'SCR_OctaLight_CCT.txt'), 'r')
-		CCT_vals = []
-		light_vals = []
+		CCT_table = open(os.path.join(os.path.dirname(__file__), 'SCR_OctaLight_CCT.txt'), 'r')
+		CCT_dict = {}
 
 		first_line = True
-		for line in vals:
+		for line in CCT_table:
 			if first_line:
 				first_line = False
 			else:
 				line = line.rstrip();
 				split = line.split("\t")
-				first = True
-				temp_light_vals = []
-				for el in split:
-					if first:
-						CCT_vals.append(int(el))
-						first = False
-					else:
-						temp_light_vals.append(float(el))
-				light_vals.append(temp_light_vals)
+				CCT, INT, sources = int(split[0]), int(split[1]), [float(x) for x in split[2:]]
+				if not CCT in CCT_dict:
+					CCT_dict[CCT] = {}
+					CCT_dict[CCT][0] = [0]*8
+				CCT_dict[CCT][INT] = sources
 
-		vals.close()
-		
-		CCT_dict = {}
-		for i in range(len(CCT_vals)):
-			CCT_dict[CCT_vals[i]] = light_vals[i]
+		CCT_table.close()
 
 		return CCT_dict
 
@@ -103,7 +95,7 @@ class OctaLightServer():
 	'''
 
 	def handle_CCT(self, req):
-		channels = self.get_channels_CCT(req.CCT, req.intensity)
+		channels = self.interpolate_2D(req.CCT, req.intensity)
 		self.change_light(req.x, req.y, channels)
 		return OctaLight_CCTResponse(str(channels))
 
@@ -113,7 +105,7 @@ class OctaLightServer():
 		return OctaLight_sourcesResponse(str(channels))
 
 	def handle_CCTAll(self, req):
-		channels = self.get_channels_CCT(req.CCT, req.intensity)
+		channels = self.interpolate_2D(req.CCT, req.intensity)
 		self.change_light_all(self.gen_cmdstr(channels))
 		return OctaLight_CCTAllResponse(str(channels))
 
@@ -147,26 +139,35 @@ class OctaLightServer():
 			colors[i] = float(float(colors[i])/100)
 		return colors
 
-	def get_channels_CCT(self, CCT, intensity):
-		intensity, CCT = self.getIntensityCCT(intensity, CCT)
-		colors = []
+	def interpolate_2D(self, CCT, INT):
+
+		INT = float(max(min(INT, 1900), 0))
+		CCT = max(min(CCT, 10000), 1600)
+
+		CCT1 = CCT - CCT%self.step
+		CCT2 = min(10000, CCT1 + self.step)
+
+		INT1 = INT - INT%self.step
+		INT2 = min(1900, INT1 + self.step)
+		
+		max_weight = (2*self.step**2)**.5
+		weight1 = (((CCT - CCT1)**2 + (INT - INT1)**2)**.5) / max_weight
+		weight2 = 1 - weight1
+
+		sources = [0.0] * 8
 		for i in range(8):
-			colors.append(float(float(self.CCT_dict[CCT][i])/100)*intensity)
-		return colors
+			sources[i] += self.CCT_dict[CCT1][INT1][i] * weight1
+			sources[i] += self.CCT_dict[CCT2][INT2][i] * weight2
+
+		sources = [float(x/100) for x in sources]
+		
+		return sources
 
 	def gen_cmdstr(self, colors):
 		colors = [int(x*65535) for x in colors]
 		colors = [format(x, 'x') for x in colors]
 		colors = [x.rjust(4, '0') for x in colors]
 		return "PS"+''.join(colors)
-
-	def getIntensityCCT(self, i, c):
-		intensity = float(max(min(i, 100), 0))/100
-		CCT = max(min(c, 11500), 1500)
-		CCT = CCT - c%500
-		if (CCT%1000 == 0):
-			CCT += 500
-		return intensity, CCT
 
 	def change_light_all(self, cmdstr):
 		api.sendMessageParallel(self.ip_list, cmdstr)
