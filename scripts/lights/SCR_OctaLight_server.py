@@ -67,7 +67,7 @@ class OctaLightServer():
 				CCT, INT, sources = int(split[0]), int(split[1]), [float(x) for x in split[2:]]
 				if not CCT in CCT_dict:
 					CCT_dict[CCT] = {}
-					CCT_dict[CCT][0] = [0]*8
+					CCT_dict[CCT][0] = [0.0]*8
 				CCT_dict[CCT][INT] = sources
 
 		CCT_table.close()
@@ -151,16 +151,16 @@ class OctaLightServer():
 		INT2 = min(1900, INT1 + self.step)
 		
 		max_weight = (2*self.step**2)**.5
-		weight1 = (((CCT - CCT1)**2 + (INT - INT1)**2)**.5) / max_weight
+		weight1 = 1 - ( (((CCT - CCT1)**2 + (INT - INT1)**2)**.5) / max_weight )
 		weight2 = 1 - weight1
-
+		
 		sources = [0.0] * 8
 		for i in range(8):
 			sources[i] += self.CCT_dict[CCT1][INT1][i] * weight1
 			sources[i] += self.CCT_dict[CCT2][INT2][i] * weight2
 
 		sources = [float(x/100) for x in sources]
-		
+
 		return sources
 
 	def gen_cmdstr(self, colors):
