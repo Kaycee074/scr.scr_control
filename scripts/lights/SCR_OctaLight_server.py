@@ -113,7 +113,7 @@ class OctaLightServer():
 		return OctaLight_sourcesResponse(str(channels))
 
 	def handle_CCTAll(self, req):
-		channels = self.get_channels_CCT(CCT, intensity)
+		channels = self.get_channels_CCT(req.CCT, req.intensity)
 		self.change_light_all(self.gen_cmdstr(channels))
 		return OctaLight_CCTAllResponse(str(channels))
 
