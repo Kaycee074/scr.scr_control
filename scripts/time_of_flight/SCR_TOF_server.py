@@ -26,7 +26,7 @@ class TimeOfFlightServer():
 		config = open(os.path.join(os.path.dirname(__file__), 'SCR_TOF_conf.txt'), 'r')
 		return config.readline()
 
-	def handle_getHeatmap(self, req):
+	def handle_get_distances(self, req):
 		distances = []
 		room_length = 0
 		data_file = open(self.data_location, 'r')
@@ -38,7 +38,7 @@ class TimeOfFlightServer():
 			for num in lineData:
 				distances.append(int(num))
 
-		return GetHeatmapResponse(distances, room_length)
+		return TOFGetDistancesResponse(distances)
 		
 	'''
 	HELPER FUNCTIONS
@@ -49,8 +49,8 @@ class TimeOfFlightServer():
 
 		lift_service = rospy.Service(
 			"get_distances",
-			GetHeatmap,
-			self.handle_getHeatmap)
+			TOFGetDistancesAll,
+			self.handle_get_distances)
 
 		rospy.spin()
 
