@@ -50,7 +50,7 @@ class TimeOfFlightServer():
 				lineData = line.split()
 				x = startX
 				for num in lineData:
-					distances[y * 160 + x] = (int(num, 16))
+					distances[y * 160 + 19 - x] = (int(num, 16))
 					x += 1
 				y += 1
 
