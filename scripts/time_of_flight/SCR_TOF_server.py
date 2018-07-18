@@ -27,35 +27,18 @@ class TimeOfFlightServer():
 		return config.readline()
 
 	def handle_get_distances(self, req):
-		distances = [0]*160*75
+		distances = []
+		room_length = 0
+		data_file = open(self.data_location, 'r')
 
+		for line in data_file:
+			lineData = line.split()
+			if room_length == 0:
+				room_length = len(lineData)
+			for num in lineData:
+				distances.append(int(num))
 
-		for i in range(18):
-			startY = 25
-			startX = 0
-			
-			if (i < 8):
-				startY = 50
-				startX = i*20
-			elif (i == 8):
-				startX = 140
-				startY = 25
-			elif (i < 17):
-				startY = 0
-				startX = 140 - (i-9)*20
-
-			data_file = open(self.data_location + str(i) + ".txt", 'r')
-			y = startY
-			for line in data_file:
-				lineData = line.split()
-				x = startX
-				for num in lineData:
-					distances[y * 160 + x] = (int(num, 16))
-					x += 1
-				y += 1
-
-		return TOFGetDistancesAllResponse(distances)
-
+		return TOFGetDistancesResponse(distances)
 		
 	'''
 	HELPER FUNCTIONS
