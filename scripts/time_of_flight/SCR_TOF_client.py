@@ -10,7 +10,7 @@ from scr_control.msg import *
 
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
 def get_distances(debug=False):
-	state = utils.service_call('get_heatmap', TOFGetDistancesAll, [])
+	state = utils.service_call('get_distances', TOFGetDistancesAll, [])
 	if state:
 		dist = numpy.asarray(state.distances)
 		dist = numpy.reshape(heatmap, (len(state.distances)/160, 160))
