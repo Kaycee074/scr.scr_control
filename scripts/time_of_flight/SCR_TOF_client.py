@@ -12,8 +12,8 @@ from scr_control.msg import *
 def get_distances(debug=False):
 	state = utils.service_call('get_distances', TOFGetDistancesAll, [])
 	if state:
-		dist = numpy.asarray(state.distances)
-		dist = numpy.reshape(heatmap, (len(state.distances)/160, 160))
+		dist = numpy.asarray(state.data)
+		dist = numpy.reshape(dist, (len(state.data)/160, 160))
 		dist = dist.tolist()
 		if debug:
 			print(dist)
