@@ -144,6 +144,10 @@ class OctaLightServer():
 		INT = float(max(min(INT, 1900), 0))
 		CCT = max(min(CCT, 10000), 1600)
 
+		sources = [0.0] * 8
+		if INT==0:
+			return sources
+
 		CCT1 = CCT - CCT%self.step
 		CCT2 = min(10000, CCT1 + self.step)
 
@@ -154,11 +158,13 @@ class OctaLightServer():
 		weight1 = 1 - ( (((CCT - CCT1)**2 + (INT - INT1)**2)**.5) / max_weight )
 		weight2 = 1 - weight1
 		
-		sources = [0.0] * 8
 		for i in range(8):
-			sources[i] += self.CCT_dict[CCT1][INT1][i] * weight1
-			sources[i] += self.CCT_dict[CCT2][INT2][i] * weight2
-
+			try:
+				sources[i] += self.CCT_dict[CCT1][INT1][i] * weight1
+				sources[i] += self.CCT_dict[CCT2][INT2][i] * weight2
+			except:
+				print(i,weight1,weight2)
+				print(CCT1,CCT2,INT1,INT2)
 		sources = [float(x/100) for x in sources]
 
 		return sources
