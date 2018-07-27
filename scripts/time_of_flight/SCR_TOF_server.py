@@ -15,7 +15,7 @@ class TimeOfFlightServer():
 
 	def __init__(self):
 		print("Starting TOF server")
-		self.data_location = self.read_config()
+		self.data_location = '/home/arunas/tof_control/SCR/output-'
 		self.server_init()
 	
 	'''
@@ -48,10 +48,10 @@ class TimeOfFlightServer():
 			y = startY
 			for line in data_file:
 				lineData = line.split()
-				x = startX
+				x = startX + 19
 				for num in lineData:
-					distances[y * 160 + 19 - x] = (int(num, 16))
-					x += 1
+					distances[y * 160 + x] = (int(num, 16))
+					x -= 1
 				y += 1
 
 		return TOFGetDistancesAllResponse(distances)
