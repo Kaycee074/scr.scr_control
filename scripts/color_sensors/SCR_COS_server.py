@@ -46,7 +46,8 @@ class ColorSensorServer():
 		while len(data_list) != 57:
 			data_list, step = self.readAllSensors()
 			tries += 1
-			if tries > 10:
+			if tries > 100:
+				print("Missing some color sensors")
 				return COSReadAllResponse(step, data_list)
 		return COSReadAllResponse(step, data_list)
 
