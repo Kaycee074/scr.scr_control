@@ -41,37 +41,14 @@ class ColorSensorServer():
 	'''
 
 	def handle_readAll(self, req):
-		s = self.establish_connection()
 
-		s.send("CS_Rall")
-		data = s.recv(3000)
-
-		s.shutdown(socket.SHUT_RDWR)
-		s.close()
-
-		data = str(data.decode())
-		data = data.translate(None,"[]'")
-		data = data.split(', ')
-		data = filter(None, data)
-
-		data_list = []
-		step = 0
-
-		for line in data:
-			line = line.split(' ')
-			step = len(line)
-			for item in line:
-				if item == '':
-					item = 0
-				else:
-					item = int(item)
-				data_list.append(item)
-		
-		resp = COSReadAllResponse()
-		resp.step = step
-		resp.data = data_list
-
-		return resp
+		data_list, step, tries = [],  0, 0
+		while len(data_list) != 57:
+			data_list, step = self.readAllSensors()
+			tries += 1
+			if tries > 10:
+				return COSReadAllResponse(step, data_list)
+		return COSReadAllResponse(step, data_list)
 
 	def handle_readOne(self, req):
 		num = str(req.num).zfill(3)
@@ -120,6 +97,35 @@ class ColorSensorServer():
 	HELPER FUNCTIONS
 	'''
 	
+	def readAllSensors():
+		s = self.establish_connection()
+
+		s.send("CS_Rall")
+		data = s.recv(2053)
+
+		s.shutdown(socket.SHUT_RDWR)
+		s.close()
+
+		data = str(data.decode())
+		data = data.translate(None,"[]'")
+		data = data.split(', ')
+		data = filter(None, data)
+
+		data_list = []
+		step = 0
+
+		for line in data:
+			line = line.split(' ')
+			step = len(line)
+			for item in line:
+				if item == '':
+					item = 0
+				else:
+					item = int(item)
+				data_list.append(item)
+		
+		return data_list, step
+
 	def COS_server_init(self):
 		rospy.init_node("COS_server")
 
