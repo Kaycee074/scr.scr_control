@@ -97,7 +97,7 @@ class ColorSensorServer():
 	HELPER FUNCTIONS
 	'''
 	
-	def readAllSensors():
+	def readAllSensors(self):
 		s = self.establish_connection()
 
 		s.send("CS_Rall")
