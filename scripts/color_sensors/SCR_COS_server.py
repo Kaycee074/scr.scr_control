@@ -55,6 +55,7 @@ class ColorSensorServer():
 		for i in range(len(sensors_list)):
 			if sensors_list[i] != " ":
 				sensor_data = sensors_list[i].split()
+				sensor_data = [int(x) for x in sensor_data]
 				data_list.append(sensor_data)
 
 		step = len(data_list[0])
