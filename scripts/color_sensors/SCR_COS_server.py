@@ -41,11 +41,8 @@ class ColorSensorServer():
 	'''
 
 	def handle_readAll(self, req):
-		s = self.establish_connection()
 
-		s.send("CS_Rall")
-		data = s.recv(2053)
-		s.close()
+		data = os.popen('python3 SCR_COS_read.py ' + self.address + " 5005").read()
 
 		data = str(data.decode())
 		data = data.translate(None,"[]'")
