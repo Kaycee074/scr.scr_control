@@ -43,7 +43,7 @@ class ColorSensorServer():
 	def handle_readAll(self, req):
 
 		COS_reader = os.path.join(os.path.dirname(__file__), "SCR_COS_read.py")
-		data = os.popen('python3 ' + COS_reader + '' + self.address + " 5005").read()
+		data = os.popen('python3 ' + COS_reader + ' ' + self.address + " 5005").read()
 
 		data = str(data.decode())
 		data = data.translate(None,"[]'")
