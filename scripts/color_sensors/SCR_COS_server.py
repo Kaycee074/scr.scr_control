@@ -45,23 +45,19 @@ class ColorSensorServer():
 		COS_reader = os.path.join(os.path.dirname(__file__), "SCR_COS_read.py")
 		data = os.popen('python3 ' + COS_reader + ' ' + self.address + " 5005").read()
 
-		data = str(data.decode())
-		data = data.translate(None,"[]'")
-		data = data.split(', ')
-		data = filter(None, data)
-
+		
+		data = data.replace('[', '')
+		data = data.replace(']', '')
+		data = data.replace("'", '')
+		sensors_list = data.split(',')
 		data_list = []
-		step = 0
 
-		for line in data:
-			line = line.split(' ')
-			step = len(line)
-			for item in line:
-				if item == '':
-					item = 0
-				else:
-					item = int(item)
-				data_list.append(item)
+		for i in range(len(sensors_list)):
+			if sensors_list[i] != " ":
+				sensor_data = sensors_list[i].split()
+				data_list.append(sensor_data)
+
+		step = len(data_list[0])
 
 		return COSReadAllResponse(step, data_list)
 
