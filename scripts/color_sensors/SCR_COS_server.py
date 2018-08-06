@@ -50,15 +50,15 @@ class ColorSensorServer():
 		data = data.replace(']', '')
 		data = data.replace("'", '')
 		sensors_list = data.split(',')
-		data_list = []
+		data_list, step = [], 0
 
 		for i in range(len(sensors_list)):
 			if sensors_list[i] != " ":
 				sensor_data = sensors_list[i].split()
-				sensor_data = [int(x) for x in sensor_data]
-				data_list.append(sensor_data)
+				step = max(len(sensor_data), step)
+				for j in sensor_data:
+					data_list.append(int(j))
 
-		step = len(data_list[0])
 
 		return COSReadAllResponse(step, data_list)
 
