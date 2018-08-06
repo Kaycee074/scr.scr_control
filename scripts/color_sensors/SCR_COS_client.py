@@ -6,17 +6,23 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../utils"))
 import utils
 from scr_control.srv import *
 from scr_control.msg import *
+import numpy as np
 
 # Get all values of color sensors
 def read_all(debug=False):
 	state = utils.service_call('read_all', COSReadAll, [])
 	if state:
+		out = []
+		for i in range(len(state.data)):
+			if(i%state.step == 0):
+				out.append([])
+			out[-1].append(state.data[i])
 		if debug:
 			for i in range(len(state.data)):
 				if(i%state.step == 0 and i > 1):
 					print()
 				print(state.data[i], end = " ")
-		return state.data
+		return out
 
 # Read one color sensor
 def read(num, debug=False):
