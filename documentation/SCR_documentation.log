@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2017.10.5)  9 JUL 2018 16:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2017.10.5)  8 AUG 2018 09:18
 entering extended mode
 **./SCR_documentation.tex
 (SCR_documentation.tex
@@ -1983,20 +1983,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 181--182
 
  []
 
-[4] [5] [6] [7] [8] [9] [10]
-Underfull \hbox (badness 10000) in paragraph at lines 616--618
+[4] [5] [6] [7] [8] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 608--610
 
  []
 
-[11]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 637.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 637.
+[10] [11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 629.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 629.
  (SCR_documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 637.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 637.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 629.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 629.
 Package rerunfilecheck Info: File `SCR_documentation.out' has not changed.
 (rerunfilecheck)             Checksum: D1CEFB66CE2741515DD94ED2C884AE3E;2107.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 637.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 629.
  ) 
 Here is how much of TeX's memory you used:
  30327 strings out of 493334
@@ -2018,9 +2018,8 @@ s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x
 /MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/M
 iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on SCR_documentation.pdf (11 pages, 208614 bytes).
+Output written on SCR_documentation.pdf (11 pages, 208208 bytes).
 PDF statistics:
  333 PDF objects out of 1000 (max. 8388607)
  56 named destinations out of 1000 (max. 500000)
  381 words of extra memory for PDF output out of 10000 (max. 10000000)
-
