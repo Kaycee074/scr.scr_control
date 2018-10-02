@@ -3,11 +3,11 @@ import sys, time, os, datetime, threading
 from pyowm import OWM
 from pytz import timezone, utc
 
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "lights"))
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "blinds"))
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "HVAC"))
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "color_sensors"))
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "time_of_flight"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../lights"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../blinds"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../HVAC"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../color_sensors"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../time_of_flight"))
 
 import SCR_OctaLight_client as light_control
 import SCR_blind_client as blind_control
@@ -17,8 +17,11 @@ import SCR_TOF_client as TOF_control
 
 # Format Timestamp as HH:MM:SS.MS
 def format_time(sec):
+	# ignore day/month/year
+	sec = sec % (100 * 60 * 60)
 	m, s = divmod(sec, 60)
 	h, m = divmod(m, 60)
+	d, h = divmod(h, 24)
 	return "%02d:%02d:%02d.%02d" % (h, m, s, (sec*100)%100)
 
 # Get HVAC Data as string
@@ -57,7 +60,7 @@ def collect_data(fun, args, delay, runtime, file, format):
 
 
 	# Initial Values
-	out_file   = open(file, "w")
+	out_file   = open(file, "w", 0)
 	start_time = time.time()
 	t = start_time
 
@@ -70,7 +73,7 @@ def collect_data(fun, args, delay, runtime, file, format):
 
 		# Get new data and timestamp
 		t = time.time()
-		timestamp = format_time(time.time() - start_time)
+		timestamp = format_time(time.time())
 		data = fun(*args)
 		
 		# Write data
@@ -83,7 +86,7 @@ def collect_data_in_thread(fun, args, delay, runtime, file, format):
 
 
 if __name__ == "__main__":
-	
+
 	#       (1 hour) * 24 hours
 	period = 60 * 60 * 24
 
