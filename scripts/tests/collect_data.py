@@ -16,13 +16,11 @@ import SCR_COS_client as COS_control
 import SCR_TOF_client as TOF_control
 
 # Format Timestamp as HH:MM:SS.MS
-def format_time(sec):
+def local_time():
 	# ignore day/month/year
-	sec = sec % (100 * 60 * 60)
-	m, s = divmod(sec, 60)
-	h, m = divmod(m, 60)
-	d, h = divmod(h, 24)
-	return "%02d:%02d:%02d.%02d" % (h, m, s, (sec*100)%100)
+	t = datetime.datetime.now().time()
+	h, m, s, ms = t.hour, t.minute, t.second, t.microsecond//1000
+	return "%02d:%02d:%02d.%02d" % (h, m, s, ms)
 
 # Get HVAC Data as string
 def HVAC_data():
@@ -73,7 +71,7 @@ def collect_data(fun, args, delay, runtime, file, format):
 
 		# Get new data and timestamp
 		t = time.time()
-		timestamp = format_time(time.time())
+		timestamp = local_time()
 		data = fun(*args)
 		
 		# Write data
