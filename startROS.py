@@ -48,7 +48,7 @@ if __name__ == "__main__":
 		pass
 
 	session = server.new_session(attach = False,
-								 session_name = "ROS",
+								 session_name = SESSION_NAME,
 								)
 
 	for w in WINDOWS:
