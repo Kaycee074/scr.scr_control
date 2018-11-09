@@ -10,9 +10,10 @@ class Window():
 		self.start_dir = start_dir
 
 	def create(self, session):
+		print(self.name + " started")
 		window = session.new_window(attach = False,
 									window_name = self.name,
-									start_directory = Window.START_DIR)
+									start_directory = self.start_dir)
 
 		pane = window.split_window(attach = False)
 		pane.send_keys(self.command)
@@ -25,7 +26,7 @@ SESSION_NAME = "ROS"
 TOF_DIR = "~/tof_control/SCR"
 
 WINDOWS = [Window("roscore",     "roscore"),
-	       Window("tof_c++",     "sudo tof", start_dir = TOF_DIR),
+	       Window("tof_c++",     "./tof", start_dir = TOF_DIR),
 	       Window("octa_light",  "rosrun scr_control SCR_OctaLight_server.py"),
 	       Window("blind",       "rosrun scr_control SCR_blind_server.py"),
 	       Window("hvac",        "rosrun scr_control SCR_HVAC_server.py"),
