@@ -4,9 +4,10 @@ class Window():
 
 	START_DIR = "~/catkin_ws"
 
-	def __init__(self, name, command):
+	def __init__(self, name, command, start_dir = "~/catkin_ws"):
 		self.name = name
 		self.command = command
+		self.start_dir = start_dir
 
 	def create(self, session):
 		window = session.new_window(attach = False,
@@ -21,10 +22,10 @@ class Window():
 '''
 
 SESSION_NAME = "ROS"
-TOF_DIR    = "~/tof_control"
+TOF_DIR = "~/tof_control/SCR"
 
 WINDOWS = [Window("roscore",     "roscore"),
-	       Window("tof_c++",     TOF_DIR + "/SCR/tof"),
+	       Window("tof_c++",     "sudo tof", start_dir = TOF_DIR),
 	       Window("octa_light",  "rosrun scr_control SCR_OctaLight_server.py"),
 	       Window("blind",       "rosrun scr_control SCR_blind_server.py"),
 	       Window("hvac",        "rosrun scr_control SCR_HVAC_server.py"),
