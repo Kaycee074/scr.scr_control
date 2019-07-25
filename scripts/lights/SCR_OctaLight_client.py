@@ -4,7 +4,6 @@ import sys, os, time
 sys.path.append(os.path.join(os.path.dirname(__file__), "../utils"))
 import utils
 from scr_control.srv import *
-from scr_control.msg import *
 
 # Change color of light using cct value and intensity
 def cct(x, y, cct_val, intensity_val, debug=False):
@@ -20,7 +19,7 @@ def sources(x, y, b1, b2, b3, l, a, o, r1, r2, debug=False):
 	if debug:
 		print("Changing light (%s,%s) to blue1:%s%% blue2:%s%% blue3:%s%% lime:%s%% amber:%s%% orange:%s%% red1:%s%% red2:%s%%" % (x, y, b1, b2, b3, l, a, o, r1, r2))
 	state = utils.service_call('sources', OctaLight_sources, [b1, b2, b3, l, a, o, r1, r2, x, y])
-	if state and debug:	
+	if state and debug:
 		print("Light (%s,%s) is now in state %s" % (x, y, state))
 	return state
 
@@ -29,7 +28,7 @@ def sources_all(b1, b2, b3, l, a, o, r1, r2, debug=False):
 	if debug:
 		print("Changing all lights to blue1:%s%% blue2:%s%% blue3:%s%% lime:%s%% amber:%s%% orange:%s%% red1:%s%% red2:%s%%" % (b1, b2, b3, l, a, o, r1, r2))
 	state = utils.service_call('sources_all', OctaLight_sourcesAll, [b1, b2, b3, l, a, o, r1, r2])
-	if state and debug:	
+	if state and debug:
 		print("Lights are now in state %s" % (state))
 	return state
 

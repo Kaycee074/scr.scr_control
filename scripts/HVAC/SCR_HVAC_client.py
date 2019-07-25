@@ -5,7 +5,6 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../utils"))
 import utils
 from scr_control.srv import *
-from scr_control.msg import *
 
 def set_temp(temp, debug = False):
 	state = utils.service_call('set_temp', HVAC_SetTemp, [temp])
@@ -54,7 +53,7 @@ def get_rh(debug = False):
 		if debug:
 			print(state)
 		return state.data
-		
+
 # Show help regarding HVAC commands
 def help(debug=False):
 	return utils.help(os.path.dirname(__file__), "SCR_HVAC_help.txt", debug = debug)
@@ -73,4 +72,4 @@ if(__name__ == "__main__"):
 					'get_rh':    [get_rh,     [],               "get_rh"],
 					'help':      [help,       [],               "help"]}
 
-	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 
+	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

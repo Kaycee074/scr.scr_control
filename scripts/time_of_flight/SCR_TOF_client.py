@@ -6,15 +6,25 @@ import numpy
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "utils"))
 import utils
 from scr_control.srv import *
-from scr_control.msg import *
 
 
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
-def get_distances(debug=False):
-	state = utils.service_call('get_distances', TOFGetDistancesAll, [])
+def get_distances_all(debug=False):
+	state = utils.service_call('get_distances_all', TOFGetDistancesAll, [])
 	if state:
 		dist = numpy.asarray(state.data)
 		dist = numpy.reshape(dist, (len(state.data)/160, 160))
+		dist = dist.tolist()
+		if debug:
+			print(dist)
+		return dist
+
+# Get a heatmap of the room (returns int16[] distances and int16 room_length)
+def get_distances(debug=False):
+	state = utils.service_call('get_distances', TOFGetDistances, [])
+	if state:
+		dist = numpy.asarray(state.data)
+		dist = numpy.reshape(dist, (len(state.data)/20, 20))
 		dist = dist.tolist()
 		if debug:
 			print(dist)
@@ -26,9 +36,10 @@ def help(debug=False):
 
 if(__name__ == "__main__"):
 	print (os.path.join(os.path.dirname(sys.path[0]), "utils"))
-					#command         #function       #argument types   #help
+					#command         	 #function      	 #argument types   #help
 	serviceCalls = {
-					'get_distances': [get_distances, [],               "get_distances"],
-					'help':          [help,          [],               "help"]}
+					'get_distances_all': [get_distances_all, [],               "get_distances_all"],
+					'get_distances': 	 [get_distances,	 [],               "get_distances"],
+					'help':          	 [help,         	 [],               "help"]}
 
-	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 
+	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

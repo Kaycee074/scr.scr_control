@@ -17,7 +17,7 @@ class TimeOfFlightServer():
 		print("Starting TOF server")
 		self.data_location = '/home/arunas/tof_control/SCR/output-'
 		self.server_init()
-	
+
 	'''
 	COMMAND HANDLERS
 	'''
@@ -26,14 +26,13 @@ class TimeOfFlightServer():
 		config = open(os.path.join(os.path.dirname(__file__), 'SCR_TOF_conf.txt'), 'r')
 		return config.readline()
 
-	def handle_get_distances(self, req):
+	def handle_get_distances_all(self, req):
 		distances = [0]*160*75
-
 
 		for i in range(18):
 			startY = 25
 			startX = 0
-			
+
 			if (i < 8):
 				startY = 50
 				startX = i*20
@@ -60,7 +59,23 @@ class TimeOfFlightServer():
 				y += 1
 		return TOFGetDistancesAllResponse(distances)
 
-		
+
+	def handle_get_distances(self, req):
+		distances = [0]*20*25
+		data_file = open(self.data_location + str(req.sensor_id) + ".txt", 'r')
+		y = 0
+		for line in data_file:
+			lineData = line.split()
+			x = 19
+			for num in lineData:
+				try:
+					distances[ y * 20 + x ] = int(num)
+				except:
+					print("x =", x, "\ny = ", y)
+				x -= 1
+			y += 1
+		return TOFGetDistancesResponse(distances)
+
 	'''
 	HELPER FUNCTIONS
 	'''
@@ -68,10 +83,15 @@ class TimeOfFlightServer():
 	def server_init(self):
 		rospy.init_node("time_of_flight_server")
 
-		lift_service = rospy.Service(
+		distances_service = rospy.Service(
 			"get_distances",
-			TOFGetDistancesAll,
+			TOFGetDistances,
 			self.handle_get_distances)
+
+		distances_all_service = rospy.Service(
+			"get_distances_all",
+			TOFGetDistancesAll,
+			self.handle_get_distances_all)
 
 		rospy.spin()
 

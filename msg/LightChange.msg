@@ -1,4 +1,0 @@
-string address
-string color1
-string color2
-int16 count

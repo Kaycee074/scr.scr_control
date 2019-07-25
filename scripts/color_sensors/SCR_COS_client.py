@@ -5,7 +5,6 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../utils"))
 import utils
 from scr_control.srv import *
-from scr_control.msg import *
 import numpy as np
 
 # Get all values of color sensors
@@ -50,5 +49,5 @@ if __name__ == '__main__':
 					'read':         [read,        [int],             "read [sensor_num]"],
 					'inte_time':    [inte_time,   [int],             "inte_time [time]"],
 					'help':         [help,        [],                "help"]}
-	
+
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)

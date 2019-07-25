@@ -4,7 +4,6 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../utils"))
 import utils
 from scr_control.srv import *
-from scr_control.msg import *
 
 # Lift or lower a given blind
 def lift(b, val, debug=False):
@@ -62,4 +61,4 @@ if(__name__ == "__main__"):
 					'get_blinds':[get_blinds, [],               "get_blinds"],
 					'help':      [help,       [],               "help"]}
 
-	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True) 
+	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)
