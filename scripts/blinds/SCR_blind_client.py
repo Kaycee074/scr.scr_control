@@ -40,7 +40,7 @@ def tilt_all(val, debug=False):
 
 # Get a list of all blinds
 def get_blinds(debug=False):
-	state = utils.service_call('get_blinds', Get_blinds, [])
+	state = utils.service_call('get_blinds', get_blinds, [])
 	if state:
 		if debug:
 			print("Blind names are %s" % state.blinds)

@@ -116,6 +116,7 @@ class HVACServer():
 	def send_message(self, message):
 		self.s.send(message.encode())	#send the message (thermostat value)
 		data = self.s.recv(1024).decode()
+		rospy.loginfo("HVAC message is %s"%data)
 		print ('Received from server: ' + data)
 		return data
 

@@ -32,7 +32,7 @@ def read(num, debug=False):
 	return state.data
 
 # Integration time
-def inte_time(num, debug=False):
+def inte_time(num, debug=True):
 	state = utils.service_call('inte_time', COSInteTime, [num])
 	if state and debug:
 		print(state)

@@ -29,7 +29,7 @@ class BlindServer():
 		for line in config:
 			line = line.rstrip()
 			blinds[line] = len(blinds) + 1
-
+		print blinds
 		return blinds, address
 
 	def handshake(self):
@@ -43,20 +43,25 @@ class BlindServer():
 
 	def handle_lift(self, req):
 		val = self.change_blinds(req.blind, req.val, ",24,")
+	#	time.sleep(16)
+		print val, req.val, req.blind
 		return BlindLiftResponse(val)
 		
 	def handle_liftAll(self, req):
 		for blind in self.blinds.keys():
 			val = self.change_blinds(blind, req.val, ",24,")
+	#	time.sleep(16)
 		return BlindLiftAllResponse(val)
 
 	def handle_tilt(self, req):
 		val = self.change_blinds(req.blind, req.val, ",25,")
+	#	time.sleep(3)
 		return BlindLiftResponse(val)
 
 	def handle_tiltAll(self, req):
 		for blind in self.blinds.keys():
 			val = self.change_blinds(blind, req.val, ",25,")
+	#	time.sleep(3)
 		return BlindTiltAllResponse(val)
 
 	def handle_getBlinds(self, req):
@@ -76,7 +81,7 @@ class BlindServer():
 			sys.exit(1)
 
 		cmdstr = "#DEVICE,QS," + str(self.blinds[blind]) + action + str(val) + "\r\n"
-
+		print cmdstr
 		self.s.send(cmdstr)
 		a = self.s.recv(2048)
 

@@ -8,6 +8,7 @@ import utils
 from scr_control.srv import *
 from scr_control.msg import *
 
+
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
 def get_distances(debug=False):
 	state = utils.service_call('get_distances', TOFGetDistancesAll, [])
@@ -24,7 +25,7 @@ def help(debug=False):
 	return utils.help(os.path.dirname(__file__), "SCR_TOF_help.txt", debug = debug)
 
 if(__name__ == "__main__"):
-
+	print (os.path.join(os.path.dirname(sys.path[0]), "utils"))
 					#command         #function       #argument types   #help
 	serviceCalls = {
 					'get_distances': [get_distances, [],               "get_distances"],

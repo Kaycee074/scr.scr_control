@@ -89,15 +89,15 @@ def collect_data_in_thread(fun, args, delay, runtime, file, format):
 if __name__ == "__main__":
 
 	#       (1 hour) * 24 hours
-	period = 60 * 60 * 24
+	period = 60 * 60 * 4 # 1 hour
 
 
 	#					   function                   args    delay  period  output              output format
-	collect_data_in_thread(light_control.get_sources, [0, 0], 2,     period, "data/light.txt",   "{t}\n{d}\n")
-	collect_data_in_thread(TOF_control.get_distances, [    ], 2,     period, "data/tof.txt",     "{t}\n{d}\n")
-	collect_data_in_thread(COS_control.read_all,      [    ], 2,     period, "data/cos.txt",     "{t}\n{d}\n")
-	collect_data_in_thread(HVAC_data,                 [    ], 60,    period, "data/hvac.txt",    "{t}\n{d}\n")
-	collect_data_in_thread(weather_data,              [    ], 60,    period, "data/weather.txt", "{t}\n{d}\n")
+	collect_data_in_thread(light_control.get_sources, [0, 0], 3,    period, "data/light.txt",   "{t}\n{d}\n")
+	collect_data_in_thread(TOF_control.get_distances, [    ],  .1,    period, "data/tof.txt",     "{t}\n{d}\n")
+	collect_data_in_thread(COS_control.read_all,      [    ], .1,    period, "data/cos.txt",     "{t}\n{d}\n")
+	#collect_data_in_thread(HVAC_data,                 [    ], 300,    period, "data/hvac.txt",    "{t}\n{d}\n")
+	#collect_data_in_thread(weather_data,              [    ], 300,    period, "data/weather.txt", "{t}\n{d}\n")
 
 	print("Data collection running for " + str(period//(60*60)) + " hours")
 	print("Press Ctrl+C to cancel data collection")

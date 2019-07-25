@@ -50,10 +50,14 @@ class TimeOfFlightServer():
 				lineData = line.split()
 				x = startX + 19
 				for num in lineData:
-					distances[y * 160 + x] = (int(num, 16))
+					try:
+						distances[ y * 160 + x ] = int(num)
+					#	distances[y * 160 + x] = (int(num, 32))
+					#	distances[y][x] = (int(num,16))
+					except:
+						print("x =", x, "\ny = ", y)
 					x -= 1
 				y += 1
-
 		return TOFGetDistancesAllResponse(distances)
 
 		

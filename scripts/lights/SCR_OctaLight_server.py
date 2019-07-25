@@ -177,6 +177,7 @@ class OctaLightServer():
 
 	def change_light_all(self, cmdstr):
 		api.sendMessageParallel(self.ip_list, cmdstr)
+		rospy.loginfo("Lights changed all to: %s"%cmdstr)
 		return cmdstr
 
 	def change_light(self, x, y, channels):
@@ -184,6 +185,8 @@ class OctaLightServer():
 			return "Error: No light at specified coordinates"
 		address = self.lights[(x, y)]
 		api.set_all_drive_levels(address, channels)
+
+		rospy.loginfo("Light %s changed to: %s"%(address, cmdstr))
 		return str(channels)
 
 	def server_init(self):
