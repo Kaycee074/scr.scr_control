@@ -20,8 +20,8 @@ def get_distances_all(debug=False):
 		return dist
 
 # Get a heatmap of the room (returns int16[] distances and int16 room_length)
-def get_distances(debug=False):
-	state = utils.service_call('get_distances', TOFGetDistances, [])
+def get_distances(sensor, debug=False):
+	state = utils.service_call('get_distances', TOFGetDistances, [sensor])
 	if state:
 		dist = numpy.asarray(state.data)
 		dist = numpy.reshape(dist, (len(state.data)/20, 20))
@@ -39,7 +39,7 @@ if(__name__ == "__main__"):
 					#command         	 #function      	 #argument types   #help
 	serviceCalls = {
 					'get_distances_all': [get_distances_all, [],               "get_distances_all"],
-					'get_distances': 	 [get_distances,	 [],               "get_distances"],
+					'get_distances': 	 [get_distances,	 [int],               "get_distances [sensor_id]"],
 					'help':          	 [help,         	 [],               "help"]}
 
 	state = utils.commandToFunction(sys.argv, serviceCalls, debug=True)
