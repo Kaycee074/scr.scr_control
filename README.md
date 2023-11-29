@@ -212,9 +212,8 @@ This file contains coefficients for each color of light to achieve a linear curv
 ```
 The first value on each line corresponds to the squared term when determining the intensity of a particular color. The second value on each line corresponds to the first power term. The coefficients on the first, second, third, fourth and fifth line correspond to blue, green, amber, red and white respectively. For example, given a value for the intensity of blue ib between 0% and 100%, the final intensity for blue Ib would be calculated as follows:
 
-```
-Ib= −.0826*(i^2)*b + 1.0943*i*b
-```
+$$I_b= −0.0826*i_b^2 + 1.0943*i_b$$
+
 
 #### 5.2 Commands
 
@@ -316,11 +315,11 @@ prints a list of commands and their arguments
 The blinds can be raised or lowered to any position. The slats can also be tilted to any angle.
 To run the Blind server run:
 
-`rosrun scr_control SCR_Blind_server.py`
+`rosrun scr_control SCR_blind_server.py`
 
 To run the light client run:
 
-`rosrun scr_control SCR_Blind_client.py [command] [arguments]`
+`rosrun scr_control SCR_blind_client.py [command] [arguments]`
 
 #### 6.1 Configuration
 
@@ -331,7 +330,7 @@ This file contains the IP address of the blind controller and a list of each bli
 format of the file is as follows:
 
 ```
-192.168.0.1
+192.168.0.130
 -
 N1
 N2
@@ -392,11 +391,11 @@ prints a list of commands and their arguments
 The color sensors read the color data of the room.
 To run the Color Sensor server run:
 
-`rosrun scr_control SCR_ColorSensor_server.py`
+`rosrun scr_control SCR_COS_server.py`
 
 To run the Color Sensor client run:
 
-`rosrun scr_control SCR_ColorSensor_client.py [command] [arguments]`
+`rosrun scr_control SCR_COS_client.py [command] [arguments]`
 
 #### 7.1 Configuration
 
@@ -406,7 +405,7 @@ One text file is required to correctly configure the blind server.
 This file contains the IP address of the sensor controller. The format of the file is as follows:
 
 ```
-192.168.0.4
+192.168.0.41
 ```
 
 #### 7.2 Commands
@@ -454,7 +453,7 @@ One text file is required to correctly configure the HVAC server.
 This file contains the IP address of the HVAC controller. The format of the file is as follows:
 
 ```
-192.168.0.
+192.168.0.36
 ```
 
 #### 8.2 Commands
@@ -531,7 +530,7 @@ One text file is required to correctly configure the TOF server.
 This file contains the IP address of the device running the c++ server. The format of the file is as
 follows:
 ```
-127.0.0.
+127.0.0.1
 ```
 
 #### 9.2 Commands
