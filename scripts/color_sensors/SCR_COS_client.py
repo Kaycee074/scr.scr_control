@@ -8,7 +8,7 @@ from scr_control.srv import *
 import numpy as np
 
 # Get all values of color sensors
-def read_all(debug=False):
+def read_all(debug=True):
 	state = utils.service_call('read_all', COSReadAll, [])
 	if state:
 		out = []
